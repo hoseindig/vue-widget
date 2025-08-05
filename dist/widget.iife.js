@@ -1,5 +1,6 @@
 (function () {
   "use strict";
+  var define_process_env_default$4 = {};
   /**
    * @vue/shared v3.5.18
    * (c) 2018-present Yuxi (Evan) You and Vue contributors
@@ -12,10 +13,10 @@
     for (const key of str.split(",")) map2[key] = 1;
     return (val) => val in map2;
   }
-  const EMPTY_OBJ = !!(process.env.NODE_ENV !== "production")
+  const EMPTY_OBJ = !!(define_process_env_default$4.NODE_ENV !== "production")
     ? Object.freeze({})
     : {};
-  const EMPTY_ARR = !!(process.env.NODE_ENV !== "production")
+  const EMPTY_ARR = !!(define_process_env_default$4.NODE_ENV !== "production")
     ? Object.freeze([])
     : [];
   const NOOP = () => {};
@@ -239,11 +240,7 @@
       isSymbol(v) ? `Symbol(${(_a = v.description) != null ? _a : i})` : v
     );
   };
-  /**
-   * @vue/reactivity v3.5.18
-   * (c) 2018-present Yuxi (Evan) You and Vue contributors
-   * @license MIT
-   **/
+  var define_process_env_default$3 = {};
   function warn$2(msg, ...args) {
     console.warn(`[Vue warn] ${msg}`, ...args);
   }
@@ -309,7 +306,7 @@
         } finally {
           activeEffectScope = currentEffectScope;
         }
-      } else if (!!(process.env.NODE_ENV !== "production")) {
+      } else if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
         warn$2(`cannot run an inactive effect scope.`);
       }
     }
@@ -417,7 +414,10 @@
       try {
         return this.fn();
       } finally {
-        if (!!(process.env.NODE_ENV !== "production") && activeSub !== this) {
+        if (
+          !!(define_process_env_default$3.NODE_ENV !== "production") &&
+          activeSub !== this
+        ) {
           warn$2(
             "Active effect was not restored correctly - this is likely a Vue internal bug."
           );
@@ -603,7 +603,10 @@
       nextSub.prevSub = prevSub;
       link.nextSub = void 0;
     }
-    if (!!(process.env.NODE_ENV !== "production") && dep.subsHead === link) {
+    if (
+      !!(define_process_env_default$3.NODE_ENV !== "production") &&
+      dep.subsHead === link
+    ) {
       dep.subsHead = nextSub;
     }
     if (dep.subs === link) {
@@ -678,7 +681,7 @@
       this.key = void 0;
       this.sc = 0;
       this.__v_skip = true;
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
         this.subsHead = void 0;
       }
     }
@@ -714,7 +717,10 @@
           }
         }
       }
-      if (!!(process.env.NODE_ENV !== "production") && activeSub.onTrack) {
+      if (
+        !!(define_process_env_default$3.NODE_ENV !== "production") &&
+        activeSub.onTrack
+      ) {
         activeSub.onTrack(
           extend(
             {
@@ -734,7 +740,7 @@
     notify(debugInfo) {
       startBatch();
       try {
-        if (!!(process.env.NODE_ENV !== "production")) {
+        if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
           for (let head = this.subsHead; head; head = head.nextSub) {
             if (head.sub.onTrigger && !(head.sub.flags & 8)) {
               head.sub.onTrigger(
@@ -774,7 +780,7 @@
         if (currentTail) currentTail.nextSub = link;
       }
       if (
-        !!(process.env.NODE_ENV !== "production") &&
+        !!(define_process_env_default$3.NODE_ENV !== "production") &&
         link.dep.subsHead === void 0
       ) {
         link.dep.subsHead = link;
@@ -784,13 +790,19 @@
   }
   const targetMap = /* @__PURE__ */ new WeakMap();
   const ITERATE_KEY = Symbol(
-    !!(process.env.NODE_ENV !== "production") ? "Object iterate" : ""
+    !!(define_process_env_default$3.NODE_ENV !== "production")
+      ? "Object iterate"
+      : ""
   );
   const MAP_KEY_ITERATE_KEY = Symbol(
-    !!(process.env.NODE_ENV !== "production") ? "Map keys iterate" : ""
+    !!(define_process_env_default$3.NODE_ENV !== "production")
+      ? "Map keys iterate"
+      : ""
   );
   const ARRAY_ITERATE_KEY = Symbol(
-    !!(process.env.NODE_ENV !== "production") ? "Array iterate" : ""
+    !!(define_process_env_default$3.NODE_ENV !== "production")
+      ? "Array iterate"
+      : ""
   );
   function track(target, type, key) {
     if (shouldTrack && activeSub) {
@@ -804,7 +816,7 @@
         dep.map = depsMap;
         dep.key = key;
       }
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
         dep.track({
           target,
           type,
@@ -823,7 +835,7 @@
     }
     const run = (dep) => {
       if (dep) {
-        if (!!(process.env.NODE_ENV !== "production")) {
+        if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
           dep.trigger({
             target,
             type,
@@ -1222,7 +1234,7 @@
       super(true, isShallow2);
     }
     set(target, key) {
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
         warn$2(
           `Set operation on key "${String(key)}" failed: target is readonly.`,
           target
@@ -1231,7 +1243,7 @@
       return true;
     }
     deleteProperty(target, key) {
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
         warn$2(
           `Delete operation on key "${String(
             key
@@ -1292,7 +1304,7 @@
   }
   function createReadonlyMethod(type) {
     return function (...args) {
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
         const key = args[0] ? `on key "${args[0]}" ` : ``;
         warn$2(
           `${capitalize(type)} operation ${key}failed: target is readonly.`,
@@ -1387,7 +1399,9 @@
               if (!hadKey) {
                 key = toRaw(key);
                 hadKey = has.call(target, key);
-              } else if (!!(process.env.NODE_ENV !== "production")) {
+              } else if (
+                !!(define_process_env_default$3.NODE_ENV !== "production")
+              ) {
                 checkIdentityKeys(target, has, key);
               }
               const oldValue = get.call(target, key);
@@ -1406,7 +1420,9 @@
               if (!hadKey) {
                 key = toRaw(key);
                 hadKey = has.call(target, key);
-              } else if (!!(process.env.NODE_ENV !== "production")) {
+              } else if (
+                !!(define_process_env_default$3.NODE_ENV !== "production")
+              ) {
                 checkIdentityKeys(target, has, key);
               }
               const oldValue = get ? get.call(target, key) : void 0;
@@ -1419,7 +1435,9 @@
             clear() {
               const target = toRaw(this);
               const hadItems = target.size !== 0;
-              const oldTarget = !!(process.env.NODE_ENV !== "production")
+              const oldTarget = !!(
+                define_process_env_default$3.NODE_ENV !== "production"
+              )
                 ? isMap(target)
                   ? new Map(target)
                   : new Set(target)
@@ -1554,7 +1572,7 @@
     proxyMap
   ) {
     if (!isObject(target)) {
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
         warn$2(
           `value cannot be made ${
             isReadonly2 ? "readonly" : "reactive"
@@ -1630,7 +1648,7 @@
       this["__v_isShallow"] = isShallow2;
     }
     get value() {
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
         this.dep.track({
           target: this,
           type: "get",
@@ -1649,7 +1667,7 @@
       if (hasChanged(newValue, oldValue)) {
         this._rawValue = newValue;
         this._value = useDirectValue ? newValue : toReactive(newValue);
-        if (!!(process.env.NODE_ENV !== "production")) {
+        if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
           this.dep.trigger({
             target: this,
             type: "set",
@@ -1711,10 +1729,10 @@
       ) {
         batch(this, true);
         return true;
-      } else if (!!(process.env.NODE_ENV !== "production"));
+      }
     }
     get value() {
-      const link = !!(process.env.NODE_ENV !== "production")
+      const link = !!(define_process_env_default$3.NODE_ENV !== "production")
         ? this.dep.track({
             target: this,
             type: "get",
@@ -1730,7 +1748,7 @@
     set value(newValue) {
       if (this.setter) {
         this.setter(newValue);
-      } else if (!!(process.env.NODE_ENV !== "production")) {
+      } else if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
         warn$2("Write operation failed: computed value is readonly");
       }
     }
@@ -1745,7 +1763,6 @@
       setter = getterOrOptions.set;
     }
     const cRef = new ComputedRefImpl(getter, setter, isSSR);
-    if (!!(process.env.NODE_ENV !== "production") && debugOptions);
     return cRef;
   }
   const INITIAL_WATCHER_VALUE = {};
@@ -1760,7 +1777,10 @@
       let cleanups = cleanupMap.get(owner);
       if (!cleanups) cleanupMap.set(owner, (cleanups = []));
       cleanups.push(cleanupFn);
-    } else if (!!(process.env.NODE_ENV !== "production") && !failSilently) {
+    } else if (
+      !!(define_process_env_default$3.NODE_ENV !== "production") &&
+      !failSilently
+    ) {
       warn$2(
         `onWatcherCleanup() was called when there was no active watcher to associate with.`
       );
@@ -1781,7 +1801,7 @@
         return traverse(source2, 1);
       return traverse(source2);
     };
-    let effect;
+    let effect2;
     let getter;
     let cleanup;
     let boundCleanup;
@@ -1805,7 +1825,8 @@
           } else if (isFunction(s)) {
             return call ? call(s, 2) : s();
           } else {
-            !!(process.env.NODE_ENV !== "production") && warnInvalidSource(s);
+            !!(define_process_env_default$3.NODE_ENV !== "production") &&
+              warnInvalidSource(s);
           }
         });
     } else if (isFunction(source)) {
@@ -1822,7 +1843,7 @@
             }
           }
           const currentEffect = activeWatcher;
-          activeWatcher = effect;
+          activeWatcher = effect2;
           try {
             return call
               ? call(source, 3, [boundCleanup])
@@ -1834,7 +1855,8 @@
       }
     } else {
       getter = NOOP;
-      !!(process.env.NODE_ENV !== "production") && warnInvalidSource(source);
+      !!(define_process_env_default$3.NODE_ENV !== "production") &&
+        warnInvalidSource(source);
     }
     if (cb && deep) {
       const baseGetter = getter;
@@ -1843,9 +1865,9 @@
     }
     const scope = getCurrentScope();
     const watchHandle = () => {
-      effect.stop();
+      effect2.stop();
       if (scope && scope.active) {
-        remove(scope.effects, effect);
+        remove(scope.effects, effect2);
       }
     };
     if (once && cb) {
@@ -1859,11 +1881,11 @@
       ? new Array(source.length).fill(INITIAL_WATCHER_VALUE)
       : INITIAL_WATCHER_VALUE;
     const job = (immediateFirstRun) => {
-      if (!(effect.flags & 1) || (!effect.dirty && !immediateFirstRun)) {
+      if (!(effect2.flags & 1) || (!effect2.dirty && !immediateFirstRun)) {
         return;
       }
       if (cb) {
-        const newValue = effect.run();
+        const newValue = effect2.run();
         if (
           deep ||
           forceTrigger ||
@@ -1875,7 +1897,7 @@
             cleanup();
           }
           const currentWatcher = activeWatcher;
-          activeWatcher = effect;
+          activeWatcher = effect2;
           try {
             const args = [
               newValue,
@@ -1897,43 +1919,43 @@
           }
         }
       } else {
-        effect.run();
+        effect2.run();
       }
     };
     if (augmentJob) {
       augmentJob(job);
     }
-    effect = new ReactiveEffect(getter);
-    effect.scheduler = scheduler ? () => scheduler(job, false) : job;
-    boundCleanup = (fn) => onWatcherCleanup(fn, false, effect);
-    cleanup = effect.onStop = () => {
-      const cleanups = cleanupMap.get(effect);
+    effect2 = new ReactiveEffect(getter);
+    effect2.scheduler = scheduler ? () => scheduler(job, false) : job;
+    boundCleanup = (fn) => onWatcherCleanup(fn, false, effect2);
+    cleanup = effect2.onStop = () => {
+      const cleanups = cleanupMap.get(effect2);
       if (cleanups) {
         if (call) {
           call(cleanups, 4);
         } else {
           for (const cleanup2 of cleanups) cleanup2();
         }
-        cleanupMap.delete(effect);
+        cleanupMap.delete(effect2);
       }
     };
-    if (!!(process.env.NODE_ENV !== "production")) {
-      effect.onTrack = options.onTrack;
-      effect.onTrigger = options.onTrigger;
+    if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
+      effect2.onTrack = options.onTrack;
+      effect2.onTrigger = options.onTrigger;
     }
     if (cb) {
       if (immediate) {
         job(true);
       } else {
-        oldValue = effect.run();
+        oldValue = effect2.run();
       }
     } else if (scheduler) {
       scheduler(job.bind(null, true), true);
     } else {
-      effect.run();
+      effect2.run();
     }
-    watchHandle.pause = effect.pause.bind(effect);
-    watchHandle.resume = effect.resume.bind(effect);
+    watchHandle.pause = effect2.pause.bind(effect2);
+    watchHandle.resume = effect2.resume.bind(effect2);
     watchHandle.stop = watchHandle;
     return watchHandle;
   }
@@ -1969,11 +1991,7 @@
     }
     return value;
   }
-  /**
-   * @vue/runtime-core v3.5.18
-   * (c) 2018-present Yuxi (Evan) You and Vue contributors
-   * @license MIT
-   **/
+  var define_process_env_default$2 = {};
   const stack = [];
   function pushWarningContext(vnode) {
     stack.push(vnode);
@@ -2165,7 +2183,7 @@
         values.push(callWithAsyncErrorHandling(fn[i], instance, type, args));
       }
       return values;
-    } else if (!!(process.env.NODE_ENV !== "production")) {
+    } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       warn$1(
         `Invalid value type passed to callWithAsyncErrorHandling(): ${typeof fn}`
       );
@@ -2178,7 +2196,9 @@
     if (instance) {
       let cur = instance.parent;
       const exposedInstance = instance.proxy;
-      const errorInfo = !!(process.env.NODE_ENV !== "production")
+      const errorInfo = !!(
+        define_process_env_default$2.NODE_ENV !== "production"
+      )
         ? ErrorTypeStrings$1[type]
         : `https://vuejs.org/error-reference/#runtime-${type}`;
       while (cur) {
@@ -2220,7 +2240,7 @@
     throwInDev = true,
     throwInProd = false
   ) {
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       const info = ErrorTypeStrings$1[type];
       if (contextVNode) {
         pushWarningContext(contextVNode);
@@ -2302,7 +2322,7 @@
     queueFlush();
   }
   function flushPreFlushCbs(instance, seen, i = flushIndex + 1) {
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       seen = seen || /* @__PURE__ */ new Map();
     }
     for (; i < queue.length; i++) {
@@ -2312,7 +2332,7 @@
           continue;
         }
         if (
-          !!(process.env.NODE_ENV !== "production") &&
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
           checkRecursiveUpdates(seen, cb)
         ) {
           continue;
@@ -2340,7 +2360,7 @@
         return;
       }
       activePostFlushCbs = deduped;
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         seen = seen || /* @__PURE__ */ new Map();
       }
       for (
@@ -2350,7 +2370,7 @@
       ) {
         const cb = activePostFlushCbs[postFlushIndex];
         if (
-          !!(process.env.NODE_ENV !== "production") &&
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
           checkRecursiveUpdates(seen, cb)
         ) {
           continue;
@@ -2368,17 +2388,20 @@
   const getId = (job) =>
     job.id == null ? (job.flags & 2 ? -1 : Infinity) : job.id;
   function flushJobs(seen) {
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       seen = seen || /* @__PURE__ */ new Map();
     }
-    const check = !!(process.env.NODE_ENV !== "production")
+    const check = !!(define_process_env_default$2.NODE_ENV !== "production")
       ? (job) => checkRecursiveUpdates(seen, job)
       : NOOP;
     try {
       for (flushIndex = 0; flushIndex < queue.length; flushIndex++) {
         const job = queue[flushIndex];
         if (job && !(job.flags & 8)) {
-          if (!!(process.env.NODE_ENV !== "production") && check(job)) {
+          if (
+            !!(define_process_env_default$2.NODE_ENV !== "production") &&
+            check(job)
+          ) {
             continue;
           }
           if (job.flags & 4) {
@@ -2425,7 +2448,7 @@
   }
   let isHmrUpdating = false;
   const hmrDirtyComponents = /* @__PURE__ */ new Map();
-  if (!!(process.env.NODE_ENV !== "production")) {
+  if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
     getGlobalThis().__VUE_HMR_RUNTIME__ = {
       createRecord: tryWrap(createRecord),
       rerender: tryWrap(rerender),
@@ -2692,7 +2715,7 @@
           setBlockTracking(1);
         }
       }
-      if (!!(process.env.NODE_ENV !== "production") || false) {
+      if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
         devtoolsComponentUpdated(ctx);
       }
       return res;
@@ -2776,7 +2799,7 @@
         : vnode.el;
     const value = isUnmount ? null : refValue;
     const { i: owner, r: ref3 } = rawRef;
-    if (!!(process.env.NODE_ENV !== "production") && !owner) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production") && !owner) {
       warn$1(
         `Missing ref owner context. ref cannot be used on hoisted vnodes. A vnode with ref must be created inside the render function.`
       );
@@ -2790,7 +2813,7 @@
       setupState === EMPTY_OBJ
         ? () => false
         : (key) => {
-            if (!!(process.env.NODE_ENV !== "production")) {
+            if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
               if (hasOwn(rawSetupState, key) && !isRef(rawSetupState[key])) {
                 warn$1(
                   `Template ref "${key}" used on a non-ref value. It will not work in the production build.`
@@ -2850,7 +2873,9 @@
           } else if (_isRef) {
             ref3.value = value;
             if (rawRef.k) refs[rawRef.k] = value;
-          } else if (!!(process.env.NODE_ENV !== "production")) {
+          } else if (
+            !!(define_process_env_default$2.NODE_ENV !== "production")
+          ) {
             warn$1("Invalid template ref type:", ref3, `(${typeof ref3})`);
           }
         };
@@ -2860,7 +2885,7 @@
         } else {
           doSet();
         }
-      } else if (!!(process.env.NODE_ENV !== "production")) {
+      } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         warn$1("Invalid template ref type:", ref3, `(${typeof ref3})`);
       }
     }
@@ -2930,7 +2955,7 @@
         hooks.push(wrappedHook);
       }
       return wrappedHook;
-    } else if (!!(process.env.NODE_ENV !== "production")) {
+    } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       const apiName = toHandlerKey(
         ErrorTypeStrings$1[type].replace(/ hook$/, "")
       );
@@ -2972,19 +2997,19 @@
       $el: (i) => i.vnode.el,
       $data: (i) => i.data,
       $props: (i) =>
-        !!(process.env.NODE_ENV !== "production")
+        !!(define_process_env_default$2.NODE_ENV !== "production")
           ? shallowReadonly(i.props)
           : i.props,
       $attrs: (i) =>
-        !!(process.env.NODE_ENV !== "production")
+        !!(define_process_env_default$2.NODE_ENV !== "production")
           ? shallowReadonly(i.attrs)
           : i.attrs,
       $slots: (i) =>
-        !!(process.env.NODE_ENV !== "production")
+        !!(define_process_env_default$2.NODE_ENV !== "production")
           ? shallowReadonly(i.slots)
           : i.slots,
       $refs: (i) =>
-        !!(process.env.NODE_ENV !== "production")
+        !!(define_process_env_default$2.NODE_ENV !== "production")
           ? shallowReadonly(i.refs)
           : i.refs,
       $parent: (i) => getPublicInstance(i.parent),
@@ -3010,7 +3035,10 @@
       }
       const { ctx, setupState, data, props, accessCache, type, appContext } =
         instance;
-      if (!!(process.env.NODE_ENV !== "production") && key === "__isVue") {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        key === "__isVue"
+      ) {
         return true;
       }
       let normalizedProps;
@@ -3053,9 +3081,10 @@
       if (publicGetter) {
         if (key === "$attrs") {
           track(instance.attrs, "get", "");
-          !!(process.env.NODE_ENV !== "production") && markAttrsAccessed();
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+            markAttrsAccessed();
         } else if (
-          !!(process.env.NODE_ENV !== "production") &&
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
           key === "$slots"
         ) {
           track(instance, "get", key);
@@ -3079,7 +3108,7 @@
           return globalProperties[key];
         }
       } else if (
-        !!(process.env.NODE_ENV !== "production") &&
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
         currentRenderingInstance &&
         (!isString(key) || // #1091 avoid internal isRef/isVNode checks on component instance leading
           // to infinite warning loop
@@ -3110,7 +3139,7 @@
         setupState[key] = value;
         return true;
       } else if (
-        !!(process.env.NODE_ENV !== "production") &&
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
         setupState.__isScriptSetup &&
         hasOwn(setupState, key)
       ) {
@@ -3122,19 +3151,19 @@
         data[key] = value;
         return true;
       } else if (hasOwn(instance.props, key)) {
-        !!(process.env.NODE_ENV !== "production") &&
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
           warn$1(`Attempting to mutate prop "${key}". Props are readonly.`);
         return false;
       }
       if (key[0] === "$" && key.slice(1) in instance) {
-        !!(process.env.NODE_ENV !== "production") &&
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
           warn$1(
             `Attempting to mutate public property "${key}". Properties starting with $ are reserved and readonly.`
           );
         return false;
       } else {
         if (
-          !!(process.env.NODE_ENV !== "production") &&
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
           key in instance.appContext.config.globalProperties
         ) {
           Object.defineProperty(ctx, key, {
@@ -3172,7 +3201,7 @@
       return Reflect.defineProperty(target, key, descriptor);
     },
   };
-  if (!!(process.env.NODE_ENV !== "production") && true) {
+  if (!!(define_process_env_default$2.NODE_ENV !== "production") && true) {
     PublicInstanceProxyHandlers.ownKeys = (target) => {
       warn$1(
         `Avoid app logic that relies on enumerating keys on a component instance. The keys will be empty in production mode to avoid performance overhead.`
@@ -3298,10 +3327,12 @@
       directives,
       filters,
     } = options;
-    const checkDuplicateProperties = !!(process.env.NODE_ENV !== "production")
+    const checkDuplicateProperties = !!(
+      define_process_env_default$2.NODE_ENV !== "production"
+    )
       ? createDuplicateChecker()
       : null;
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       const [propsOptions] = instance.propsOptions;
       if (propsOptions) {
         for (const key in propsOptions) {
@@ -3316,7 +3347,7 @@
       for (const key in methods) {
         const methodHandler = methods[key];
         if (isFunction(methodHandler)) {
-          if (!!(process.env.NODE_ENV !== "production")) {
+          if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
             Object.defineProperty(ctx, key, {
               value: methodHandler.bind(publicThis),
               configurable: true,
@@ -3326,10 +3357,10 @@
           } else {
             ctx[key] = methodHandler.bind(publicThis);
           }
-          if (!!(process.env.NODE_ENV !== "production")) {
+          if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
             checkDuplicateProperties("Methods", key);
           }
-        } else if (!!(process.env.NODE_ENV !== "production")) {
+        } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
           warn$1(
             `Method "${key}" has type "${typeof methodHandler}" in the component definition. Did you reference the function correctly?`
           );
@@ -3338,7 +3369,7 @@
     }
     if (dataOptions) {
       if (
-        !!(process.env.NODE_ENV !== "production") &&
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
         !isFunction(dataOptions)
       ) {
         warn$1(
@@ -3346,17 +3377,20 @@
         );
       }
       const data = dataOptions.call(publicThis, publicThis);
-      if (!!(process.env.NODE_ENV !== "production") && isPromise(data)) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        isPromise(data)
+      ) {
         warn$1(
           `data() returned a Promise - note data() cannot be async; If you intend to perform data fetching before component renders, use async setup() + <Suspense>.`
         );
       }
       if (!isObject(data)) {
-        !!(process.env.NODE_ENV !== "production") &&
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
           warn$1(`data() should return an object.`);
       } else {
         instance.data = reactive(data);
-        if (!!(process.env.NODE_ENV !== "production")) {
+        if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
           for (const key in data) {
             checkDuplicateProperties("Data", key);
             if (!isReservedPrefix(key[0])) {
@@ -3380,13 +3414,16 @@
           : isFunction(opt.get)
           ? opt.get.bind(publicThis, publicThis)
           : NOOP;
-        if (!!(process.env.NODE_ENV !== "production") && get === NOOP) {
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          get === NOOP
+        ) {
           warn$1(`Computed property "${key}" has no getter.`);
         }
         const set =
           !isFunction(opt) && isFunction(opt.set)
             ? opt.set.bind(publicThis)
-            : !!(process.env.NODE_ENV !== "production")
+            : !!(define_process_env_default$2.NODE_ENV !== "production")
             ? () => {
                 warn$1(
                   `Write operation failed: computed property "${key}" is readonly.`
@@ -3403,7 +3440,7 @@
           get: () => c.value,
           set: (v) => (c.value = v),
         });
-        if (!!(process.env.NODE_ENV !== "production")) {
+        if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
           checkDuplicateProperties("Computed", key);
         }
       }
@@ -3499,7 +3536,7 @@
       } else {
         ctx[key] = injected;
       }
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         checkDuplicateProperties("Inject", key);
       }
     }
@@ -3523,7 +3560,7 @@
         {
           watch(getter, handler);
         }
-      } else if (!!(process.env.NODE_ENV !== "production")) {
+      } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         warn$1(`Invalid watch handler specified by key "${raw}"`, handler);
       }
     } else if (isFunction(raw)) {
@@ -3539,14 +3576,14 @@
           : ctx[raw.handler];
         if (isFunction(handler)) {
           watch(getter, handler, raw);
-        } else if (!!(process.env.NODE_ENV !== "production")) {
+        } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
           warn$1(
             `Invalid watch handler specified by key "${raw.handler}"`,
             handler
           );
         }
       }
-    } else if (!!(process.env.NODE_ENV !== "production")) {
+    } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       warn$1(`Invalid watch option: "${key}"`, raw);
     }
   }
@@ -3590,7 +3627,7 @@
     }
     for (const key in from) {
       if (asMixin && key === "expose") {
-        !!(process.env.NODE_ENV !== "production") &&
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
           warn$1(
             `"expose" option is ignored when declared in mixins or extends. It should only be declared in the base component itself.`
           );
@@ -3716,7 +3753,7 @@
         rootComponent = extend({}, rootComponent);
       }
       if (rootProps != null && !isObject(rootProps)) {
-        !!(process.env.NODE_ENV !== "production") &&
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
           warn$1(`root props passed to app.mount() must be an object.`);
         rootProps = null;
       }
@@ -3736,7 +3773,7 @@
           return context.config;
         },
         set config(v) {
-          if (!!(process.env.NODE_ENV !== "production")) {
+          if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
             warn$1(
               `app.config cannot be replaced. Modify individual options instead.`
             );
@@ -3744,7 +3781,7 @@
         },
         use(plugin, ...options) {
           if (installedPlugins.has(plugin)) {
-            !!(process.env.NODE_ENV !== "production") &&
+            !!(define_process_env_default$2.NODE_ENV !== "production") &&
               warn$1(`Plugin has already been applied to target app.`);
           } else if (plugin && isFunction(plugin.install)) {
             installedPlugins.add(plugin);
@@ -3752,7 +3789,9 @@
           } else if (isFunction(plugin)) {
             installedPlugins.add(plugin);
             plugin(app, ...options);
-          } else if (!!(process.env.NODE_ENV !== "production")) {
+          } else if (
+            !!(define_process_env_default$2.NODE_ENV !== "production")
+          ) {
             warn$1(
               `A plugin must either be a function or an object with an "install" function.`
             );
@@ -3763,7 +3802,9 @@
           {
             if (!context.mixins.includes(mixin)) {
               context.mixins.push(mixin);
-            } else if (!!(process.env.NODE_ENV !== "production")) {
+            } else if (
+              !!(define_process_env_default$2.NODE_ENV !== "production")
+            ) {
               warn$1(
                 "Mixin has already been applied to target app" +
                   (mixin.name ? `: ${mixin.name}` : "")
@@ -3773,14 +3814,14 @@
           return app;
         },
         component(name, component) {
-          if (!!(process.env.NODE_ENV !== "production")) {
+          if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
             validateComponentName(name, context.config);
           }
           if (!component) {
             return context.components[name];
           }
           if (
-            !!(process.env.NODE_ENV !== "production") &&
+            !!(define_process_env_default$2.NODE_ENV !== "production") &&
             context.components[name]
           ) {
             warn$1(
@@ -3791,14 +3832,14 @@
           return app;
         },
         directive(name, directive) {
-          if (!!(process.env.NODE_ENV !== "production")) {
+          if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
             validateDirectiveName(name);
           }
           if (!directive) {
             return context.directives[name];
           }
           if (
-            !!(process.env.NODE_ENV !== "production") &&
+            !!(define_process_env_default$2.NODE_ENV !== "production") &&
             context.directives[name]
           ) {
             warn$1(
@@ -3811,7 +3852,7 @@
         mount(rootContainer, isHydrate, namespace) {
           if (!isMounted) {
             if (
-              !!(process.env.NODE_ENV !== "production") &&
+              !!(define_process_env_default$2.NODE_ENV !== "production") &&
               rootContainer.__vue_app__
             ) {
               warn$1(
@@ -3826,7 +3867,7 @@
             } else if (namespace === false) {
               namespace = void 0;
             }
-            if (!!(process.env.NODE_ENV !== "production")) {
+            if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
               context.reload = () => {
                 const cloned = cloneVNode(vnode);
                 cloned.el = null;
@@ -3839,12 +3880,17 @@
             isMounted = true;
             app._container = rootContainer;
             rootContainer.__vue_app__ = app;
-            if (!!(process.env.NODE_ENV !== "production") || false) {
+            if (
+              !!(define_process_env_default$2.NODE_ENV !== "production") ||
+              false
+            ) {
               app._instance = vnode.component;
               devtoolsInitApp(app, version);
             }
             return getComponentPublicInstance(vnode.component);
-          } else if (!!(process.env.NODE_ENV !== "production")) {
+          } else if (
+            !!(define_process_env_default$2.NODE_ENV !== "production")
+          ) {
             warn$1(
               `App has already been mounted.
 If you want to remount the same app, move your app creation logic into a factory function and create fresh app instances for each mount - e.g. \`const createMyApp = () => createApp(App)\``
@@ -3853,7 +3899,7 @@ If you want to remount the same app, move your app creation logic into a factory
         },
         onUnmount(cleanupFn) {
           if (
-            !!(process.env.NODE_ENV !== "production") &&
+            !!(define_process_env_default$2.NODE_ENV !== "production") &&
             typeof cleanupFn !== "function"
           ) {
             warn$1(
@@ -3866,18 +3912,23 @@ If you want to remount the same app, move your app creation logic into a factory
           if (isMounted) {
             callWithAsyncErrorHandling(pluginCleanupFns, app._instance, 16);
             render(null, app._container);
-            if (!!(process.env.NODE_ENV !== "production") || false) {
+            if (
+              !!(define_process_env_default$2.NODE_ENV !== "production") ||
+              false
+            ) {
               app._instance = null;
               devtoolsUnmountApp(app);
             }
             delete app._container.__vue_app__;
-          } else if (!!(process.env.NODE_ENV !== "production")) {
+          } else if (
+            !!(define_process_env_default$2.NODE_ENV !== "production")
+          ) {
             warn$1(`Cannot unmount an app that is not mounted.`);
           }
         },
         provide(key, value) {
           if (
-            !!(process.env.NODE_ENV !== "production") &&
+            !!(define_process_env_default$2.NODE_ENV !== "production") &&
             key in context.provides
           ) {
             if (hasOwn(context.provides, key)) {
@@ -3913,7 +3964,7 @@ If you want to remount the same app, move your app creation logic into a factory
   let currentApp = null;
   function provide(key, value) {
     if (!currentInstance) {
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         warn$1(`provide() can only be used inside setup().`);
       }
     } else {
@@ -3942,10 +3993,10 @@ If you want to remount the same app, move your app creation logic into a factory
         return treatDefaultAsFactory && isFunction(defaultValue)
           ? defaultValue.call(instance && instance.proxy)
           : defaultValue;
-      } else if (!!(process.env.NODE_ENV !== "production")) {
+      } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         warn$1(`injection "${String(key)}" not found.`);
       }
-    } else if (!!(process.env.NODE_ENV !== "production")) {
+    } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       warn$1(
         `inject() can only be used inside setup() or functional components.`
       );
@@ -3965,7 +4016,7 @@ If you want to remount the same app, move your app creation logic into a factory
         props[key] = void 0;
       }
     }
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       validateProps(rawProps || {}, props, instance);
     }
     if (isStateful) {
@@ -3999,7 +4050,8 @@ If you want to remount the same app, move your app creation logic into a factory
       // - #1942 if hmr is enabled with sfc component
       // - vite#872 non-sfc component used by sfc component
       !(
-        !!(process.env.NODE_ENV !== "production") && isInHmrContext(instance)
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        isInHmrContext(instance)
       ) &&
       (optimized || patchFlag > 0) &&
       !(patchFlag & 16)
@@ -4082,7 +4134,7 @@ If you want to remount the same app, move your app creation logic into a factory
     if (hasAttrsChanged) {
       trigger(instance.attrs, "set", "");
     }
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       validateProps(rawProps || {}, props, instance);
     }
   }
@@ -4207,7 +4259,10 @@ If you want to remount the same app, move your app creation logic into a factory
     }
     if (isArray(raw)) {
       for (let i = 0; i < raw.length; i++) {
-        if (!!(process.env.NODE_ENV !== "production") && !isString(raw[i])) {
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          !isString(raw[i])
+        ) {
           warn$1(`props must be strings when using array syntax.`, raw[i]);
         }
         const normalizedKey = camelize(raw[i]);
@@ -4216,7 +4271,10 @@ If you want to remount the same app, move your app creation logic into a factory
         }
       }
     } else if (raw) {
-      if (!!(process.env.NODE_ENV !== "production") && !isObject(raw)) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        !isObject(raw)
+      ) {
         warn$1(`invalid props options`, raw);
       }
       for (const key in raw) {
@@ -4263,7 +4321,7 @@ If you want to remount the same app, move your app creation logic into a factory
   function validatePropName(key) {
     if (key[0] !== "$" && !isReservedProp(key)) {
       return true;
-    } else if (!!(process.env.NODE_ENV !== "production")) {
+    } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       warn$1(`Invalid prop name: "${key}" is a reserved property.`);
     }
     return false;
@@ -4291,7 +4349,7 @@ If you want to remount the same app, move your app creation logic into a factory
         key,
         resolvedValues[key],
         opt,
-        !!(process.env.NODE_ENV !== "production")
+        !!(define_process_env_default$2.NODE_ENV !== "production")
           ? shallowReadonly(resolvedValues)
           : resolvedValues,
         !camelizePropsKey.includes(key)
@@ -4403,7 +4461,7 @@ If you want to remount the same app, move your app creation logic into a factory
     }
     const normalized = withCtx((...args) => {
       if (
-        !!(process.env.NODE_ENV !== "production") &&
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
         currentInstance &&
         !(ctx === null && currentRenderingInstance) &&
         !(ctx && ctx.root !== currentInstance.root)
@@ -4425,7 +4483,10 @@ If you want to remount the same app, move your app creation logic into a factory
       if (isFunction(value)) {
         slots[key] = normalizeSlot(key, value, ctx);
       } else if (value != null) {
-        if (!!(process.env.NODE_ENV !== "production") && true) {
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          true
+        ) {
           warn$1(
             `Non-function value encountered for slot "${key}". Prefer function slots for better performance.`
           );
@@ -4437,7 +4498,7 @@ If you want to remount the same app, move your app creation logic into a factory
   };
   const normalizeVNodeSlots = (instance, children) => {
     if (
-      !!(process.env.NODE_ENV !== "production") &&
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
       !isKeepAlive(instance.vnode) &&
       true
     ) {
@@ -4480,7 +4541,10 @@ If you want to remount the same app, move your app creation logic into a factory
     if (vnode.shapeFlag & 32) {
       const type = children._;
       if (type) {
-        if (!!(process.env.NODE_ENV !== "production") && isHmrUpdating) {
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          isHmrUpdating
+        ) {
           assignSlots(slots, children, optimized);
           trigger(instance, "set", "$slots");
         } else if (optimized && type === 1) {
@@ -4511,7 +4575,7 @@ If you want to remount the same app, move your app creation logic into a factory
     if (instance.appContext.config.performance && isSupported()) {
       perf.mark(`vue-${type}-${instance.uid}`);
     }
-    if (!!(process.env.NODE_ENV !== "production") || false) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
       devtoolsPerfStart(
         instance,
         type,
@@ -4532,7 +4596,7 @@ If you want to remount the same app, move your app creation logic into a factory
       perf.clearMarks(startTag);
       perf.clearMarks(endTag);
     }
-    if (!!(process.env.NODE_ENV !== "production") || false) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
       devtoolsPerfEnd(instance, type, isSupported() ? perf.now() : Date.now());
     }
   }
@@ -4550,7 +4614,10 @@ If you want to remount the same app, move your app creation logic into a factory
   }
   function initFeatureFlags() {
     const needWarn = [];
-    if (!!(process.env.NODE_ENV !== "production") && needWarn.length) {
+    if (
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      needWarn.length
+    ) {
       const multi = needWarn.length > 1;
       console.warn(
         `Feature flag${multi ? `s` : ``} ${needWarn.join(", ")} ${
@@ -4571,7 +4638,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
     }
     const target = getGlobalThis();
     target.__VUE__ = true;
-    if (!!(process.env.NODE_ENV !== "production") || false) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
       setDevtoolsHook$1(target.__VUE_DEVTOOLS_GLOBAL_HOOK__, target);
     }
     const {
@@ -4597,7 +4664,8 @@ For more details, see https://link.vuejs.org/feature-flags.`
       parentSuspense = null,
       namespace = void 0,
       slotScopeIds = null,
-      optimized = !!(process.env.NODE_ENV !== "production") && isHmrUpdating
+      optimized = !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      isHmrUpdating
         ? false
         : !!n2.dynamicChildren
     ) => {
@@ -4624,7 +4692,9 @@ For more details, see https://link.vuejs.org/feature-flags.`
         case Static:
           if (n1 == null) {
             mountStaticNode(n2, container, anchor, namespace);
-          } else if (!!(process.env.NODE_ENV !== "production")) {
+          } else if (
+            !!(define_process_env_default$2.NODE_ENV !== "production")
+          ) {
             patchStaticNode(n1, n2, container, namespace);
           }
           break;
@@ -4692,7 +4762,9 @@ For more details, see https://link.vuejs.org/feature-flags.`
               optimized,
               internals
             );
-          } else if (!!(process.env.NODE_ENV !== "production")) {
+          } else if (
+            !!(define_process_env_default$2.NODE_ENV !== "production")
+          ) {
             warn$1("Invalid VNode type:", type, `(${typeof type})`);
           }
       }
@@ -4862,7 +4934,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
           invokeVNodeHook(vnodeHook, parentComponent, vnode);
         }
       }
-      if (!!(process.env.NODE_ENV !== "production") || false) {
+      if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
         def(el, "__vnode", vnode, true);
         def(el, "__vueParentComponent", parentComponent, true);
       }
@@ -4901,7 +4973,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
       if (parentComponent) {
         let subTree = parentComponent.subTree;
         if (
-          !!(process.env.NODE_ENV !== "production") &&
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
           subTree.patchFlag > 0 &&
           subTree.patchFlag & 2048
         ) {
@@ -4961,7 +5033,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
       optimized
     ) => {
       const el = (n2.el = n1.el);
-      if (!!(process.env.NODE_ENV !== "production") || false) {
+      if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
         el.__vnode = n2;
       }
       let { patchFlag, dynamicChildren, dirs } = n2;
@@ -4977,7 +5049,10 @@ For more details, see https://link.vuejs.org/feature-flags.`
         invokeDirectiveHook(n2, n1, parentComponent, "beforeUpdate");
       }
       parentComponent && toggleRecurse(parentComponent, true);
-      if (!!(process.env.NODE_ENV !== "production") && isHmrUpdating) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        isHmrUpdating
+      ) {
         patchFlag = 0;
         optimized = false;
         dynamicChildren = null;
@@ -4998,7 +5073,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
           resolveChildrenNamespace(n2, namespace),
           slotScopeIds
         );
-        if (!!(process.env.NODE_ENV !== "production")) {
+        if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
           traverseStaticChildren(n1, n2);
         }
       } else if (!optimized) {
@@ -5147,7 +5222,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
         slotScopeIds: fragmentSlotScopeIds,
       } = n2;
       if (
-        !!(process.env.NODE_ENV !== "production") && // #5523 dev root fragment may inherit directives
+        !!(define_process_env_default$2.NODE_ENV !== "production") && // #5523 dev root fragment may inherit directives
         (isHmrUpdating || patchFlag & 2048)
       ) {
         patchFlag = 0;
@@ -5193,7 +5268,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
             namespace,
             slotScopeIds
           );
-          if (!!(process.env.NODE_ENV !== "production")) {
+          if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
             traverseStaticChildren(n1, n2);
           } else if (
             // #2080 if the stable fragment has a key, it's a <template v-for> that may
@@ -5275,10 +5350,13 @@ For more details, see https://link.vuejs.org/feature-flags.`
         parentComponent,
         parentSuspense
       ));
-      if (!!(process.env.NODE_ENV !== "production") && instance.type.__hmrId) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        instance.type.__hmrId
+      ) {
         registerHMR(instance);
       }
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         pushWarningContext(initialVNode);
         startMeasure(instance, `mount`);
       }
@@ -5286,15 +5364,18 @@ For more details, see https://link.vuejs.org/feature-flags.`
         instance.ctx.renderer = internals;
       }
       {
-        if (!!(process.env.NODE_ENV !== "production")) {
+        if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
           startMeasure(instance, `init`);
         }
         setupComponent(instance, false, optimized);
-        if (!!(process.env.NODE_ENV !== "production")) {
+        if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
           endMeasure(instance, `init`);
         }
       }
-      if (!!(process.env.NODE_ENV !== "production") && isHmrUpdating)
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        isHmrUpdating
+      )
         initialVNode.el = null;
       if (instance.asyncDep) {
         parentSuspense &&
@@ -5315,7 +5396,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
           optimized
         );
       }
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         popWarningContext();
         endMeasure(instance, `mount`);
       }
@@ -5324,11 +5405,11 @@ For more details, see https://link.vuejs.org/feature-flags.`
       const instance = (n2.component = n1.component);
       if (shouldUpdateComponent(n1, n2, optimized)) {
         if (instance.asyncDep && !instance.asyncResolved) {
-          if (!!(process.env.NODE_ENV !== "production")) {
+          if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
             pushWarningContext(n2);
           }
           updateComponentPreRender(instance, n2, optimized);
-          if (!!(process.env.NODE_ENV !== "production")) {
+          if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
             popWarningContext();
           }
           return;
@@ -5374,14 +5455,14 @@ For more details, see https://link.vuejs.org/feature-flags.`
             ) {
               root.ce._injectChildStyle(type);
             }
-            if (!!(process.env.NODE_ENV !== "production")) {
+            if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
               startMeasure(instance, `render`);
             }
             const subTree = (instance.subTree = renderComponentRoot(instance));
-            if (!!(process.env.NODE_ENV !== "production")) {
+            if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
               endMeasure(instance, `render`);
             }
-            if (!!(process.env.NODE_ENV !== "production")) {
+            if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
               startMeasure(instance, `patch`);
             }
             patch(
@@ -5393,7 +5474,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
               parentSuspense,
               namespace
             );
-            if (!!(process.env.NODE_ENV !== "production")) {
+            if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
               endMeasure(instance, `patch`);
             }
             initialVNode.el = subTree.el;
@@ -5420,7 +5501,10 @@ For more details, see https://link.vuejs.org/feature-flags.`
             instance.a && queuePostRenderEffect(instance.a, parentSuspense);
           }
           instance.isMounted = true;
-          if (!!(process.env.NODE_ENV !== "production") || false) {
+          if (
+            !!(define_process_env_default$2.NODE_ENV !== "production") ||
+            false
+          ) {
             devtoolsComponentAdded(instance);
           }
           initialVNode = container = anchor = null;
@@ -5443,7 +5527,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
           }
           let originNext = next;
           let vnodeHook;
-          if (!!(process.env.NODE_ENV !== "production")) {
+          if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
             pushWarningContext(next || instance.vnode);
           }
           toggleRecurse(instance, false);
@@ -5460,16 +5544,16 @@ For more details, see https://link.vuejs.org/feature-flags.`
             invokeVNodeHook(vnodeHook, parent, next, vnode);
           }
           toggleRecurse(instance, true);
-          if (!!(process.env.NODE_ENV !== "production")) {
+          if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
             startMeasure(instance, `render`);
           }
           const nextTree = renderComponentRoot(instance);
-          if (!!(process.env.NODE_ENV !== "production")) {
+          if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
             endMeasure(instance, `render`);
           }
           const prevTree = instance.subTree;
           instance.subTree = nextTree;
-          if (!!(process.env.NODE_ENV !== "production")) {
+          if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
             startMeasure(instance, `patch`);
           }
           patch(
@@ -5483,7 +5567,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
             parentSuspense,
             namespace
           );
-          if (!!(process.env.NODE_ENV !== "production")) {
+          if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
             endMeasure(instance, `patch`);
           }
           next.el = nextTree.el;
@@ -5499,10 +5583,13 @@ For more details, see https://link.vuejs.org/feature-flags.`
               parentSuspense
             );
           }
-          if (!!(process.env.NODE_ENV !== "production") || false) {
+          if (
+            !!(define_process_env_default$2.NODE_ENV !== "production") ||
+            false
+          ) {
             devtoolsComponentUpdated(instance);
           }
-          if (!!(process.env.NODE_ENV !== "production")) {
+          if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
             popWarningContext();
           }
         }
@@ -5516,7 +5603,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
       job.id = instance.uid;
       effect2.scheduler = () => queueJob(job);
       toggleRecurse(instance, true);
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         effect2.onTrack = instance.rtc
           ? (e) => invokeArrayFns(instance.rtc, e)
           : void 0;
@@ -5776,7 +5863,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
             : normalizeVNode(c2[i]));
           if (nextChild.key != null) {
             if (
-              !!(process.env.NODE_ENV !== "production") &&
+              !!(define_process_env_default$2.NODE_ENV !== "production") &&
               keyToNewIndexMap.has(nextChild.key)
             ) {
               warn$1(
@@ -6038,7 +6125,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
       const { type, el, anchor, transition } = vnode;
       if (type === Fragment) {
         if (
-          !!(process.env.NODE_ENV !== "production") &&
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
           vnode.patchFlag > 0 &&
           vnode.patchFlag & 2048 &&
           transition &&
@@ -6088,7 +6175,10 @@ For more details, see https://link.vuejs.org/feature-flags.`
       hostRemove(end);
     };
     const unmountComponent = (instance, parentSuspense, doRemove) => {
-      if (!!(process.env.NODE_ENV !== "production") && instance.type.__hmrId) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        instance.type.__hmrId
+      ) {
         unregisterHMR(instance);
       }
       const {
@@ -6136,7 +6226,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
           parentSuspense.resolve();
         }
       }
-      if (!!(process.env.NODE_ENV !== "production") || false) {
+      if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
         devtoolsComponentRemoved(instance);
       }
     };
@@ -6259,7 +6349,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
         if (c2.type === Comment && !c2.el) {
           c2.el = c1.el;
         }
-        if (!!(process.env.NODE_ENV !== "production")) {
+        if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
           c2.el && (c2.el.__vnode = c2);
         }
       }
@@ -6325,7 +6415,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
     {
       const ctx = inject(ssrContextKey);
       if (!ctx) {
-        !!(process.env.NODE_ENV !== "production") &&
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
           warn$1(
             `Server rendering context not provided. Make sure to only call useSSRContext() conditionally in the server build.`
           );
@@ -6334,7 +6424,10 @@ For more details, see https://link.vuejs.org/feature-flags.`
     }
   };
   function watch(source, cb, options) {
-    if (!!(process.env.NODE_ENV !== "production") && !isFunction(cb)) {
+    if (
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      !isFunction(cb)
+    ) {
       warn$1(
         `\`watch(fn, options?)\` signature has been moved to a separate API. Use \`watchEffect(fn, options?)\` instead. \`watch\` now only supports \`watch(source, cb, options?) signature.`
       );
@@ -6343,7 +6436,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
   }
   function doWatch(source, cb, options = EMPTY_OBJ) {
     const { immediate, deep, flush, once } = options;
-    if (!!(process.env.NODE_ENV !== "production") && !cb) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production") && !cb) {
       if (immediate !== void 0) {
         warn$1(
           `watch() "immediate" option is only respected when using the watch(source, callback, options?) signature.`
@@ -6361,7 +6454,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
       }
     }
     const baseWatchOptions = extend({}, options);
-    if (!!(process.env.NODE_ENV !== "production"))
+    if (!!(define_process_env_default$2.NODE_ENV !== "production"))
       baseWatchOptions.onWarn = warn$1;
     const runsImmediately = (cb && immediate) || (!cb && flush !== "post");
     let ssrCleanup;
@@ -6456,7 +6549,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
   function emit(instance, event, ...rawArgs) {
     if (instance.isUnmounted) return;
     const props = instance.vnode.props || EMPTY_OBJ;
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       const {
         emitsOptions,
         propsOptions: [propsOptions],
@@ -6498,10 +6591,10 @@ For more details, see https://link.vuejs.org/feature-flags.`
         args = rawArgs.map(looseToNumber);
       }
     }
-    if (!!(process.env.NODE_ENV !== "production") || false) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
       devtoolsComponentEmit(instance, event, args);
     }
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       const lowerCaseEvent = event.toLowerCase();
       if (lowerCaseEvent !== event && props[toHandlerKey(lowerCaseEvent)]) {
         warn$1(
@@ -6618,14 +6711,14 @@ For more details, see https://link.vuejs.org/feature-flags.`
     const prev = setCurrentRenderingInstance(instance);
     let result;
     let fallthroughAttrs;
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       accessedAttrs = false;
     }
     try {
       if (vnode.shapeFlag & 4) {
         const proxyToUse = withProxy || proxy;
         const thisProxy =
-          !!(process.env.NODE_ENV !== "production") &&
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
           setupState.__isScriptSetup
             ? new Proxy(proxyToUse, {
                 get(target, key, receiver) {
@@ -6643,7 +6736,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
             thisProxy,
             proxyToUse,
             renderCache,
-            !!(process.env.NODE_ENV !== "production")
+            !!(define_process_env_default$2.NODE_ENV !== "production")
               ? shallowReadonly(props)
               : props,
             setupState,
@@ -6654,16 +6747,19 @@ For more details, see https://link.vuejs.org/feature-flags.`
         fallthroughAttrs = attrs;
       } else {
         const render2 = Component;
-        if (!!(process.env.NODE_ENV !== "production") && attrs === props) {
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          attrs === props
+        ) {
           markAttrsAccessed();
         }
         result = normalizeVNode(
           render2.length > 1
             ? render2(
-                !!(process.env.NODE_ENV !== "production")
+                !!(define_process_env_default$2.NODE_ENV !== "production")
                   ? shallowReadonly(props)
                   : props,
-                !!(process.env.NODE_ENV !== "production")
+                !!(define_process_env_default$2.NODE_ENV !== "production")
                   ? {
                       get attrs() {
                         markAttrsAccessed();
@@ -6675,7 +6771,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
                   : { attrs, slots, emit: emit2 }
               )
             : render2(
-                !!(process.env.NODE_ENV !== "production")
+                !!(define_process_env_default$2.NODE_ENV !== "production")
                   ? shallowReadonly(props)
                   : props,
                 null
@@ -6693,7 +6789,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
     let root = result;
     let setRoot = void 0;
     if (
-      !!(process.env.NODE_ENV !== "production") &&
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
       result.patchFlag > 0 &&
       result.patchFlag & 2048
     ) {
@@ -6712,7 +6808,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
           }
           root = cloneVNode(root, fallthroughAttrs, false, true);
         } else if (
-          !!(process.env.NODE_ENV !== "production") &&
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
           !accessedAttrs &&
           root.type !== Comment
         ) {
@@ -6747,7 +6843,10 @@ For more details, see https://link.vuejs.org/feature-flags.`
       }
     }
     if (vnode.dirs) {
-      if (!!(process.env.NODE_ENV !== "production") && !isElementRoot(root)) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        !isElementRoot(root)
+      ) {
         warn$1(
           `Runtime directive used on component with non-element root node. The directives will not function as intended.`
         );
@@ -6756,14 +6855,17 @@ For more details, see https://link.vuejs.org/feature-flags.`
       root.dirs = root.dirs ? root.dirs.concat(vnode.dirs) : vnode.dirs;
     }
     if (vnode.transition) {
-      if (!!(process.env.NODE_ENV !== "production") && !isElementRoot(root)) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        !isElementRoot(root)
+      ) {
         warn$1(
           `Component inside <Transition> renders non-element root node that cannot be animated.`
         );
       }
       setTransitionHooks(root, vnode.transition);
     }
-    if (!!(process.env.NODE_ENV !== "production") && setRoot) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production") && setRoot) {
       setRoot(root);
     } else {
       result = root;
@@ -6778,7 +6880,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
     if (!childRoot) {
       return [vnode, void 0];
     } else if (
-      !!(process.env.NODE_ENV !== "production") &&
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
       childRoot.patchFlag > 0 &&
       childRoot.patchFlag & 2048
     ) {
@@ -6811,7 +6913,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
           } else {
             singleRoot = child;
             if (
-              !!(process.env.NODE_ENV !== "production") &&
+              !!(define_process_env_default$2.NODE_ENV !== "production") &&
               recurse &&
               singleRoot.patchFlag > 0 &&
               singleRoot.patchFlag & 2048
@@ -6852,7 +6954,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
     const { props: nextProps, children: nextChildren, patchFlag } = nextVNode;
     const emits = component.emitsOptions;
     if (
-      !!(process.env.NODE_ENV !== "production") &&
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
       (prevChildren || nextChildren) &&
       isHmrUpdating
     ) {
@@ -7002,7 +7104,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
   }
   function isSameVNodeType(n1, n2) {
     if (
-      !!(process.env.NODE_ENV !== "production") &&
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
       n2.shapeFlag & 6 &&
       n1.component
     ) {
@@ -7076,7 +7178,10 @@ For more details, see https://link.vuejs.org/feature-flags.`
     } else if (children) {
       vnode.shapeFlag |= isString(children) ? 8 : 16;
     }
-    if (!!(process.env.NODE_ENV !== "production") && vnode.key !== vnode.key) {
+    if (
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      vnode.key !== vnode.key
+    ) {
       warn$1(`VNode created with invalid key (NaN). VNode type:`, vnode.type);
     }
     if (
@@ -7094,7 +7199,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
     }
     return vnode;
   }
-  const createVNode = !!(process.env.NODE_ENV !== "production")
+  const createVNode = !!(define_process_env_default$2.NODE_ENV !== "production")
     ? createVNodeWithArgsTransform
     : _createVNode;
   function _createVNode(
@@ -7106,7 +7211,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
     isBlockNode = false
   ) {
     if (!type || type === NULL_DYNAMIC_COMPONENT) {
-      if (!!(process.env.NODE_ENV !== "production") && !type) {
+      if (!!(define_process_env_default$2.NODE_ENV !== "production") && !type) {
         warn$1(`Invalid vnode type when creating vnode: ${type}.`);
       }
       type = Comment;
@@ -7159,7 +7264,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
       ? 2
       : 0;
     if (
-      !!(process.env.NODE_ENV !== "production") &&
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
       shapeFlag & 4 &&
       isProxy(type)
     ) {
@@ -7218,7 +7323,7 @@ Component that was made reactive: `,
       scopeId: vnode.scopeId,
       slotScopeIds: vnode.slotScopeIds,
       children:
-        !!(process.env.NODE_ENV !== "production") &&
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
         patchFlag === -1 &&
         isArray(children)
           ? children.map(deepCloneVNode)
@@ -7451,7 +7556,7 @@ Component that was made reactive: `,
       ec: null,
       sp: null,
     };
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       instance.ctx = createDevRenderContext(instance);
     } else {
       instance.ctx = { _: instance };
@@ -7527,7 +7632,7 @@ Component that was made reactive: `,
   function setupStatefulComponent(instance, isSSR) {
     var _a;
     const Component = instance.type;
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       if (Component.name) {
         validateComponentName(Component.name, instance.appContext.config);
       }
@@ -7551,7 +7656,7 @@ Component that was made reactive: `,
     }
     instance.accessCache = /* @__PURE__ */ Object.create(null);
     instance.proxy = new Proxy(instance.ctx, PublicInstanceProxyHandlers);
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       exposePropsOnRenderContext(instance);
     }
     const { setup } = Component;
@@ -7561,7 +7666,7 @@ Component that was made reactive: `,
         setup.length > 1 ? createSetupContext(instance) : null);
       const reset = setCurrentInstance(instance);
       const setupResult = callWithErrorHandling(setup, instance, 0, [
-        !!(process.env.NODE_ENV !== "production")
+        !!(define_process_env_default$2.NODE_ENV !== "production")
           ? shallowReadonly(instance.props)
           : instance.props,
         setupContext,
@@ -7584,7 +7689,10 @@ Component that was made reactive: `,
             });
         } else {
           instance.asyncDep = setupResult;
-          if (!!(process.env.NODE_ENV !== "production") && !instance.suspense) {
+          if (
+            !!(define_process_env_default$2.NODE_ENV !== "production") &&
+            !instance.suspense
+          ) {
             const name = (_a = Component.name) != null ? _a : "Anonymous";
             warn$1(
               `Component <${name}>: setup function returned a promise, but no <Suspense> boundary was found in the parent component tree. A component with async setup() must be nested in a <Suspense> in order to be rendered.`
@@ -7606,20 +7714,23 @@ Component that was made reactive: `,
         instance.render = setupResult;
       }
     } else if (isObject(setupResult)) {
-      if (!!(process.env.NODE_ENV !== "production") && isVNode(setupResult)) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        isVNode(setupResult)
+      ) {
         warn$1(
           `setup() should not return VNodes directly - return a render function instead.`
         );
       }
-      if (!!(process.env.NODE_ENV !== "production") || false) {
+      if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
         instance.devtoolsRawSetupState = setupResult;
       }
       instance.setupState = proxyRefs(setupResult);
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         exposeSetupStateOnRenderContext(instance);
       }
     } else if (
-      !!(process.env.NODE_ENV !== "production") &&
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
       setupResult !== void 0
     ) {
       warn$1(
@@ -7647,7 +7758,7 @@ Component that was made reactive: `,
       }
     }
     if (
-      !!(process.env.NODE_ENV !== "production") &&
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
       !Component.render &&
       instance.render === NOOP &&
       !isSSR
@@ -7661,7 +7772,9 @@ Component that was made reactive: `,
       }
     }
   }
-  const attrsProxyHandlers = !!(process.env.NODE_ENV !== "production")
+  const attrsProxyHandlers = !!(
+    define_process_env_default$2.NODE_ENV !== "production"
+  )
     ? {
         get(target, key) {
           markAttrsAccessed();
@@ -7693,7 +7806,7 @@ Component that was made reactive: `,
   }
   function createSetupContext(instance) {
     const expose = (exposed) => {
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         if (instance.exposed) {
           warn$1(`expose() should be called only once per setup().`);
         }
@@ -7715,7 +7828,7 @@ Component that was made reactive: `,
       }
       instance.exposed = exposed || {};
     };
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       let attrsProxy;
       let slotsProxy;
       return Object.freeze({
@@ -7802,7 +7915,7 @@ Component that was made reactive: `,
   }
   const computed = (getterOrOptions, debugOptions) => {
     const c = computed$1(getterOrOptions, debugOptions, isInSSRComponentSetup);
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       const i = getCurrentInstance();
       if (i && i.appContext.config.warnRecursiveComputed) {
         c._warnRecursive = true;
@@ -7812,7 +7925,7 @@ Component that was made reactive: `,
   };
   function initCustomFormatter() {
     if (
-      !!!(process.env.NODE_ENV !== "production") ||
+      !!!(define_process_env_default$2.NODE_ENV !== "production") ||
       typeof window === "undefined"
     ) {
       return;
@@ -7992,14 +8105,10 @@ Component that was made reactive: `,
     }
   }
   const version = "3.5.18";
-  const warn = !!(process.env.NODE_ENV !== "production") ? warn$1 : NOOP;
-  !!(process.env.NODE_ENV !== "production") || true ? devtools$1 : void 0;
-  !!(process.env.NODE_ENV !== "production") || true ? setDevtoolsHook$1 : NOOP;
-  /**
-   * @vue/runtime-dom v3.5.18
-   * (c) 2018-present Yuxi (Evan) You and Vue contributors
-   * @license MIT
-   **/
+  const warn = !!(define_process_env_default$2.NODE_ENV !== "production")
+    ? warn$1
+    : NOOP;
+  var define_process_env_default$1 = {};
   let policy = void 0;
   const tt = typeof window !== "undefined" && window.trustedTypes;
   if (tt) {
@@ -8008,7 +8117,7 @@ Component that was made reactive: `,
         createHTML: (val) => val,
       });
     } catch (e) {
-      !!(process.env.NODE_ENV !== "production") &&
+      !!(define_process_env_default$1.NODE_ENV !== "production") &&
         warn(`Error creating trusted types policy: ${e}`);
     }
   }
@@ -8113,9 +8222,10 @@ Component that was made reactive: `,
   }
   const vShowOriginalDisplay = Symbol("_vod");
   const vShowHidden = Symbol("_vsh");
-  if (!!(process.env.NODE_ENV !== "production"));
   const CSS_VAR_TEXT = Symbol(
-    !!(process.env.NODE_ENV !== "production") ? "CSS_VAR_TEXT" : ""
+    !!(define_process_env_default$1.NODE_ENV !== "production")
+      ? "CSS_VAR_TEXT"
+      : ""
   );
   const displayRE = /(^|;)\s*display\s*:/;
   function patchStyle(el, prev, next) {
@@ -8173,7 +8283,7 @@ Component that was made reactive: `,
       val.forEach((v) => setStyle(style, name, v));
     } else {
       if (val == null) val = "";
-      if (!!(process.env.NODE_ENV !== "production")) {
+      if (!!(define_process_env_default$1.NODE_ENV !== "production")) {
         if (semicolonRE.test(val)) {
           warn(
             `Unexpected semicolon at the end of '${name}' style value: '${val}'`
@@ -8290,7 +8400,10 @@ Component that was made reactive: `,
     try {
       el[key] = value;
     } catch (e) {
-      if (!!(process.env.NODE_ENV !== "production") && !needRemove) {
+      if (
+        !!(define_process_env_default$1.NODE_ENV !== "production") &&
+        !needRemove
+      ) {
         warn(
           `Failed setting prop "${key}" on <${tag.toLowerCase()}>: value ${value} is invalid.`,
           e
@@ -8310,14 +8423,16 @@ Component that was made reactive: `,
     const invokers = el[veiKey] || (el[veiKey] = {});
     const existingInvoker = invokers[rawName];
     if (nextValue && existingInvoker) {
-      existingInvoker.value = !!(process.env.NODE_ENV !== "production")
+      existingInvoker.value = !!(
+        define_process_env_default$1.NODE_ENV !== "production"
+      )
         ? sanitizeEventValue(nextValue, rawName)
         : nextValue;
     } else {
       const [name, options] = parseName(rawName);
       if (nextValue) {
         const invoker = (invokers[rawName] = createInvoker(
-          !!(process.env.NODE_ENV !== "production")
+          !!(define_process_env_default$1.NODE_ENV !== "production")
             ? sanitizeEventValue(nextValue, rawName)
             : nextValue,
           instance
@@ -8488,7 +8603,7 @@ Expected function or array of functions, received type ${typeof value}.`
   }
   const createApp = (...args) => {
     const app = ensureRenderer().createApp(...args);
-    if (!!(process.env.NODE_ENV !== "production")) {
+    if (!!(define_process_env_default$1.NODE_ENV !== "production")) {
       injectNativeTagCheck(app);
       injectCompilerOptionsCheck(app);
     }
@@ -8561,7 +8676,7 @@ Expected function or array of functions, received type ${typeof value}.`
   function normalizeContainer(container) {
     if (isString(container)) {
       const res = document.querySelector(container);
-      if (!!(process.env.NODE_ENV !== "production") && !res) {
+      if (!!(define_process_env_default$1.NODE_ENV !== "production") && !res) {
         warn(
           `Failed to mount app: mount target selector "${container}" returned null.`
         );
@@ -8569,7 +8684,7 @@ Expected function or array of functions, received type ${typeof value}.`
       return res;
     }
     if (
-      !!(process.env.NODE_ENV !== "production") &&
+      !!(define_process_env_default$1.NODE_ENV !== "production") &&
       window.ShadowRoot &&
       container instanceof window.ShadowRoot &&
       container.mode === "closed"
@@ -8580,17 +8695,13 @@ Expected function or array of functions, received type ${typeof value}.`
     }
     return container;
   }
-  /**
-   * vue v3.5.18
-   * (c) 2018-present Yuxi (Evan) You and Vue contributors
-   * @license MIT
-   **/
+  var define_process_env_default = {};
   function initDev() {
     {
       initCustomFormatter();
     }
   }
-  if (!!(process.env.NODE_ENV !== "production")) {
+  if (!!(define_process_env_default.NODE_ENV !== "production")) {
     initDev();
   }
   const _export_sfc = (sfc, props) => {
@@ -8651,5 +8762,5 @@ Expected function or array of functions, received type ${typeof value}.`
   const App = /* @__PURE__ */ _export_sfc(_sfc_main, [
     ["__scopeId", "data-v-fcd42a5e"],
   ]);
-  createApp(App).mount("my-app");
+  createApp(App).mount("app");
 })();

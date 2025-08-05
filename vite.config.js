@@ -4,6 +4,9 @@ import vue from "@vitejs/plugin-vue";
 
 export default defineConfig({
   plugins: [vue()],
+  define: {
+    "process.env": {},
+  },
   build: {
     lib: {
       entry: "src/main.js",
@@ -11,7 +14,7 @@ export default defineConfig({
       fileName: "widget",
       formats: ["iife"],
     },
-    minify: false, // 🚫 غیر فعال کردن minify
+    minify: false,
     rollupOptions: {
       output: {
         globals: {
