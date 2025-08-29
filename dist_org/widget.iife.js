@@ -1,11 +1,11 @@
-(function() {
+(function () {
   "use strict";
   var define_process_env_default$4 = {};
   /**
-  * @vue/shared v3.5.18
-  * (c) 2018-present Yuxi (Evan) You and Vue contributors
-  * @license MIT
-  **/
+   * @vue/shared v3.5.18
+   * (c) 2018-present Yuxi (Evan) You and Vue contributors
+   * @license MIT
+   **/
   /*! #__NO_SIDE_EFFECTS__ */
   // @__NO_SIDE_EFFECTS__
   function makeMap(str) {
@@ -13,13 +13,18 @@
     for (const key of str.split(",")) map2[key] = 1;
     return (val) => val in map2;
   }
-  const EMPTY_OBJ = !!(define_process_env_default$4.NODE_ENV !== "production") ? Object.freeze({}) : {};
-  const EMPTY_ARR = !!(define_process_env_default$4.NODE_ENV !== "production") ? Object.freeze([]) : [];
-  const NOOP = () => {
-  };
+  const EMPTY_OBJ = !!(define_process_env_default$4.NODE_ENV !== "production")
+    ? Object.freeze({})
+    : {};
+  const EMPTY_ARR = !!(define_process_env_default$4.NODE_ENV !== "production")
+    ? Object.freeze([])
+    : [];
+  const NOOP = () => {};
   const NO = () => false;
-  const isOn = (key) => key.charCodeAt(0) === 111 && key.charCodeAt(1) === 110 && // uppercase letter
-  (key.charCodeAt(2) > 122 || key.charCodeAt(2) < 97);
+  const isOn = (key) =>
+    key.charCodeAt(0) === 111 &&
+    key.charCodeAt(1) === 110 && // uppercase letter
+    (key.charCodeAt(2) > 122 || key.charCodeAt(2) < 97);
   const isModelListener = (key) => key.startsWith("onUpdate:");
   const extend = Object.assign;
   const remove = (arr, el) => {
@@ -38,7 +43,11 @@
   const isSymbol = (val) => typeof val === "symbol";
   const isObject = (val) => val !== null && typeof val === "object";
   const isPromise = (val) => {
-    return (isObject(val) || isFunction(val)) && isFunction(val.then) && isFunction(val.catch);
+    return (
+      (isObject(val) || isFunction(val)) &&
+      isFunction(val.then) &&
+      isFunction(val.catch)
+    );
   };
   const objectToString = Object.prototype.toString;
   const toTypeString = (value) => objectToString.call(value);
@@ -46,7 +55,11 @@
     return toTypeString(value).slice(8, -1);
   };
   const isPlainObject = (val) => toTypeString(val) === "[object Object]";
-  const isIntegerKey = (key) => isString(key) && key !== "NaN" && key[0] !== "-" && "" + parseInt(key, 10) === key;
+  const isIntegerKey = (key) =>
+    isString(key) &&
+    key !== "NaN" &&
+    key[0] !== "-" &&
+    "" + parseInt(key, 10) === key;
   const isReservedProp = /* @__PURE__ */ makeMap(
     // the leading comma is intentional so empty string "" is also included
     ",key,ref,ref_for,ref_key,onVnodeBeforeMount,onVnodeMounted,onVnodeBeforeUpdate,onVnodeUpdated,onVnodeBeforeUnmount,onVnodeUnmounted"
@@ -62,24 +75,20 @@
     };
   };
   const camelizeRE = /-(\w)/g;
-  const camelize = cacheStringFunction(
-    (str) => {
-      return str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : "");
-    }
-  );
+  const camelize = cacheStringFunction((str) => {
+    return str.replace(camelizeRE, (_, c) => (c ? c.toUpperCase() : ""));
+  });
   const hyphenateRE = /\B([A-Z])/g;
-  const hyphenate = cacheStringFunction(
-    (str) => str.replace(hyphenateRE, "-$1").toLowerCase()
+  const hyphenate = cacheStringFunction((str) =>
+    str.replace(hyphenateRE, "-$1").toLowerCase()
   );
   const capitalize = cacheStringFunction((str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   });
-  const toHandlerKey = cacheStringFunction(
-    (str) => {
-      const s = str ? `on${capitalize(str)}` : ``;
-      return s;
-    }
-  );
+  const toHandlerKey = cacheStringFunction((str) => {
+    const s = str ? `on${capitalize(str)}` : ``;
+    return s;
+  });
   const hasChanged = (value, oldValue) => !Object.is(value, oldValue);
   const invokeArrayFns = (fns, ...arg) => {
     for (let i = 0; i < fns.length; i++) {
@@ -91,7 +100,7 @@
       configurable: true,
       enumerable: false,
       writable,
-      value
+      value,
     });
   };
   const looseToNumber = (val) => {
@@ -100,14 +109,28 @@
   };
   let _globalThis;
   const getGlobalThis = () => {
-    return _globalThis || (_globalThis = typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {});
+    return (
+      _globalThis ||
+      (_globalThis =
+        typeof globalThis !== "undefined"
+          ? globalThis
+          : typeof self !== "undefined"
+          ? self
+          : typeof window !== "undefined"
+          ? window
+          : typeof global !== "undefined"
+          ? global
+          : {})
+    );
   };
   function normalizeStyle(value) {
     if (isArray(value)) {
       const res = {};
       for (let i = 0; i < value.length; i++) {
         const item = value[i];
-        const normalized = isString(item) ? parseStringStyle(item) : normalizeStyle(item);
+        const normalized = isString(item)
+          ? parseStringStyle(item)
+          : normalizeStyle(item);
         if (normalized) {
           for (const key in normalized) {
             res[key] = normalized[key];
@@ -124,12 +147,15 @@
   const styleCommentRE = /\/\*[^]*?\*\//g;
   function parseStringStyle(cssText) {
     const ret = {};
-    cssText.replace(styleCommentRE, "").split(listDelimiterRE).forEach((item) => {
-      if (item) {
-        const tmp = item.split(propertyDelimiterRE);
-        tmp.length > 1 && (ret[tmp[0].trim()] = tmp[1].trim());
-      }
-    });
+    cssText
+      .replace(styleCommentRE, "")
+      .split(listDelimiterRE)
+      .forEach((item) => {
+        if (item) {
+          const tmp = item.split(propertyDelimiterRE);
+          tmp.length > 1 && (ret[tmp[0].trim()] = tmp[1].trim());
+        }
+      });
     return ret;
   }
   function normalizeClass(value) {
@@ -152,9 +178,12 @@
     }
     return res.trim();
   }
-  const HTML_TAGS = "html,body,base,head,link,meta,style,title,address,article,aside,footer,header,hgroup,h1,h2,h3,h4,h5,h6,nav,section,div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul,a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,ruby,s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video,embed,object,param,source,canvas,script,noscript,del,ins,caption,col,colgroup,table,thead,tbody,td,th,tr,button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,output,progress,select,textarea,details,dialog,menu,summary,template,blockquote,iframe,tfoot";
-  const SVG_TAGS = "svg,animate,animateMotion,animateTransform,circle,clipPath,color-profile,defs,desc,discard,ellipse,feBlend,feColorMatrix,feComponentTransfer,feComposite,feConvolveMatrix,feDiffuseLighting,feDisplacementMap,feDistantLight,feDropShadow,feFlood,feFuncA,feFuncB,feFuncG,feFuncR,feGaussianBlur,feImage,feMerge,feMergeNode,feMorphology,feOffset,fePointLight,feSpecularLighting,feSpotLight,feTile,feTurbulence,filter,foreignObject,g,hatch,hatchpath,image,line,linearGradient,marker,mask,mesh,meshgradient,meshpatch,meshrow,metadata,mpath,path,pattern,polygon,polyline,radialGradient,rect,set,solidcolor,stop,switch,symbol,text,textPath,title,tspan,unknown,use,view";
-  const MATH_TAGS = "annotation,annotation-xml,maction,maligngroup,malignmark,math,menclose,merror,mfenced,mfrac,mfraction,mglyph,mi,mlabeledtr,mlongdiv,mmultiscripts,mn,mo,mover,mpadded,mphantom,mprescripts,mroot,mrow,ms,mscarries,mscarry,msgroup,msline,mspace,msqrt,msrow,mstack,mstyle,msub,msubsup,msup,mtable,mtd,mtext,mtr,munder,munderover,none,semantics";
+  const HTML_TAGS =
+    "html,body,base,head,link,meta,style,title,address,article,aside,footer,header,hgroup,h1,h2,h3,h4,h5,h6,nav,section,div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul,a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,ruby,s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video,embed,object,param,source,canvas,script,noscript,del,ins,caption,col,colgroup,table,thead,tbody,td,th,tr,button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,output,progress,select,textarea,details,dialog,menu,summary,template,blockquote,iframe,tfoot";
+  const SVG_TAGS =
+    "svg,animate,animateMotion,animateTransform,circle,clipPath,color-profile,defs,desc,discard,ellipse,feBlend,feColorMatrix,feComponentTransfer,feComposite,feConvolveMatrix,feDiffuseLighting,feDisplacementMap,feDistantLight,feDropShadow,feFlood,feFuncA,feFuncB,feFuncG,feFuncR,feGaussianBlur,feImage,feMerge,feMergeNode,feMorphology,feOffset,fePointLight,feSpecularLighting,feSpotLight,feTile,feTurbulence,filter,foreignObject,g,hatch,hatchpath,image,line,linearGradient,marker,mask,mesh,meshgradient,meshpatch,meshrow,metadata,mpath,path,pattern,polygon,polyline,radialGradient,rect,set,solidcolor,stop,switch,symbol,text,textPath,title,tspan,unknown,use,view";
+  const MATH_TAGS =
+    "annotation,annotation-xml,maction,maligngroup,malignmark,math,menclose,merror,mfenced,mfrac,mfraction,mglyph,mi,mlabeledtr,mlongdiv,mmultiscripts,mn,mo,mover,mpadded,mphantom,mprescripts,mroot,mrow,ms,mscarries,mscarry,msgroup,msline,mspace,msqrt,msrow,mstack,mstyle,msub,msubsup,msup,mtable,mtd,mtext,mtr,munder,munderover,none,semantics";
   const isHTMLTag = /* @__PURE__ */ makeMap(HTML_TAGS);
   const isSVGTag = /* @__PURE__ */ makeMap(SVG_TAGS);
   const isMathMLTag = /* @__PURE__ */ makeMap(MATH_TAGS);
@@ -167,7 +196,17 @@
     return !!(val && val["__v_isRef"] === true);
   };
   const toDisplayString = (val) => {
-    return isString(val) ? val : val == null ? "" : isArray(val) || isObject(val) && (val.toString === objectToString || !isFunction(val.toString)) ? isRef$1(val) ? toDisplayString(val.value) : JSON.stringify(val, replacer, 2) : String(val);
+    return isString(val)
+      ? val
+      : val == null
+      ? ""
+      : isArray(val) ||
+        (isObject(val) &&
+          (val.toString === objectToString || !isFunction(val.toString)))
+      ? isRef$1(val)
+        ? toDisplayString(val.value)
+        : JSON.stringify(val, replacer, 2)
+      : String(val);
   };
   const replacer = (_key, val) => {
     if (isRef$1(val)) {
@@ -180,11 +219,11 @@
             return entries;
           },
           {}
-        )
+        ),
       };
     } else if (isSet(val)) {
       return {
-        [`Set(${val.size})`]: [...val.values()].map((v) => stringifySymbol(v))
+        [`Set(${val.size})`]: [...val.values()].map((v) => stringifySymbol(v)),
       };
     } else if (isSymbol(val)) {
       return stringifySymbol(val);
@@ -216,9 +255,10 @@
       this._isPaused = false;
       this.parent = activeEffectScope;
       if (!detached && activeEffectScope) {
-        this.index = (activeEffectScope.scopes || (activeEffectScope.scopes = [])).push(
-          this
-        ) - 1;
+        this.index =
+          (activeEffectScope.scopes || (activeEffectScope.scopes = [])).push(
+            this
+          ) - 1;
       }
     }
     get active() {
@@ -374,7 +414,10 @@
       try {
         return this.fn();
       } finally {
-        if (!!(define_process_env_default$3.NODE_ENV !== "production") && activeSub !== this) {
+        if (
+          !!(define_process_env_default$3.NODE_ENV !== "production") &&
+          activeSub !== this
+        ) {
           warn$2(
             "Active effect was not restored correctly - this is likely a Vue internal bug."
           );
@@ -457,7 +500,6 @@
         e.flags &= -9;
         if (e.flags & 1) {
           try {
-            ;
             e.trigger();
           } catch (err) {
             if (!error) error = err;
@@ -497,7 +539,12 @@
   }
   function isDirty(sub) {
     for (let link = sub.deps; link; link = link.nextDep) {
-      if (link.dep.version !== link.version || link.dep.computed && (refreshComputed(link.dep.computed) || link.dep.version !== link.version)) {
+      if (
+        link.dep.version !== link.version ||
+        (link.dep.computed &&
+          (refreshComputed(link.dep.computed) ||
+            link.dep.version !== link.version))
+      ) {
         return true;
       }
     }
@@ -515,7 +562,11 @@
       return;
     }
     computed2.globalVersion = globalVersion;
-    if (!computed2.isSSR && computed2.flags & 128 && (!computed2.deps && !computed2._dirty || !isDirty(computed2))) {
+    if (
+      !computed2.isSSR &&
+      computed2.flags & 128 &&
+      ((!computed2.deps && !computed2._dirty) || !isDirty(computed2))
+    ) {
       return;
     }
     computed2.flags |= 2;
@@ -552,7 +603,10 @@
       nextSub.prevSub = prevSub;
       link.nextSub = void 0;
     }
-    if (!!(define_process_env_default$3.NODE_ENV !== "production") && dep.subsHead === link) {
+    if (
+      !!(define_process_env_default$3.NODE_ENV !== "production") &&
+      dep.subsHead === link
+    ) {
       dep.subsHead = nextSub;
     }
     if (dep.subs === link) {
@@ -608,7 +662,12 @@
       this.sub = sub;
       this.dep = dep;
       this.version = dep.version;
-      this.nextDep = this.prevDep = this.nextSub = this.prevSub = this.prevActiveLink = void 0;
+      this.nextDep =
+        this.prevDep =
+        this.nextSub =
+        this.prevSub =
+        this.prevActiveLink =
+          void 0;
     }
   }
   class Dep {
@@ -658,11 +717,14 @@
           }
         }
       }
-      if (!!(define_process_env_default$3.NODE_ENV !== "production") && activeSub.onTrack) {
+      if (
+        !!(define_process_env_default$3.NODE_ENV !== "production") &&
+        activeSub.onTrack
+      ) {
         activeSub.onTrack(
           extend(
             {
-              effect: activeSub
+              effect: activeSub,
             },
             debugInfo
           )
@@ -684,7 +746,7 @@
               head.sub.onTrigger(
                 extend(
                   {
-                    effect: head.sub
+                    effect: head.sub,
                   },
                   debugInfo
                 )
@@ -694,7 +756,6 @@
         }
         for (let link = this.subs; link; link = link.prevSub) {
           if (link.sub.notify()) {
-            ;
             link.sub.dep.notify();
           }
         }
@@ -718,7 +779,10 @@
         link.prevSub = currentTail;
         if (currentTail) currentTail.nextSub = link;
       }
-      if (!!(define_process_env_default$3.NODE_ENV !== "production") && link.dep.subsHead === void 0) {
+      if (
+        !!(define_process_env_default$3.NODE_ENV !== "production") &&
+        link.dep.subsHead === void 0
+      ) {
         link.dep.subsHead = link;
       }
       link.dep.subs = link;
@@ -726,23 +790,29 @@
   }
   const targetMap = /* @__PURE__ */ new WeakMap();
   const ITERATE_KEY = Symbol(
-    !!(define_process_env_default$3.NODE_ENV !== "production") ? "Object iterate" : ""
+    !!(define_process_env_default$3.NODE_ENV !== "production")
+      ? "Object iterate"
+      : ""
   );
   const MAP_KEY_ITERATE_KEY = Symbol(
-    !!(define_process_env_default$3.NODE_ENV !== "production") ? "Map keys iterate" : ""
+    !!(define_process_env_default$3.NODE_ENV !== "production")
+      ? "Map keys iterate"
+      : ""
   );
   const ARRAY_ITERATE_KEY = Symbol(
-    !!(define_process_env_default$3.NODE_ENV !== "production") ? "Array iterate" : ""
+    !!(define_process_env_default$3.NODE_ENV !== "production")
+      ? "Array iterate"
+      : ""
   );
   function track(target, type, key) {
     if (shouldTrack && activeSub) {
       let depsMap = targetMap.get(target);
       if (!depsMap) {
-        targetMap.set(target, depsMap = /* @__PURE__ */ new Map());
+        targetMap.set(target, (depsMap = /* @__PURE__ */ new Map()));
       }
       let dep = depsMap.get(key);
       if (!dep) {
-        depsMap.set(key, dep = new Dep());
+        depsMap.set(key, (dep = new Dep()));
         dep.map = depsMap;
         dep.key = key;
       }
@@ -750,7 +820,7 @@
         dep.track({
           target,
           type,
-          key
+          key,
         });
       } else {
         dep.track();
@@ -772,7 +842,7 @@
             key,
             newValue,
             oldValue,
-            oldTarget
+            oldTarget,
           });
         } else {
           dep.trigger();
@@ -788,7 +858,11 @@
       if (targetIsArray && key === "length") {
         const newLength = Number(newValue);
         depsMap.forEach((dep, key2) => {
-          if (key2 === "length" || key2 === ARRAY_ITERATE_KEY || !isSymbol(key2) && key2 >= newLength) {
+          if (
+            key2 === "length" ||
+            key2 === ARRAY_ITERATE_KEY ||
+            (!isSymbol(key2) && key2 >= newLength)
+          ) {
             run(dep);
           }
         });
@@ -835,7 +909,7 @@
     return isShallow(array) ? raw : raw.map(toReactive);
   }
   function shallowReadArray(arr) {
-    track(arr = toRaw(arr), "iterate", ARRAY_ITERATE_KEY);
+    track((arr = toRaw(arr)), "iterate", ARRAY_ITERATE_KEY);
     return arr;
   }
   const arrayInstrumentations = {
@@ -845,7 +919,7 @@
     },
     concat(...args) {
       return reactiveReadArray(this).concat(
-        ...args.map((x) => isArray(x) ? reactiveReadArray(x) : x)
+        ...args.map((x) => (isArray(x) ? reactiveReadArray(x) : x))
       );
     },
     entries() {
@@ -858,7 +932,14 @@
       return apply(this, "every", fn, thisArg, void 0, arguments);
     },
     filter(fn, thisArg) {
-      return apply(this, "filter", fn, thisArg, (v) => v.map(toReactive), arguments);
+      return apply(
+        this,
+        "filter",
+        fn,
+        thisArg,
+        (v) => v.map(toReactive),
+        arguments
+      );
     },
     find(fn, thisArg) {
       return apply(this, "find", fn, thisArg, toReactive, arguments);
@@ -928,7 +1009,7 @@
     },
     values() {
       return iterator(this, "values", toReactive);
-    }
+    },
   };
   function iterator(self2, method, wrapValue) {
     const arr = shallowReadArray(self2);
@@ -957,11 +1038,11 @@
     let wrappedFn = fn;
     if (arr !== self2) {
       if (needsWrap) {
-        wrappedFn = function(item, index) {
+        wrappedFn = function (item, index) {
           return fn.call(this, toReactive(item), index, self2);
         };
       } else if (fn.length > 2) {
-        wrappedFn = function(item, index) {
+        wrappedFn = function (item, index) {
           return fn.call(this, item, index, self2);
         };
       }
@@ -974,11 +1055,11 @@
     let wrappedFn = fn;
     if (arr !== self2) {
       if (!isShallow(self2)) {
-        wrappedFn = function(acc, item, index) {
+        wrappedFn = function (acc, item, index) {
           return fn.call(this, acc, toReactive(item), index, self2);
         };
       } else if (fn.length > 3) {
-        wrappedFn = function(acc, item, index) {
+        wrappedFn = function (acc, item, index) {
           return fn.call(this, acc, item, index, self2);
         };
       }
@@ -1003,9 +1084,14 @@
     resetTracking();
     return res;
   }
-  const isNonTrackableKeys = /* @__PURE__ */ makeMap(`__proto__,__v_isRef,__isVue`);
+  const isNonTrackableKeys = /* @__PURE__ */ makeMap(
+    `__proto__,__v_isRef,__isVue`
+  );
   const builtInSymbols = new Set(
-    /* @__PURE__ */ Object.getOwnPropertyNames(Symbol).filter((key) => key !== "arguments" && key !== "caller").map((key) => Symbol[key]).filter(isSymbol)
+    /* @__PURE__ */ Object.getOwnPropertyNames(Symbol)
+      .filter((key) => key !== "arguments" && key !== "caller")
+      .map((key) => Symbol[key])
+      .filter(isSymbol)
   );
   function hasOwnProperty(key) {
     if (!isSymbol(key)) key = String(key);
@@ -1020,7 +1106,8 @@
     }
     get(target, key, receiver) {
       if (key === "__v_skip") return target["__v_skip"];
-      const isReadonly2 = this._isReadonly, isShallow2 = this._isShallow;
+      const isReadonly2 = this._isReadonly,
+        isShallow2 = this._isShallow;
       if (key === "__v_isReactive") {
         return !isReadonly2;
       } else if (key === "__v_isReadonly") {
@@ -1028,9 +1115,19 @@
       } else if (key === "__v_isShallow") {
         return isShallow2;
       } else if (key === "__v_raw") {
-        if (receiver === (isReadonly2 ? isShallow2 ? shallowReadonlyMap : readonlyMap : isShallow2 ? shallowReactiveMap : reactiveMap).get(target) || // receiver is not the reactive proxy, but has the same prototype
-        // this means the receiver is a user proxy of the reactive proxy
-        Object.getPrototypeOf(target) === Object.getPrototypeOf(receiver)) {
+        if (
+          receiver ===
+            (isReadonly2
+              ? isShallow2
+                ? shallowReadonlyMap
+                : readonlyMap
+              : isShallow2
+              ? shallowReactiveMap
+              : reactiveMap
+            ).get(target) || // receiver is not the reactive proxy, but has the same prototype
+          // this means the receiver is a user proxy of the reactive proxy
+          Object.getPrototypeOf(target) === Object.getPrototypeOf(receiver)
+        ) {
           return target;
         }
         return;
@@ -1092,7 +1189,10 @@
           }
         }
       }
-      const hadKey = isArray(target) && isIntegerKey(key) ? Number(key) < target.length : hasOwn(target, key);
+      const hadKey =
+        isArray(target) && isIntegerKey(key)
+          ? Number(key) < target.length
+          : hasOwn(target, key);
       const result = Reflect.set(
         target,
         key,
@@ -1125,11 +1225,7 @@
       return result;
     }
     ownKeys(target) {
-      track(
-        target,
-        "iterate",
-        isArray(target) ? "length" : ITERATE_KEY
-      );
+      track(target, "iterate", isArray(target) ? "length" : ITERATE_KEY);
       return Reflect.ownKeys(target);
     }
   }
@@ -1149,7 +1245,9 @@
     deleteProperty(target, key) {
       if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
         warn$2(
-          `Delete operation on key "${String(key)}" failed: target is readonly.`,
+          `Delete operation on key "${String(
+            key
+          )}" failed: target is readonly.`,
           target
         );
       }
@@ -1158,42 +1256,54 @@
   }
   const mutableHandlers = /* @__PURE__ */ new MutableReactiveHandler();
   const readonlyHandlers = /* @__PURE__ */ new ReadonlyReactiveHandler();
-  const shallowReactiveHandlers = /* @__PURE__ */ new MutableReactiveHandler(true);
-  const shallowReadonlyHandlers = /* @__PURE__ */ new ReadonlyReactiveHandler(true);
+  const shallowReactiveHandlers = /* @__PURE__ */ new MutableReactiveHandler(
+    true
+  );
+  const shallowReadonlyHandlers = /* @__PURE__ */ new ReadonlyReactiveHandler(
+    true
+  );
   const toShallow = (value) => value;
   const getProto = (v) => Reflect.getPrototypeOf(v);
   function createIterableMethod(method, isReadonly2, isShallow2) {
-    return function(...args) {
+    return function (...args) {
       const target = this["__v_raw"];
       const rawTarget = toRaw(target);
       const targetIsMap = isMap(rawTarget);
-      const isPair = method === "entries" || method === Symbol.iterator && targetIsMap;
+      const isPair =
+        method === "entries" || (method === Symbol.iterator && targetIsMap);
       const isKeyOnly = method === "keys" && targetIsMap;
       const innerIterator = target[method](...args);
-      const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive;
-      !isReadonly2 && track(
-        rawTarget,
-        "iterate",
-        isKeyOnly ? MAP_KEY_ITERATE_KEY : ITERATE_KEY
-      );
+      const wrap = isShallow2
+        ? toShallow
+        : isReadonly2
+        ? toReadonly
+        : toReactive;
+      !isReadonly2 &&
+        track(
+          rawTarget,
+          "iterate",
+          isKeyOnly ? MAP_KEY_ITERATE_KEY : ITERATE_KEY
+        );
       return {
         // iterator protocol
         next() {
           const { value, done } = innerIterator.next();
-          return done ? { value, done } : {
-            value: isPair ? [wrap(value[0]), wrap(value[1])] : wrap(value),
-            done
-          };
+          return done
+            ? { value, done }
+            : {
+                value: isPair ? [wrap(value[0]), wrap(value[1])] : wrap(value),
+                done,
+              };
         },
         // iterable protocol
         [Symbol.iterator]() {
           return this;
-        }
+        },
       };
     };
   }
   function createReadonlyMethod(type) {
-    return function(...args) {
+    return function (...args) {
       if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
         const key = args[0] ? `on key "${args[0]}" ` : ``;
         warn$2(
@@ -1241,7 +1351,9 @@
           }
           track(rawTarget, "has", rawKey);
         }
-        return key === rawKey ? target.has(key) : target.has(key) || target.has(rawKey);
+        return key === rawKey
+          ? target.has(key)
+          : target.has(key) || target.has(rawKey);
       },
       forEach(callback, thisArg) {
         const observed = this;
@@ -1252,94 +1364,99 @@
         return target.forEach((value, key) => {
           return callback.call(thisArg, wrap(value), wrap(key), observed);
         });
-      }
+      },
     };
     extend(
       instrumentations,
-      readonly2 ? {
-        add: createReadonlyMethod("add"),
-        set: createReadonlyMethod("set"),
-        delete: createReadonlyMethod("delete"),
-        clear: createReadonlyMethod("clear")
-      } : {
-        add(value) {
-          if (!shallow && !isShallow(value) && !isReadonly(value)) {
-            value = toRaw(value);
+      readonly2
+        ? {
+            add: createReadonlyMethod("add"),
+            set: createReadonlyMethod("set"),
+            delete: createReadonlyMethod("delete"),
+            clear: createReadonlyMethod("clear"),
           }
-          const target = toRaw(this);
-          const proto = getProto(target);
-          const hadKey = proto.has.call(target, value);
-          if (!hadKey) {
-            target.add(value);
-            trigger(target, "add", value, value);
+        : {
+            add(value) {
+              if (!shallow && !isShallow(value) && !isReadonly(value)) {
+                value = toRaw(value);
+              }
+              const target = toRaw(this);
+              const proto = getProto(target);
+              const hadKey = proto.has.call(target, value);
+              if (!hadKey) {
+                target.add(value);
+                trigger(target, "add", value, value);
+              }
+              return this;
+            },
+            set(key, value) {
+              if (!shallow && !isShallow(value) && !isReadonly(value)) {
+                value = toRaw(value);
+              }
+              const target = toRaw(this);
+              const { has, get } = getProto(target);
+              let hadKey = has.call(target, key);
+              if (!hadKey) {
+                key = toRaw(key);
+                hadKey = has.call(target, key);
+              } else if (
+                !!(define_process_env_default$3.NODE_ENV !== "production")
+              ) {
+                checkIdentityKeys(target, has, key);
+              }
+              const oldValue = get.call(target, key);
+              target.set(key, value);
+              if (!hadKey) {
+                trigger(target, "add", key, value);
+              } else if (hasChanged(value, oldValue)) {
+                trigger(target, "set", key, value, oldValue);
+              }
+              return this;
+            },
+            delete(key) {
+              const target = toRaw(this);
+              const { has, get } = getProto(target);
+              let hadKey = has.call(target, key);
+              if (!hadKey) {
+                key = toRaw(key);
+                hadKey = has.call(target, key);
+              } else if (
+                !!(define_process_env_default$3.NODE_ENV !== "production")
+              ) {
+                checkIdentityKeys(target, has, key);
+              }
+              const oldValue = get ? get.call(target, key) : void 0;
+              const result = target.delete(key);
+              if (hadKey) {
+                trigger(target, "delete", key, void 0, oldValue);
+              }
+              return result;
+            },
+            clear() {
+              const target = toRaw(this);
+              const hadItems = target.size !== 0;
+              const oldTarget = !!(
+                define_process_env_default$3.NODE_ENV !== "production"
+              )
+                ? isMap(target)
+                  ? new Map(target)
+                  : new Set(target)
+                : void 0;
+              const result = target.clear();
+              if (hadItems) {
+                trigger(target, "clear", void 0, void 0, oldTarget);
+              }
+              return result;
+            },
           }
-          return this;
-        },
-        set(key, value) {
-          if (!shallow && !isShallow(value) && !isReadonly(value)) {
-            value = toRaw(value);
-          }
-          const target = toRaw(this);
-          const { has, get } = getProto(target);
-          let hadKey = has.call(target, key);
-          if (!hadKey) {
-            key = toRaw(key);
-            hadKey = has.call(target, key);
-          } else if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
-            checkIdentityKeys(target, has, key);
-          }
-          const oldValue = get.call(target, key);
-          target.set(key, value);
-          if (!hadKey) {
-            trigger(target, "add", key, value);
-          } else if (hasChanged(value, oldValue)) {
-            trigger(target, "set", key, value, oldValue);
-          }
-          return this;
-        },
-        delete(key) {
-          const target = toRaw(this);
-          const { has, get } = getProto(target);
-          let hadKey = has.call(target, key);
-          if (!hadKey) {
-            key = toRaw(key);
-            hadKey = has.call(target, key);
-          } else if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
-            checkIdentityKeys(target, has, key);
-          }
-          const oldValue = get ? get.call(target, key) : void 0;
-          const result = target.delete(key);
-          if (hadKey) {
-            trigger(target, "delete", key, void 0, oldValue);
-          }
-          return result;
-        },
-        clear() {
-          const target = toRaw(this);
-          const hadItems = target.size !== 0;
-          const oldTarget = !!(define_process_env_default$3.NODE_ENV !== "production") ? isMap(target) ? new Map(target) : new Set(target) : void 0;
-          const result = target.clear();
-          if (hadItems) {
-            trigger(
-              target,
-              "clear",
-              void 0,
-              void 0,
-              oldTarget
-            );
-          }
-          return result;
-        }
-      }
     );
-    const iteratorMethods = [
-      "keys",
-      "values",
-      "entries",
-      Symbol.iterator
-    ];
+    const iteratorMethods = ["keys", "values", "entries", Symbol.iterator];
     iteratorMethods.forEach((method) => {
-      instrumentations[method] = createIterableMethod(method, readonly2, shallow);
+      instrumentations[method] = createIterableMethod(
+        method,
+        readonly2,
+        shallow
+      );
     });
     return instrumentations;
   }
@@ -1354,30 +1471,34 @@
         return target;
       }
       return Reflect.get(
-        hasOwn(instrumentations, key) && key in target ? instrumentations : target,
+        hasOwn(instrumentations, key) && key in target
+          ? instrumentations
+          : target,
         key,
         receiver
       );
     };
   }
   const mutableCollectionHandlers = {
-    get: /* @__PURE__ */ createInstrumentationGetter(false, false)
+    get: /* @__PURE__ */ createInstrumentationGetter(false, false),
   };
   const shallowCollectionHandlers = {
-    get: /* @__PURE__ */ createInstrumentationGetter(false, true)
+    get: /* @__PURE__ */ createInstrumentationGetter(false, true),
   };
   const readonlyCollectionHandlers = {
-    get: /* @__PURE__ */ createInstrumentationGetter(true, false)
+    get: /* @__PURE__ */ createInstrumentationGetter(true, false),
   };
   const shallowReadonlyCollectionHandlers = {
-    get: /* @__PURE__ */ createInstrumentationGetter(true, true)
+    get: /* @__PURE__ */ createInstrumentationGetter(true, true),
   };
   function checkIdentityKeys(target, has, key) {
     const rawKey = toRaw(key);
     if (rawKey !== key && has.call(target, rawKey)) {
       const type = toRawType(target);
       warn$2(
-        `Reactive ${type} contains both the raw and reactive versions of the same object${type === `Map` ? ` as keys` : ``}, which can lead to inconsistencies. Avoid differentiating between the raw and reactive versions of an object and only use the reactive version if possible.`
+        `Reactive ${type} contains both the raw and reactive versions of the same object${
+          type === `Map` ? ` as keys` : ``
+        }, which can lead to inconsistencies. Avoid differentiating between the raw and reactive versions of an object and only use the reactive version if possible.`
       );
     }
   }
@@ -1400,7 +1521,9 @@
     }
   }
   function getTargetType(value) {
-    return value["__v_skip"] || !Object.isExtensible(value) ? 0 : targetTypeMap(toRawType(value));
+    return value["__v_skip"] || !Object.isExtensible(value)
+      ? 0
+      : targetTypeMap(toRawType(value));
   }
   function reactive(target) {
     if (isReadonly(target)) {
@@ -1441,13 +1564,19 @@
       shallowReadonlyMap
     );
   }
-  function createReactiveObject(target, isReadonly2, baseHandlers, collectionHandlers, proxyMap) {
+  function createReactiveObject(
+    target,
+    isReadonly2,
+    baseHandlers,
+    collectionHandlers,
+    proxyMap
+  ) {
     if (!isObject(target)) {
       if (!!(define_process_env_default$3.NODE_ENV !== "production")) {
         warn$2(
-          `value cannot be made ${isReadonly2 ? "readonly" : "reactive"}: ${String(
-            target
-          )}`
+          `value cannot be made ${
+            isReadonly2 ? "readonly" : "reactive"
+          }: ${String(target)}`
         );
       }
       return target;
@@ -1495,8 +1624,8 @@
     }
     return value;
   }
-  const toReactive = (value) => isObject(value) ? reactive(value) : value;
-  const toReadonly = (value) => isObject(value) ? readonly(value) : value;
+  const toReactive = (value) => (isObject(value) ? reactive(value) : value);
+  const toReadonly = (value) => (isObject(value) ? readonly(value) : value);
   function isRef(r) {
     return r ? r["__v_isRef"] === true : false;
   }
@@ -1523,7 +1652,7 @@
         this.dep.track({
           target: this,
           type: "get",
-          key: "value"
+          key: "value",
         });
       } else {
         this.dep.track();
@@ -1532,7 +1661,8 @@
     }
     set value(newValue) {
       const oldValue = this._rawValue;
-      const useDirectValue = this["__v_isShallow"] || isShallow(newValue) || isReadonly(newValue);
+      const useDirectValue =
+        this["__v_isShallow"] || isShallow(newValue) || isReadonly(newValue);
       newValue = useDirectValue ? newValue : toRaw(newValue);
       if (hasChanged(newValue, oldValue)) {
         this._rawValue = newValue;
@@ -1543,7 +1673,7 @@
             type: "set",
             key: "value",
             newValue,
-            oldValue
+            oldValue,
           });
         } else {
           this.dep.trigger();
@@ -1555,7 +1685,8 @@
     return isRef(ref2) ? ref2.value : ref2;
   }
   const shallowUnwrapHandlers = {
-    get: (target, key, receiver) => key === "__v_raw" ? target : unref(Reflect.get(target, key, receiver)),
+    get: (target, key, receiver) =>
+      key === "__v_raw" ? target : unref(Reflect.get(target, key, receiver)),
     set: (target, key, value, receiver) => {
       const oldValue = target[key];
       if (isRef(oldValue) && !isRef(value)) {
@@ -1564,10 +1695,12 @@
       } else {
         return Reflect.set(target, key, value, receiver);
       }
-    }
+    },
   };
   function proxyRefs(objectWithRefs) {
-    return isReactive(objectWithRefs) ? objectWithRefs : new Proxy(objectWithRefs, shallowUnwrapHandlers);
+    return isReactive(objectWithRefs)
+      ? objectWithRefs
+      : new Proxy(objectWithRefs, shallowUnwrapHandlers);
   }
   class ComputedRefImpl {
     constructor(fn, setter, isSSR) {
@@ -1590,18 +1723,22 @@
      */
     notify() {
       this.flags |= 16;
-      if (!(this.flags & 8) && // avoid infinite self recursion
-      activeSub !== this) {
+      if (
+        !(this.flags & 8) && // avoid infinite self recursion
+        activeSub !== this
+      ) {
         batch(this, true);
         return true;
       }
     }
     get value() {
-      const link = !!(define_process_env_default$3.NODE_ENV !== "production") ? this.dep.track({
-        target: this,
-        type: "get",
-        key: "value"
-      }) : this.dep.track();
+      const link = !!(define_process_env_default$3.NODE_ENV !== "production")
+        ? this.dep.track({
+            target: this,
+            type: "get",
+            key: "value",
+          })
+        : this.dep.track();
       refreshComputed(this);
       if (link) {
         link.version = this.dep.version;
@@ -1631,12 +1768,19 @@
   const INITIAL_WATCHER_VALUE = {};
   const cleanupMap = /* @__PURE__ */ new WeakMap();
   let activeWatcher = void 0;
-  function onWatcherCleanup(cleanupFn, failSilently = false, owner = activeWatcher) {
+  function onWatcherCleanup(
+    cleanupFn,
+    failSilently = false,
+    owner = activeWatcher
+  ) {
     if (owner) {
       let cleanups = cleanupMap.get(owner);
-      if (!cleanups) cleanupMap.set(owner, cleanups = []);
+      if (!cleanups) cleanupMap.set(owner, (cleanups = []));
       cleanups.push(cleanupFn);
-    } else if (!!(define_process_env_default$3.NODE_ENV !== "production") && !failSilently) {
+    } else if (
+      !!(define_process_env_default$3.NODE_ENV !== "production") &&
+      !failSilently
+    ) {
       warn$2(
         `onWatcherCleanup() was called when there was no active watcher to associate with.`
       );
@@ -1672,17 +1816,19 @@
     } else if (isArray(source)) {
       isMultiSource = true;
       forceTrigger = source.some((s) => isReactive(s) || isShallow(s));
-      getter = () => source.map((s) => {
-        if (isRef(s)) {
-          return s.value;
-        } else if (isReactive(s)) {
-          return reactiveGetter(s);
-        } else if (isFunction(s)) {
-          return call ? call(s, 2) : s();
-        } else {
-          !!(define_process_env_default$3.NODE_ENV !== "production") && warnInvalidSource(s);
-        }
-      });
+      getter = () =>
+        source.map((s) => {
+          if (isRef(s)) {
+            return s.value;
+          } else if (isReactive(s)) {
+            return reactiveGetter(s);
+          } else if (isFunction(s)) {
+            return call ? call(s, 2) : s();
+          } else {
+            !!(define_process_env_default$3.NODE_ENV !== "production") &&
+              warnInvalidSource(s);
+          }
+        });
     } else if (isFunction(source)) {
       if (cb) {
         getter = call ? () => call(source, 2) : source;
@@ -1699,7 +1845,9 @@
           const currentEffect = activeWatcher;
           activeWatcher = effect2;
           try {
-            return call ? call(source, 3, [boundCleanup]) : source(boundCleanup);
+            return call
+              ? call(source, 3, [boundCleanup])
+              : source(boundCleanup);
           } finally {
             activeWatcher = currentEffect;
           }
@@ -1707,7 +1855,8 @@
       }
     } else {
       getter = NOOP;
-      !!(define_process_env_default$3.NODE_ENV !== "production") && warnInvalidSource(source);
+      !!(define_process_env_default$3.NODE_ENV !== "production") &&
+        warnInvalidSource(source);
     }
     if (cb && deep) {
       const baseGetter = getter;
@@ -1728,14 +1877,22 @@
         watchHandle();
       };
     }
-    let oldValue = isMultiSource ? new Array(source.length).fill(INITIAL_WATCHER_VALUE) : INITIAL_WATCHER_VALUE;
+    let oldValue = isMultiSource
+      ? new Array(source.length).fill(INITIAL_WATCHER_VALUE)
+      : INITIAL_WATCHER_VALUE;
     const job = (immediateFirstRun) => {
-      if (!(effect2.flags & 1) || !effect2.dirty && !immediateFirstRun) {
+      if (!(effect2.flags & 1) || (!effect2.dirty && !immediateFirstRun)) {
         return;
       }
       if (cb) {
         const newValue = effect2.run();
-        if (deep || forceTrigger || (isMultiSource ? newValue.some((v, i) => hasChanged(v, oldValue[i])) : hasChanged(newValue, oldValue))) {
+        if (
+          deep ||
+          forceTrigger ||
+          (isMultiSource
+            ? newValue.some((v, i) => hasChanged(v, oldValue[i]))
+            : hasChanged(newValue, oldValue))
+        ) {
           if (cleanup) {
             cleanup();
           }
@@ -1745,14 +1902,18 @@
             const args = [
               newValue,
               // pass undefined as the old value when it's changed for the first time
-              oldValue === INITIAL_WATCHER_VALUE ? void 0 : isMultiSource && oldValue[0] === INITIAL_WATCHER_VALUE ? [] : oldValue,
-              boundCleanup
+              oldValue === INITIAL_WATCHER_VALUE
+                ? void 0
+                : isMultiSource && oldValue[0] === INITIAL_WATCHER_VALUE
+                ? []
+                : oldValue,
+              boundCleanup,
             ];
             oldValue = newValue;
-            call ? call(cb, 3, args) : (
-              // @ts-expect-error
-              cb(...args)
-            );
+            call
+              ? call(cb, 3, args)
+              : // @ts-expect-error
+                cb(...args);
           } finally {
             activeWatcher = currentWatcher;
           }
@@ -1847,29 +2008,37 @@
     const appWarnHandler = instance && instance.appContext.config.warnHandler;
     const trace = getComponentTrace();
     if (appWarnHandler) {
-      callWithErrorHandling(
-        appWarnHandler,
-        instance,
-        11,
-        [
-          // eslint-disable-next-line no-restricted-syntax
-          msg + args.map((a) => {
-            var _a, _b;
-            return (_b = (_a = a.toString) == null ? void 0 : _a.call(a)) != null ? _b : JSON.stringify(a);
-          }).join(""),
-          instance && instance.proxy,
-          trace.map(
+      callWithErrorHandling(appWarnHandler, instance, 11, [
+        // eslint-disable-next-line no-restricted-syntax
+        msg +
+          args
+            .map((a) => {
+              var _a, _b;
+              return (_b = (_a = a.toString) == null ? void 0 : _a.call(a)) !=
+                null
+                ? _b
+                : JSON.stringify(a);
+            })
+            .join(""),
+        instance && instance.proxy,
+        trace
+          .map(
             ({ vnode }) => `at <${formatComponentName(instance, vnode.type)}>`
-          ).join("\n"),
-          trace
-        ]
-      );
+          )
+          .join("\n"),
+        trace,
+      ]);
     } else {
       const warnArgs = [`[Vue warn]: ${msg}`, ...args];
-      if (trace.length && // avoid spamming console during tests
-      true) {
-        warnArgs.push(`
-`, ...formatTrace(trace));
+      if (
+        trace.length && // avoid spamming console during tests
+        true
+      ) {
+        warnArgs.push(
+          `
+`,
+          ...formatTrace(trace)
+        );
       }
       console.warn(...warnArgs);
     }
@@ -1889,10 +2058,11 @@
       } else {
         normalizedStack.push({
           vnode: currentVNode,
-          recurseCount: 0
+          recurseCount: 0,
         });
       }
-      const parentInstance = currentVNode.component && currentVNode.component.parent;
+      const parentInstance =
+        currentVNode.component && currentVNode.component.parent;
       currentVNode = parentInstance && parentInstance.vnode;
     }
     return normalizedStack;
@@ -1900,13 +2070,21 @@
   function formatTrace(trace) {
     const logs = [];
     trace.forEach((entry, i) => {
-      logs.push(...i === 0 ? [] : [`
-`], ...formatTraceEntry(entry));
+      logs.push(
+        ...(i === 0
+          ? []
+          : [
+              `
+`,
+            ]),
+        ...formatTraceEntry(entry)
+      );
     });
     return logs;
   }
   function formatTraceEntry({ vnode, recurseCount }) {
-    const postfix = recurseCount > 0 ? `... (${recurseCount} recursive calls)` : ``;
+    const postfix =
+      recurseCount > 0 ? `... (${recurseCount} recursive calls)` : ``;
     const isRoot = vnode.component ? vnode.component.parent == null : false;
     const open = ` at <${formatComponentName(
       vnode.component,
@@ -1914,7 +2092,9 @@
       isRoot
     )}`;
     const close = `>` + postfix;
-    return vnode.props ? [open, ...formatProps(vnode.props), close] : [open + close];
+    return vnode.props
+      ? [open, ...formatProps(vnode.props), close]
+      : [open + close];
   }
   function formatProps(props) {
     const res = [];
@@ -1931,7 +2111,11 @@
     if (isString(value)) {
       value = JSON.stringify(value);
       return raw ? value : [`${key}=${value}`];
-    } else if (typeof value === "number" || typeof value === "boolean" || value == null) {
+    } else if (
+      typeof value === "number" ||
+      typeof value === "boolean" ||
+      value == null
+    ) {
       return raw ? value : [`${key}=${value}`];
     } else if (isRef(value)) {
       value = formatProp(key, toRaw(value.value), true);
@@ -1974,7 +2158,7 @@
     [13]: "async component loader",
     [14]: "scheduler flush",
     [15]: "component update",
-    [16]: "app unmount cleanup function"
+    [16]: "app unmount cleanup function",
   };
   function callWithErrorHandling(fn, instance, type, args) {
     try {
@@ -2007,16 +2191,23 @@
   }
   function handleError(err, instance, type, throwInDev = true) {
     const contextVNode = instance ? instance.vnode : null;
-    const { errorHandler, throwUnhandledErrorInProduction } = instance && instance.appContext.config || EMPTY_OBJ;
+    const { errorHandler, throwUnhandledErrorInProduction } =
+      (instance && instance.appContext.config) || EMPTY_OBJ;
     if (instance) {
       let cur = instance.parent;
       const exposedInstance = instance.proxy;
-      const errorInfo = !!(define_process_env_default$2.NODE_ENV !== "production") ? ErrorTypeStrings$1[type] : `https://vuejs.org/error-reference/#runtime-${type}`;
+      const errorInfo = !!(
+        define_process_env_default$2.NODE_ENV !== "production"
+      )
+        ? ErrorTypeStrings$1[type]
+        : `https://vuejs.org/error-reference/#runtime-${type}`;
       while (cur) {
         const errorCapturedHooks = cur.ec;
         if (errorCapturedHooks) {
           for (let i = 0; i < errorCapturedHooks.length; i++) {
-            if (errorCapturedHooks[i](err, exposedInstance, errorInfo) === false) {
+            if (
+              errorCapturedHooks[i](err, exposedInstance, errorInfo) === false
+            ) {
               return;
             }
           }
@@ -2028,15 +2219,27 @@
         callWithErrorHandling(errorHandler, null, 10, [
           err,
           exposedInstance,
-          errorInfo
+          errorInfo,
         ]);
         resetTracking();
         return;
       }
     }
-    logError(err, type, contextVNode, throwInDev, throwUnhandledErrorInProduction);
+    logError(
+      err,
+      type,
+      contextVNode,
+      throwInDev,
+      throwUnhandledErrorInProduction
+    );
   }
-  function logError(err, type, contextVNode, throwInDev = true, throwInProd = false) {
+  function logError(
+    err,
+    type,
+    contextVNode,
+    throwInDev = true,
+    throwInProd = false
+  ) {
     if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       const info = ErrorTypeStrings$1[type];
       if (contextVNode) {
@@ -2073,10 +2276,10 @@
     let start = flushIndex + 1;
     let end = queue.length;
     while (start < end) {
-      const middle = start + end >>> 1;
+      const middle = (start + end) >>> 1;
       const middleJob = queue[middle];
       const middleJobId = getId(middleJob);
-      if (middleJobId < id || middleJobId === id && middleJob.flags & 2) {
+      if (middleJobId < id || (middleJobId === id && middleJob.flags & 2)) {
         start = middle + 1;
       } else {
         end = middle;
@@ -2088,8 +2291,10 @@
     if (!(job.flags & 1)) {
       const jobId = getId(job);
       const lastJob = queue[queue.length - 1];
-      if (!lastJob || // fast path when the job id is larger than the tail
-      !(job.flags & 2) && jobId >= getId(lastJob)) {
+      if (
+        !lastJob || // fast path when the job id is larger than the tail
+        (!(job.flags & 2) && jobId >= getId(lastJob))
+      ) {
         queue.push(job);
       } else {
         queue.splice(findInsertionIndex(jobId), 0, job);
@@ -2126,7 +2331,10 @@
         if (instance && cb.id !== instance.uid) {
           continue;
         }
-        if (!!(define_process_env_default$2.NODE_ENV !== "production") && checkRecursiveUpdates(seen, cb)) {
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          checkRecursiveUpdates(seen, cb)
+        ) {
           continue;
         }
         queue.splice(i, 1);
@@ -2155,9 +2363,16 @@
       if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         seen = seen || /* @__PURE__ */ new Map();
       }
-      for (postFlushIndex = 0; postFlushIndex < activePostFlushCbs.length; postFlushIndex++) {
+      for (
+        postFlushIndex = 0;
+        postFlushIndex < activePostFlushCbs.length;
+        postFlushIndex++
+      ) {
         const cb = activePostFlushCbs[postFlushIndex];
-        if (!!(define_process_env_default$2.NODE_ENV !== "production") && checkRecursiveUpdates(seen, cb)) {
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          checkRecursiveUpdates(seen, cb)
+        ) {
           continue;
         }
         if (cb.flags & 4) {
@@ -2170,27 +2385,29 @@
       postFlushIndex = 0;
     }
   }
-  const getId = (job) => job.id == null ? job.flags & 2 ? -1 : Infinity : job.id;
+  const getId = (job) =>
+    job.id == null ? (job.flags & 2 ? -1 : Infinity) : job.id;
   function flushJobs(seen) {
     if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       seen = seen || /* @__PURE__ */ new Map();
     }
-    const check = !!(define_process_env_default$2.NODE_ENV !== "production") ? (job) => checkRecursiveUpdates(seen, job) : NOOP;
+    const check = !!(define_process_env_default$2.NODE_ENV !== "production")
+      ? (job) => checkRecursiveUpdates(seen, job)
+      : NOOP;
     try {
       for (flushIndex = 0; flushIndex < queue.length; flushIndex++) {
         const job = queue[flushIndex];
         if (job && !(job.flags & 8)) {
-          if (!!(define_process_env_default$2.NODE_ENV !== "production") && check(job)) {
+          if (
+            !!(define_process_env_default$2.NODE_ENV !== "production") &&
+            check(job)
+          ) {
             continue;
           }
           if (job.flags & 4) {
             job.flags &= ~1;
           }
-          callWithErrorHandling(
-            job,
-            job.i,
-            job.i ? 15 : 14
-          );
+          callWithErrorHandling(job, job.i, job.i ? 15 : 14);
           if (!(job.flags & 4)) {
             job.flags &= ~1;
           }
@@ -2218,7 +2435,9 @@
       const instance = fn.i;
       const componentName = instance && getComponentName(instance.type);
       handleError(
-        `Maximum recursive updates exceeded${componentName ? ` in component <${componentName}>` : ``}. This means you have a reactive effect that is mutating its own dependencies and thus recursively triggering itself. Possible sources include component template, render function, updated hook or watcher source function.`,
+        `Maximum recursive updates exceeded${
+          componentName ? ` in component <${componentName}>` : ``
+        }. This means you have a reactive effect that is mutating its own dependencies and thus recursively triggering itself. Possible sources include component template, render function, updated hook or watcher source function.`,
         null,
         10
       );
@@ -2233,7 +2452,7 @@
     getGlobalThis().__VUE_HMR_RUNTIME__ = {
       createRecord: tryWrap(createRecord),
       rerender: tryWrap(rerender),
-      reload: tryWrap(reload)
+      reload: tryWrap(reload),
     };
   }
   const map = /* @__PURE__ */ new Map();
@@ -2255,7 +2474,7 @@
     }
     map.set(id, {
       initialDef: normalizeClassComponent(initialDef),
-      instances: /* @__PURE__ */ new Set()
+      instances: /* @__PURE__ */ new Set(),
     });
     return true;
   }
@@ -2293,7 +2512,10 @@
         if (oldComp !== record.initialDef) {
           updateComponentDef(oldComp, newComp);
         }
-        hmrDirtyComponents.set(oldComp, dirtyInstances = /* @__PURE__ */ new Set());
+        hmrDirtyComponents.set(
+          oldComp,
+          (dirtyInstances = /* @__PURE__ */ new Set())
+        );
       }
       dirtyInstances.add(instance);
       instance.appContext.propsCache.delete(instance.type);
@@ -2371,9 +2593,12 @@
       typeof window !== "undefined" && // some envs mock window but not fully
       window.HTMLElement && // also exclude jsdom
       // eslint-disable-next-line no-restricted-syntax
-      !((_b = (_a = window.navigator) == null ? void 0 : _a.userAgent) == null ? void 0 : _b.includes("jsdom"))
+      !((_b = (_a = window.navigator) == null ? void 0 : _a.userAgent) == null
+        ? void 0
+        : _b.includes("jsdom"))
     ) {
-      const replay = target.__VUE_DEVTOOLS_HOOK_REPLAY__ = target.__VUE_DEVTOOLS_HOOK_REPLAY__ || [];
+      const replay = (target.__VUE_DEVTOOLS_HOOK_REPLAY__ =
+        target.__VUE_DEVTOOLS_HOOK_REPLAY__ || []);
       replay.push((newHook) => {
         setDevtoolsHook$1(newHook, target);
       });
@@ -2394,7 +2619,7 @@
       Fragment,
       Text,
       Comment,
-      Static
+      Static,
     });
   }
   function devtoolsUnmountApp(app) {
@@ -2413,8 +2638,11 @@
     /* COMPONENT_REMOVED */
   );
   const devtoolsComponentRemoved = (component) => {
-    if (devtools$1 && typeof devtools$1.cleanupBuffer === "function" && // remove the component if it wasn't buffered
-    !devtools$1.cleanupBuffer(component)) {
+    if (
+      devtools$1 &&
+      typeof devtools$1.cleanupBuffer === "function" && // remove the component if it wasn't buffered
+      !devtools$1.cleanupBuffer(component)
+    ) {
       _devtoolsComponentRemoved(component);
     }
   };
@@ -2441,7 +2669,14 @@
   );
   function createDevtoolsPerformanceHook(hook) {
     return (component, type, time) => {
-      emit$1(hook, component.appContext.app, component.uid, component, type, time);
+      emit$1(
+        hook,
+        component.appContext.app,
+        component.uid,
+        component,
+        type,
+        time
+      );
     };
   }
   function devtoolsComponentEmit(component, event, params) {
@@ -2458,7 +2693,7 @@
   function setCurrentRenderingInstance(instance) {
     const prev = currentRenderingInstance;
     currentRenderingInstance = instance;
-    currentScopeId = instance && instance.type.__scopeId || null;
+    currentScopeId = (instance && instance.type.__scopeId) || null;
     return prev;
   }
   function withCtx(fn, ctx = currentRenderingInstance, isNonScopedSlot) {
@@ -2492,7 +2727,9 @@
   }
   function validateDirectiveName(name) {
     if (isBuiltInDirective(name)) {
-      warn$1("Do not use built-in directive ids as custom directive id: " + name);
+      warn$1(
+        "Do not use built-in directive ids as custom directive id: " + name
+      );
     }
   }
   function invokeDirectiveHook(vnode, prevVNode, instance, name) {
@@ -2510,7 +2747,7 @@
           vnode.el,
           binding,
           vnode,
-          prevVNode
+          prevVNode,
         ]);
         resetTracking();
       }
@@ -2535,8 +2772,8 @@
   const knownTemplateRefs = /* @__PURE__ */ new WeakSet();
   function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount = false) {
     if (isArray(rawRef)) {
-      rawRef.forEach(
-        (r, i) => setRef(
+      rawRef.forEach((r, i) =>
+        setRef(
           r,
           oldRawRef && (isArray(oldRawRef) ? oldRawRef[i] : oldRawRef),
           parentSuspense,
@@ -2547,12 +2784,19 @@
       return;
     }
     if (isAsyncWrapper(vnode) && !isUnmount) {
-      if (vnode.shapeFlag & 512 && vnode.type.__asyncResolved && vnode.component.subTree.component) {
+      if (
+        vnode.shapeFlag & 512 &&
+        vnode.type.__asyncResolved &&
+        vnode.component.subTree.component
+      ) {
         setRef(rawRef, oldRawRef, parentSuspense, vnode.component.subTree);
       }
       return;
     }
-    const refValue = vnode.shapeFlag & 4 ? getComponentPublicInstance(vnode.component) : vnode.el;
+    const refValue =
+      vnode.shapeFlag & 4
+        ? getComponentPublicInstance(vnode.component)
+        : vnode.el;
     const value = isUnmount ? null : refValue;
     const { i: owner, r: ref3 } = rawRef;
     if (!!(define_process_env_default$2.NODE_ENV !== "production") && !owner) {
@@ -2562,22 +2806,25 @@
       return;
     }
     const oldRef = oldRawRef && oldRawRef.r;
-    const refs = owner.refs === EMPTY_OBJ ? owner.refs = {} : owner.refs;
+    const refs = owner.refs === EMPTY_OBJ ? (owner.refs = {}) : owner.refs;
     const setupState = owner.setupState;
     const rawSetupState = toRaw(setupState);
-    const canSetSetupRef = setupState === EMPTY_OBJ ? () => false : (key) => {
-      if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
-        if (hasOwn(rawSetupState, key) && !isRef(rawSetupState[key])) {
-          warn$1(
-            `Template ref "${key}" used on a non-ref value. It will not work in the production build.`
-          );
-        }
-        if (knownTemplateRefs.has(rawSetupState[key])) {
-          return false;
-        }
-      }
-      return hasOwn(rawSetupState, key);
-    };
+    const canSetSetupRef =
+      setupState === EMPTY_OBJ
+        ? () => false
+        : (key) => {
+            if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
+              if (hasOwn(rawSetupState, key) && !isRef(rawSetupState[key])) {
+                warn$1(
+                  `Template ref "${key}" used on a non-ref value. It will not work in the production build.`
+                );
+              }
+              if (knownTemplateRefs.has(rawSetupState[key])) {
+                return false;
+              }
+            }
+            return hasOwn(rawSetupState, key);
+          };
     if (oldRef != null && oldRef !== ref3) {
       if (isString(oldRef)) {
         refs[oldRef] = null;
@@ -2596,7 +2843,11 @@
       if (_isString || _isRef) {
         const doSet = () => {
           if (rawRef.f) {
-            const existing = _isString ? canSetSetupRef(ref3) ? setupState[ref3] : refs[ref3] : ref3.value;
+            const existing = _isString
+              ? canSetSetupRef(ref3)
+                ? setupState[ref3]
+                : refs[ref3]
+              : ref3.value;
             if (isUnmount) {
               isArray(existing) && remove(existing, refValue);
             } else {
@@ -2622,7 +2873,9 @@
           } else if (_isRef) {
             ref3.value = value;
             if (rawRef.k) refs[rawRef.k] = value;
-          } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
+          } else if (
+            !!(define_process_env_default$2.NODE_ENV !== "production")
+          ) {
             warn$1("Invalid template ref type:", ref3, `(${typeof ref3})`);
           }
         };
@@ -2648,16 +2901,18 @@
     registerKeepAliveHook(hook, "da", target);
   }
   function registerKeepAliveHook(hook, type, target = currentInstance) {
-    const wrappedHook = hook.__wdc || (hook.__wdc = () => {
-      let current = target;
-      while (current) {
-        if (current.isDeactivated) {
-          return;
+    const wrappedHook =
+      hook.__wdc ||
+      (hook.__wdc = () => {
+        let current = target;
+        while (current) {
+          if (current.isDeactivated) {
+            return;
+          }
+          current = current.parent;
         }
-        current = current.parent;
-      }
-      return hook();
-    });
+        return hook();
+      });
     injectHook(type, wrappedHook, target);
     if (target) {
       let current = target.parent;
@@ -2684,14 +2939,16 @@
   function injectHook(type, hook, target = currentInstance, prepend = false) {
     if (target) {
       const hooks = target[type] || (target[type] = []);
-      const wrappedHook = hook.__weh || (hook.__weh = (...args) => {
-        pauseTracking();
-        const reset = setCurrentInstance(target);
-        const res = callWithAsyncErrorHandling(hook, target, type, args);
-        reset();
-        resetTracking();
-        return res;
-      });
+      const wrappedHook =
+        hook.__weh ||
+        (hook.__weh = (...args) => {
+          pauseTracking();
+          const reset = setCurrentInstance(target);
+          const res = callWithAsyncErrorHandling(hook, target, type, args);
+          reset();
+          resetTracking();
+          return res;
+        });
       if (prepend) {
         hooks.unshift(wrappedHook);
       } else {
@@ -2699,30 +2956,28 @@
       }
       return wrappedHook;
     } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
-      const apiName = toHandlerKey(ErrorTypeStrings$1[type].replace(/ hook$/, ""));
+      const apiName = toHandlerKey(
+        ErrorTypeStrings$1[type].replace(/ hook$/, "")
+      );
       warn$1(
         `${apiName} is called when there is no active component instance to be associated with. Lifecycle injection APIs can only be used during execution of setup(). If you are using async setup(), make sure to register lifecycle hooks before the first await statement.`
       );
     }
   }
-  const createHook = (lifecycle) => (hook, target = currentInstance) => {
-    if (!isInSSRComponentSetup || lifecycle === "sp") {
-      injectHook(lifecycle, (...args) => hook(...args), target);
-    }
-  };
+  const createHook =
+    (lifecycle) =>
+    (hook, target = currentInstance) => {
+      if (!isInSSRComponentSetup || lifecycle === "sp") {
+        injectHook(lifecycle, (...args) => hook(...args), target);
+      }
+    };
   const onBeforeMount = createHook("bm");
   const onMounted = createHook("m");
-  const onBeforeUpdate = createHook(
-    "bu"
-  );
+  const onBeforeUpdate = createHook("bu");
   const onUpdated = createHook("u");
-  const onBeforeUnmount = createHook(
-    "bum"
-  );
+  const onBeforeUnmount = createHook("bum");
   const onUnmounted = createHook("um");
-  const onServerPrefetch = createHook(
-    "sp"
-  );
+  const onServerPrefetch = createHook("sp");
   const onRenderTriggered = createHook("rtg");
   const onRenderTracked = createHook("rtc");
   function onErrorCaptured(hook, target = currentInstance) {
@@ -2734,38 +2989,56 @@
     if (isStatefulComponent(i)) return getComponentPublicInstance(i);
     return getPublicInstance(i.parent);
   };
-  const publicPropertiesMap = (
+  const publicPropertiesMap =
     // Move PURE marker to new line to workaround compiler discarding it
     // due to type annotation
     /* @__PURE__ */ extend(/* @__PURE__ */ Object.create(null), {
       $: (i) => i,
       $el: (i) => i.vnode.el,
       $data: (i) => i.data,
-      $props: (i) => !!(define_process_env_default$2.NODE_ENV !== "production") ? shallowReadonly(i.props) : i.props,
-      $attrs: (i) => !!(define_process_env_default$2.NODE_ENV !== "production") ? shallowReadonly(i.attrs) : i.attrs,
-      $slots: (i) => !!(define_process_env_default$2.NODE_ENV !== "production") ? shallowReadonly(i.slots) : i.slots,
-      $refs: (i) => !!(define_process_env_default$2.NODE_ENV !== "production") ? shallowReadonly(i.refs) : i.refs,
+      $props: (i) =>
+        !!(define_process_env_default$2.NODE_ENV !== "production")
+          ? shallowReadonly(i.props)
+          : i.props,
+      $attrs: (i) =>
+        !!(define_process_env_default$2.NODE_ENV !== "production")
+          ? shallowReadonly(i.attrs)
+          : i.attrs,
+      $slots: (i) =>
+        !!(define_process_env_default$2.NODE_ENV !== "production")
+          ? shallowReadonly(i.slots)
+          : i.slots,
+      $refs: (i) =>
+        !!(define_process_env_default$2.NODE_ENV !== "production")
+          ? shallowReadonly(i.refs)
+          : i.refs,
       $parent: (i) => getPublicInstance(i.parent),
       $root: (i) => getPublicInstance(i.root),
       $host: (i) => i.ce,
       $emit: (i) => i.emit,
       $options: (i) => resolveMergedOptions(i),
-      $forceUpdate: (i) => i.f || (i.f = () => {
-        queueJob(i.update);
-      }),
+      $forceUpdate: (i) =>
+        i.f ||
+        (i.f = () => {
+          queueJob(i.update);
+        }),
       $nextTick: (i) => i.n || (i.n = nextTick.bind(i.proxy)),
-      $watch: (i) => instanceWatch.bind(i)
-    })
-  );
+      $watch: (i) => instanceWatch.bind(i),
+    });
   const isReservedPrefix = (key) => key === "_" || key === "$";
-  const hasSetupBinding = (state, key) => state !== EMPTY_OBJ && !state.__isScriptSetup && hasOwn(state, key);
+  const hasSetupBinding = (state, key) =>
+    state !== EMPTY_OBJ && !state.__isScriptSetup && hasOwn(state, key);
   const PublicInstanceProxyHandlers = {
     get({ _: instance }, key) {
       if (key === "__v_skip") {
         return true;
       }
-      const { ctx, setupState, data, props, accessCache, type, appContext } = instance;
-      if (!!(define_process_env_default$2.NODE_ENV !== "production") && key === "__isVue") {
+      const { ctx, setupState, data, props, accessCache, type, appContext } =
+        instance;
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        key === "__isVue"
+      ) {
         return true;
       }
       let normalizedProps;
@@ -2791,7 +3064,8 @@
         } else if (
           // only cache other properties when instance has declared (thus stable)
           // props
-          (normalizedProps = instance.propsOptions[0]) && hasOwn(normalizedProps, key)
+          (normalizedProps = instance.propsOptions[0]) &&
+          hasOwn(normalizedProps, key)
         ) {
           accessCache[key] = 3;
           return props[key];
@@ -2807,14 +3081,19 @@
       if (publicGetter) {
         if (key === "$attrs") {
           track(instance.attrs, "get", "");
-          !!(define_process_env_default$2.NODE_ENV !== "production") && markAttrsAccessed();
-        } else if (!!(define_process_env_default$2.NODE_ENV !== "production") && key === "$slots") {
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+            markAttrsAccessed();
+        } else if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          key === "$slots"
+        ) {
           track(instance, "get", key);
         }
         return publicGetter(instance);
       } else if (
         // css module (injected by vue-loader)
-        (cssModule = type.__cssModules) && (cssModule = cssModule[key])
+        (cssModule = type.__cssModules) &&
+        (cssModule = cssModule[key])
       ) {
         return cssModule;
       } else if (ctx !== EMPTY_OBJ && hasOwn(ctx, key)) {
@@ -2822,15 +3101,24 @@
         return ctx[key];
       } else if (
         // global properties
-        globalProperties = appContext.config.globalProperties, hasOwn(globalProperties, key)
+        ((globalProperties = appContext.config.globalProperties),
+        hasOwn(globalProperties, key))
       ) {
         {
           return globalProperties[key];
         }
-      } else if (!!(define_process_env_default$2.NODE_ENV !== "production") && currentRenderingInstance && (!isString(key) || // #1091 avoid internal isRef/isVNode checks on component instance leading
-      // to infinite warning loop
-      key.indexOf("__v") !== 0)) {
-        if (data !== EMPTY_OBJ && isReservedPrefix(key[0]) && hasOwn(data, key)) {
+      } else if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        currentRenderingInstance &&
+        (!isString(key) || // #1091 avoid internal isRef/isVNode checks on component instance leading
+          // to infinite warning loop
+          key.indexOf("__v") !== 0)
+      ) {
+        if (
+          data !== EMPTY_OBJ &&
+          isReservedPrefix(key[0]) &&
+          hasOwn(data, key)
+        ) {
           warn$1(
             `Property ${JSON.stringify(
               key
@@ -2838,7 +3126,9 @@
           );
         } else if (instance === currentRenderingInstance) {
           warn$1(
-            `Property ${JSON.stringify(key)} was accessed during render but is not defined on instance.`
+            `Property ${JSON.stringify(
+              key
+            )} was accessed during render but is not defined on instance.`
           );
         }
       }
@@ -2848,27 +3138,38 @@
       if (hasSetupBinding(setupState, key)) {
         setupState[key] = value;
         return true;
-      } else if (!!(define_process_env_default$2.NODE_ENV !== "production") && setupState.__isScriptSetup && hasOwn(setupState, key)) {
-        warn$1(`Cannot mutate <script setup> binding "${key}" from Options API.`);
+      } else if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        setupState.__isScriptSetup &&
+        hasOwn(setupState, key)
+      ) {
+        warn$1(
+          `Cannot mutate <script setup> binding "${key}" from Options API.`
+        );
         return false;
       } else if (data !== EMPTY_OBJ && hasOwn(data, key)) {
         data[key] = value;
         return true;
       } else if (hasOwn(instance.props, key)) {
-        !!(define_process_env_default$2.NODE_ENV !== "production") && warn$1(`Attempting to mutate prop "${key}". Props are readonly.`);
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          warn$1(`Attempting to mutate prop "${key}". Props are readonly.`);
         return false;
       }
       if (key[0] === "$" && key.slice(1) in instance) {
-        !!(define_process_env_default$2.NODE_ENV !== "production") && warn$1(
-          `Attempting to mutate public property "${key}". Properties starting with $ are reserved and readonly.`
-        );
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          warn$1(
+            `Attempting to mutate public property "${key}". Properties starting with $ are reserved and readonly.`
+          );
         return false;
       } else {
-        if (!!(define_process_env_default$2.NODE_ENV !== "production") && key in instance.appContext.config.globalProperties) {
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          key in instance.appContext.config.globalProperties
+        ) {
           Object.defineProperty(ctx, key, {
             enumerable: true,
             configurable: true,
-            value
+            value,
           });
         } else {
           ctx[key] = value;
@@ -2876,11 +3177,20 @@
       }
       return true;
     },
-    has({
-      _: { data, setupState, accessCache, ctx, appContext, propsOptions }
-    }, key) {
+    has(
+      { _: { data, setupState, accessCache, ctx, appContext, propsOptions } },
+      key
+    ) {
       let normalizedProps;
-      return !!accessCache[key] || data !== EMPTY_OBJ && hasOwn(data, key) || hasSetupBinding(setupState, key) || (normalizedProps = propsOptions[0]) && hasOwn(normalizedProps, key) || hasOwn(ctx, key) || hasOwn(publicPropertiesMap, key) || hasOwn(appContext.config.globalProperties, key);
+      return (
+        !!accessCache[key] ||
+        (data !== EMPTY_OBJ && hasOwn(data, key)) ||
+        hasSetupBinding(setupState, key) ||
+        ((normalizedProps = propsOptions[0]) && hasOwn(normalizedProps, key)) ||
+        hasOwn(ctx, key) ||
+        hasOwn(publicPropertiesMap, key) ||
+        hasOwn(appContext.config.globalProperties, key)
+      );
     },
     defineProperty(target, key, descriptor) {
       if (descriptor.get != null) {
@@ -2889,7 +3199,7 @@
         this.set(target, key, descriptor.value, null);
       }
       return Reflect.defineProperty(target, key, descriptor);
-    }
+    },
   };
   if (!!(define_process_env_default$2.NODE_ENV !== "production") && true) {
     PublicInstanceProxyHandlers.ownKeys = (target) => {
@@ -2904,7 +3214,7 @@
     Object.defineProperty(target, `_`, {
       configurable: true,
       enumerable: false,
-      get: () => instance
+      get: () => instance,
     });
     Object.keys(publicPropertiesMap).forEach((key) => {
       Object.defineProperty(target, key, {
@@ -2913,7 +3223,7 @@
         get: () => publicPropertiesMap[key](instance),
         // intercepted by the proxy so no need for implementation,
         // but needed to prevent set errors
-        set: NOOP
+        set: NOOP,
       });
     });
     return target;
@@ -2921,7 +3231,7 @@
   function exposePropsOnRenderContext(instance) {
     const {
       ctx,
-      propsOptions: [propsOptions]
+      propsOptions: [propsOptions],
     } = instance;
     if (propsOptions) {
       Object.keys(propsOptions).forEach((key) => {
@@ -2929,7 +3239,7 @@
           enumerable: true,
           configurable: true,
           get: () => instance.props[key],
-          set: NOOP
+          set: NOOP,
         });
       });
     }
@@ -2950,22 +3260,26 @@
           enumerable: true,
           configurable: true,
           get: () => setupState[key],
-          set: NOOP
+          set: NOOP,
         });
       }
     });
   }
   function normalizePropsOrEmits(props) {
-    return isArray(props) ? props.reduce(
-      (normalized, p2) => (normalized[p2] = null, normalized),
-      {}
-    ) : props;
+    return isArray(props)
+      ? props.reduce(
+          (normalized, p2) => ((normalized[p2] = null), normalized),
+          {}
+        )
+      : props;
   }
   function createDuplicateChecker() {
     const cache = /* @__PURE__ */ Object.create(null);
     return (type, key) => {
       if (cache[key]) {
-        warn$1(`${type} property "${key}" is already defined in ${cache[key]}.`);
+        warn$1(
+          `${type} property "${key}" is already defined in ${cache[key]}.`
+        );
       } else {
         cache[key] = type;
       }
@@ -3011,9 +3325,13 @@
       // assets
       components,
       directives,
-      filters
+      filters,
     } = options;
-    const checkDuplicateProperties = !!(define_process_env_default$2.NODE_ENV !== "production") ? createDuplicateChecker() : null;
+    const checkDuplicateProperties = !!(
+      define_process_env_default$2.NODE_ENV !== "production"
+    )
+      ? createDuplicateChecker()
+      : null;
     if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       const [propsOptions] = instance.propsOptions;
       if (propsOptions) {
@@ -3034,7 +3352,7 @@
               value: methodHandler.bind(publicThis),
               configurable: true,
               enumerable: true,
-              writable: true
+              writable: true,
             });
           } else {
             ctx[key] = methodHandler.bind(publicThis);
@@ -3050,19 +3368,26 @@
       }
     }
     if (dataOptions) {
-      if (!!(define_process_env_default$2.NODE_ENV !== "production") && !isFunction(dataOptions)) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        !isFunction(dataOptions)
+      ) {
         warn$1(
           `The data option must be a function. Plain object usage is no longer supported.`
         );
       }
       const data = dataOptions.call(publicThis, publicThis);
-      if (!!(define_process_env_default$2.NODE_ENV !== "production") && isPromise(data)) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        isPromise(data)
+      ) {
         warn$1(
           `data() returned a Promise - note data() cannot be async; If you intend to perform data fetching before component renders, use async setup() + <Suspense>.`
         );
       }
       if (!isObject(data)) {
-        !!(define_process_env_default$2.NODE_ENV !== "production") && warn$1(`data() should return an object.`);
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          warn$1(`data() should return an object.`);
       } else {
         instance.data = reactive(data);
         if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
@@ -3073,7 +3398,7 @@
                 configurable: true,
                 enumerable: true,
                 get: () => data[key],
-                set: NOOP
+                set: NOOP,
               });
             }
           }
@@ -3084,24 +3409,36 @@
     if (computedOptions) {
       for (const key in computedOptions) {
         const opt = computedOptions[key];
-        const get = isFunction(opt) ? opt.bind(publicThis, publicThis) : isFunction(opt.get) ? opt.get.bind(publicThis, publicThis) : NOOP;
-        if (!!(define_process_env_default$2.NODE_ENV !== "production") && get === NOOP) {
+        const get = isFunction(opt)
+          ? opt.bind(publicThis, publicThis)
+          : isFunction(opt.get)
+          ? opt.get.bind(publicThis, publicThis)
+          : NOOP;
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          get === NOOP
+        ) {
           warn$1(`Computed property "${key}" has no getter.`);
         }
-        const set = !isFunction(opt) && isFunction(opt.set) ? opt.set.bind(publicThis) : !!(define_process_env_default$2.NODE_ENV !== "production") ? () => {
-          warn$1(
-            `Write operation failed: computed property "${key}" is readonly.`
-          );
-        } : NOOP;
+        const set =
+          !isFunction(opt) && isFunction(opt.set)
+            ? opt.set.bind(publicThis)
+            : !!(define_process_env_default$2.NODE_ENV !== "production")
+            ? () => {
+                warn$1(
+                  `Write operation failed: computed property "${key}" is readonly.`
+                );
+              }
+            : NOOP;
         const c = computed({
           get,
-          set
+          set,
         });
         Object.defineProperty(ctx, key, {
           enumerable: true,
           configurable: true,
           get: () => c.value,
-          set: (v) => c.value = v
+          set: (v) => (c.value = v),
         });
         if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
           checkDuplicateProperties("Computed", key);
@@ -3114,7 +3451,9 @@
       }
     }
     if (provideOptions) {
-      const provides = isFunction(provideOptions) ? provideOptions.call(publicThis) : provideOptions;
+      const provides = isFunction(provideOptions)
+        ? provideOptions.call(publicThis)
+        : provideOptions;
       Reflect.ownKeys(provides).forEach((key) => {
         provide(key, provides[key]);
       });
@@ -3147,8 +3486,8 @@
         expose.forEach((key) => {
           Object.defineProperty(exposed, key, {
             get: () => publicThis[key],
-            set: (val) => publicThis[key] = val,
-            enumerable: true
+            set: (val) => (publicThis[key] = val),
+            enumerable: true,
           });
         });
       } else if (!instance.exposed) {
@@ -3167,7 +3506,11 @@
       markAsyncBoundary(instance);
     }
   }
-  function resolveInjections(injectOptions, ctx, checkDuplicateProperties = NOOP) {
+  function resolveInjections(
+    injectOptions,
+    ctx,
+    checkDuplicateProperties = NOOP
+  ) {
     if (isArray(injectOptions)) {
       injectOptions = normalizeInject(injectOptions);
     }
@@ -3176,11 +3519,7 @@
       let injected;
       if (isObject(opt)) {
         if ("default" in opt) {
-          injected = inject(
-            opt.from || key,
-            opt.default,
-            true
-          );
+          injected = inject(opt.from || key, opt.default, true);
         } else {
           injected = inject(opt.from || key);
         }
@@ -3192,7 +3531,7 @@
           enumerable: true,
           configurable: true,
           get: () => injected.value,
-          set: (v) => injected.value = v
+          set: (v) => (injected.value = v),
         });
       } else {
         ctx[key] = injected;
@@ -3204,13 +3543,17 @@
   }
   function callHook(hook, instance, type) {
     callWithAsyncErrorHandling(
-      isArray(hook) ? hook.map((h2) => h2.bind(instance.proxy)) : hook.bind(instance.proxy),
+      isArray(hook)
+        ? hook.map((h2) => h2.bind(instance.proxy))
+        : hook.bind(instance.proxy),
       instance,
       type
     );
   }
   function createWatcher(raw, ctx, publicThis, key) {
-    let getter = key.includes(".") ? createPathGetter(publicThis, key) : () => publicThis[key];
+    let getter = key.includes(".")
+      ? createPathGetter(publicThis, key)
+      : () => publicThis[key];
     if (isString(raw)) {
       const handler = ctx[raw];
       if (isFunction(handler)) {
@@ -3228,11 +3571,16 @@
       if (isArray(raw)) {
         raw.forEach((r) => createWatcher(r, ctx, publicThis, key));
       } else {
-        const handler = isFunction(raw.handler) ? raw.handler.bind(publicThis) : ctx[raw.handler];
+        const handler = isFunction(raw.handler)
+          ? raw.handler.bind(publicThis)
+          : ctx[raw.handler];
         if (isFunction(handler)) {
           watch(getter, handler, raw);
         } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
-          warn$1(`Invalid watch handler specified by key "${raw.handler}"`, handler);
+          warn$1(
+            `Invalid watch handler specified by key "${raw.handler}"`,
+            handler
+          );
         }
       }
     } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
@@ -3245,7 +3593,7 @@
     const {
       mixins: globalMixins,
       optionsCache: cache,
-      config: { optionMergeStrategies }
+      config: { optionMergeStrategies },
     } = instance.appContext;
     const cached = cache.get(base);
     let resolved;
@@ -3258,8 +3606,8 @@
     } else {
       resolved = {};
       if (globalMixins.length) {
-        globalMixins.forEach(
-          (m) => mergeOptions(resolved, m, optionMergeStrategies, true)
+        globalMixins.forEach((m) =>
+          mergeOptions(resolved, m, optionMergeStrategies, true)
         );
       }
       mergeOptions(resolved, base, optionMergeStrategies);
@@ -3275,17 +3623,16 @@
       mergeOptions(to, extendsOptions, strats, true);
     }
     if (mixins) {
-      mixins.forEach(
-        (m) => mergeOptions(to, m, strats, true)
-      );
+      mixins.forEach((m) => mergeOptions(to, m, strats, true));
     }
     for (const key in from) {
       if (asMixin && key === "expose") {
-        !!(define_process_env_default$2.NODE_ENV !== "production") && warn$1(
-          `"expose" option is ignored when declared in mixins or extends. It should only be declared in the base component itself.`
-        );
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          warn$1(
+            `"expose" option is ignored when declared in mixins or extends. It should only be declared in the base component itself.`
+          );
       } else {
-        const strat = internalOptionMergeStrats[key] || strats && strats[key];
+        const strat = internalOptionMergeStrats[key] || (strats && strats[key]);
         to[key] = strat ? strat(to[key], from[key]) : from[key];
       }
     }
@@ -3320,7 +3667,7 @@
     watch: mergeWatchOptions,
     // provide / inject
     provide: mergeDataFn,
-    inject: mergeInject
+    inject: mergeInject,
   };
   function mergeDataFn(to, from) {
     if (!from) {
@@ -3388,7 +3735,7 @@
         optionMergeStrategies: {},
         errorHandler: void 0,
         warnHandler: void 0,
-        compilerOptions: {}
+        compilerOptions: {},
       },
       mixins: [],
       components: {},
@@ -3396,7 +3743,7 @@
       provides: /* @__PURE__ */ Object.create(null),
       optionsCache: /* @__PURE__ */ new WeakMap(),
       propsCache: /* @__PURE__ */ new WeakMap(),
-      emitsCache: /* @__PURE__ */ new WeakMap()
+      emitsCache: /* @__PURE__ */ new WeakMap(),
     };
   }
   let uid$1 = 0;
@@ -3406,14 +3753,15 @@
         rootComponent = extend({}, rootComponent);
       }
       if (rootProps != null && !isObject(rootProps)) {
-        !!(define_process_env_default$2.NODE_ENV !== "production") && warn$1(`root props passed to app.mount() must be an object.`);
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          warn$1(`root props passed to app.mount() must be an object.`);
         rootProps = null;
       }
       const context = createAppContext();
       const installedPlugins = /* @__PURE__ */ new WeakSet();
       const pluginCleanupFns = [];
       let isMounted = false;
-      const app = context.app = {
+      const app = (context.app = {
         _uid: uid$1++,
         _component: rootComponent,
         _props: rootProps,
@@ -3433,14 +3781,17 @@
         },
         use(plugin, ...options) {
           if (installedPlugins.has(plugin)) {
-            !!(define_process_env_default$2.NODE_ENV !== "production") && warn$1(`Plugin has already been applied to target app.`);
+            !!(define_process_env_default$2.NODE_ENV !== "production") &&
+              warn$1(`Plugin has already been applied to target app.`);
           } else if (plugin && isFunction(plugin.install)) {
             installedPlugins.add(plugin);
             plugin.install(app, ...options);
           } else if (isFunction(plugin)) {
             installedPlugins.add(plugin);
             plugin(app, ...options);
-          } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
+          } else if (
+            !!(define_process_env_default$2.NODE_ENV !== "production")
+          ) {
             warn$1(
               `A plugin must either be a function or an object with an "install" function.`
             );
@@ -3451,9 +3802,12 @@
           {
             if (!context.mixins.includes(mixin)) {
               context.mixins.push(mixin);
-            } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
+            } else if (
+              !!(define_process_env_default$2.NODE_ENV !== "production")
+            ) {
               warn$1(
-                "Mixin has already been applied to target app" + (mixin.name ? `: ${mixin.name}` : "")
+                "Mixin has already been applied to target app" +
+                  (mixin.name ? `: ${mixin.name}` : "")
               );
             }
           }
@@ -3466,8 +3820,13 @@
           if (!component) {
             return context.components[name];
           }
-          if (!!(define_process_env_default$2.NODE_ENV !== "production") && context.components[name]) {
-            warn$1(`Component "${name}" has already been registered in target app.`);
+          if (
+            !!(define_process_env_default$2.NODE_ENV !== "production") &&
+            context.components[name]
+          ) {
+            warn$1(
+              `Component "${name}" has already been registered in target app.`
+            );
           }
           context.components[name] = component;
           return app;
@@ -3479,15 +3838,23 @@
           if (!directive) {
             return context.directives[name];
           }
-          if (!!(define_process_env_default$2.NODE_ENV !== "production") && context.directives[name]) {
-            warn$1(`Directive "${name}" has already been registered in target app.`);
+          if (
+            !!(define_process_env_default$2.NODE_ENV !== "production") &&
+            context.directives[name]
+          ) {
+            warn$1(
+              `Directive "${name}" has already been registered in target app.`
+            );
           }
           context.directives[name] = directive;
           return app;
         },
         mount(rootContainer, isHydrate, namespace) {
           if (!isMounted) {
-            if (!!(define_process_env_default$2.NODE_ENV !== "production") && rootContainer.__vue_app__) {
+            if (
+              !!(define_process_env_default$2.NODE_ENV !== "production") &&
+              rootContainer.__vue_app__
+            ) {
               warn$1(
                 `There is already an app instance mounted on the host container.
  If you want to mount another app on the same host container, you need to unmount the previous app by calling \`app.unmount()\` first.`
@@ -3513,12 +3880,17 @@
             isMounted = true;
             app._container = rootContainer;
             rootContainer.__vue_app__ = app;
-            if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
+            if (
+              !!(define_process_env_default$2.NODE_ENV !== "production") ||
+              false
+            ) {
               app._instance = vnode.component;
               devtoolsInitApp(app, version);
             }
             return getComponentPublicInstance(vnode.component);
-          } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
+          } else if (
+            !!(define_process_env_default$2.NODE_ENV !== "production")
+          ) {
             warn$1(
               `App has already been mounted.
 If you want to remount the same app, move your app creation logic into a factory function and create fresh app instances for each mount - e.g. \`const createMyApp = () => createApp(App)\``
@@ -3526,7 +3898,10 @@ If you want to remount the same app, move your app creation logic into a factory
           }
         },
         onUnmount(cleanupFn) {
-          if (!!(define_process_env_default$2.NODE_ENV !== "production") && typeof cleanupFn !== "function") {
+          if (
+            !!(define_process_env_default$2.NODE_ENV !== "production") &&
+            typeof cleanupFn !== "function"
+          ) {
             warn$1(
               `Expected function as first argument to app.onUnmount(), but got ${typeof cleanupFn}`
             );
@@ -3535,30 +3910,38 @@ If you want to remount the same app, move your app creation logic into a factory
         },
         unmount() {
           if (isMounted) {
-            callWithAsyncErrorHandling(
-              pluginCleanupFns,
-              app._instance,
-              16
-            );
+            callWithAsyncErrorHandling(pluginCleanupFns, app._instance, 16);
             render(null, app._container);
-            if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
+            if (
+              !!(define_process_env_default$2.NODE_ENV !== "production") ||
+              false
+            ) {
               app._instance = null;
               devtoolsUnmountApp(app);
             }
             delete app._container.__vue_app__;
-          } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
+          } else if (
+            !!(define_process_env_default$2.NODE_ENV !== "production")
+          ) {
             warn$1(`Cannot unmount an app that is not mounted.`);
           }
         },
         provide(key, value) {
-          if (!!(define_process_env_default$2.NODE_ENV !== "production") && key in context.provides) {
+          if (
+            !!(define_process_env_default$2.NODE_ENV !== "production") &&
+            key in context.provides
+          ) {
             if (hasOwn(context.provides, key)) {
               warn$1(
-                `App already provides property with key "${String(key)}". It will be overwritten with the new value.`
+                `App already provides property with key "${String(
+                  key
+                )}". It will be overwritten with the new value.`
               );
             } else {
               warn$1(
-                `App already provides property with key "${String(key)}" inherited from its parent element. It will be overwritten with the new value.`
+                `App already provides property with key "${String(
+                  key
+                )}" inherited from its parent element. It will be overwritten with the new value.`
               );
             }
           }
@@ -3573,8 +3956,8 @@ If you want to remount the same app, move your app creation logic into a factory
           } finally {
             currentApp = lastApp;
           }
-        }
-      };
+        },
+      });
       return app;
     };
   }
@@ -3586,7 +3969,8 @@ If you want to remount the same app, move your app creation logic into a factory
       }
     } else {
       let provides = currentInstance.provides;
-      const parentProvides = currentInstance.parent && currentInstance.parent.provides;
+      const parentProvides =
+        currentInstance.parent && currentInstance.parent.provides;
       if (parentProvides === provides) {
         provides = currentInstance.provides = Object.create(parentProvides);
       }
@@ -3596,21 +3980,32 @@ If you want to remount the same app, move your app creation logic into a factory
   function inject(key, defaultValue, treatDefaultAsFactory = false) {
     const instance = getCurrentInstance();
     if (instance || currentApp) {
-      let provides = currentApp ? currentApp._context.provides : instance ? instance.parent == null || instance.ce ? instance.vnode.appContext && instance.vnode.appContext.provides : instance.parent.provides : void 0;
+      let provides = currentApp
+        ? currentApp._context.provides
+        : instance
+        ? instance.parent == null || instance.ce
+          ? instance.vnode.appContext && instance.vnode.appContext.provides
+          : instance.parent.provides
+        : void 0;
       if (provides && key in provides) {
         return provides[key];
       } else if (arguments.length > 1) {
-        return treatDefaultAsFactory && isFunction(defaultValue) ? defaultValue.call(instance && instance.proxy) : defaultValue;
+        return treatDefaultAsFactory && isFunction(defaultValue)
+          ? defaultValue.call(instance && instance.proxy)
+          : defaultValue;
       } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         warn$1(`injection "${String(key)}" not found.`);
       }
     } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
-      warn$1(`inject() can only be used inside setup() or functional components.`);
+      warn$1(
+        `inject() can only be used inside setup() or functional components.`
+      );
     }
   }
   const internalObjectProto = {};
   const createInternalObject = () => Object.create(internalObjectProto);
-  const isInternalObject = (obj) => Object.getPrototypeOf(obj) === internalObjectProto;
+  const isInternalObject = (obj) =>
+    Object.getPrototypeOf(obj) === internalObjectProto;
   function initProps(instance, rawProps, isStateful, isSSR = false) {
     const props = {};
     const attrs = createInternalObject();
@@ -3645,7 +4040,7 @@ If you want to remount the same app, move your app creation logic into a factory
     const {
       props,
       attrs,
-      vnode: { patchFlag }
+      vnode: { patchFlag },
     } = instance;
     const rawCurrentProps = toRaw(props);
     const [options] = instance.propsOptions;
@@ -3654,7 +4049,12 @@ If you want to remount the same app, move your app creation logic into a factory
       // always force full diff in dev
       // - #1942 if hmr is enabled with sfc component
       // - vite#872 non-sfc component used by sfc component
-      !(!!(define_process_env_default$2.NODE_ENV !== "production") && isInHmrContext(instance)) && (optimized || patchFlag > 0) && !(patchFlag & 16)
+      !(
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        isInHmrContext(instance)
+      ) &&
+      (optimized || patchFlag > 0) &&
+      !(patchFlag & 16)
     ) {
       if (patchFlag & 8) {
         const propsToUpdate = instance.vnode.dynamicProps;
@@ -3695,14 +4095,19 @@ If you want to remount the same app, move your app creation logic into a factory
       }
       let kebabKey;
       for (const key in rawCurrentProps) {
-        if (!rawProps || // for camelCase
-        !hasOwn(rawProps, key) && // it's possible the original props was passed in as kebab-case
-        // and converted to camelCase (#955)
-        ((kebabKey = hyphenate(key)) === key || !hasOwn(rawProps, kebabKey))) {
+        if (
+          !rawProps || // for camelCase
+          (!hasOwn(rawProps, key) && // it's possible the original props was passed in as kebab-case
+            // and converted to camelCase (#955)
+            ((kebabKey = hyphenate(key)) === key ||
+              !hasOwn(rawProps, kebabKey)))
+        ) {
           if (options) {
-            if (rawPrevProps && // for camelCase
-            (rawPrevProps[key] !== void 0 || // for kebab-case
-            rawPrevProps[kebabKey] !== void 0)) {
+            if (
+              rawPrevProps && // for camelCase
+              (rawPrevProps[key] !== void 0 || // for kebab-case
+                rawPrevProps[kebabKey] !== void 0)
+            ) {
               props[key] = resolvePropValue(
                 options,
                 rawCurrentProps,
@@ -3719,7 +4124,7 @@ If you want to remount the same app, move your app creation logic into a factory
       }
       if (attrs !== rawCurrentProps) {
         for (const key in attrs) {
-          if (!rawProps || !hasOwn(rawProps, key) && true) {
+          if (!rawProps || (!hasOwn(rawProps, key) && true)) {
             delete attrs[key];
             hasAttrsChanged = true;
           }
@@ -3744,7 +4149,7 @@ If you want to remount the same app, move your app creation logic into a factory
         }
         const value = rawProps[key];
         let camelKey;
-        if (options && hasOwn(options, camelKey = camelize(key))) {
+        if (options && hasOwn(options, (camelKey = camelize(key)))) {
           if (!needCastKeys || !needCastKeys.includes(camelKey)) {
             props[camelKey] = value;
           } else {
@@ -3781,16 +4186,17 @@ If you want to remount the same app, move your app creation logic into a factory
       const hasDefault = hasOwn(opt, "default");
       if (hasDefault && value === void 0) {
         const defaultValue = opt.default;
-        if (opt.type !== Function && !opt.skipFactory && isFunction(defaultValue)) {
+        if (
+          opt.type !== Function &&
+          !opt.skipFactory &&
+          isFunction(defaultValue)
+        ) {
           const { propsDefaults } = instance;
           if (key in propsDefaults) {
             value = propsDefaults[key];
           } else {
             const reset = setCurrentInstance(instance);
-            value = propsDefaults[key] = defaultValue.call(
-              null,
-              props
-            );
+            value = propsDefaults[key] = defaultValue.call(null, props);
             reset();
           }
         } else {
@@ -3800,16 +4206,17 @@ If you want to remount the same app, move your app creation logic into a factory
           instance.ce._setProp(key, value);
         }
       }
-      if (opt[
-        0
+      if (
+        opt[0]
         /* shouldCast */
-      ]) {
+      ) {
         if (isAbsent && !hasDefault) {
           value = false;
-        } else if (opt[
-          1
+        } else if (
+          opt[1] &&
           /* shouldCastTrue */
-        ] && (value === "" || value === hyphenate(key))) {
+          (value === "" || value === hyphenate(key))
+        ) {
           value = true;
         }
       }
@@ -3852,7 +4259,10 @@ If you want to remount the same app, move your app creation logic into a factory
     }
     if (isArray(raw)) {
       for (let i = 0; i < raw.length; i++) {
-        if (!!(define_process_env_default$2.NODE_ENV !== "production") && !isString(raw[i])) {
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          !isString(raw[i])
+        ) {
           warn$1(`props must be strings when using array syntax.`, raw[i]);
         }
         const normalizedKey = camelize(raw[i]);
@@ -3861,14 +4271,18 @@ If you want to remount the same app, move your app creation logic into a factory
         }
       }
     } else if (raw) {
-      if (!!(define_process_env_default$2.NODE_ENV !== "production") && !isObject(raw)) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        !isObject(raw)
+      ) {
         warn$1(`invalid props options`, raw);
       }
       for (const key in raw) {
         const normalizedKey = camelize(key);
         if (validatePropName(normalizedKey)) {
           const opt = raw[key];
-          const prop = normalized[normalizedKey] = isArray(opt) || isFunction(opt) ? { type: opt } : extend({}, opt);
+          const prop = (normalized[normalizedKey] =
+            isArray(opt) || isFunction(opt) ? { type: opt } : extend({}, opt));
           const propType = prop.type;
           let shouldCast = false;
           let shouldCastTrue = true;
@@ -3886,14 +4300,12 @@ If you want to remount the same app, move your app creation logic into a factory
           } else {
             shouldCast = isFunction(propType) && propType.name === "Boolean";
           }
-          prop[
-            0
-            /* shouldCast */
-          ] = shouldCast;
-          prop[
-            1
-            /* shouldCastTrue */
-          ] = shouldCastTrue;
+          prop[0] =
+          /* shouldCast */
+            shouldCast;
+          prop[1] =
+          /* shouldCastTrue */
+            shouldCastTrue;
           if (shouldCast || hasOwn(prop, "default")) {
             needCastKeys.push(normalizedKey);
           }
@@ -3937,7 +4349,9 @@ If you want to remount the same app, move your app creation logic into a factory
         key,
         resolvedValues[key],
         opt,
-        !!(define_process_env_default$2.NODE_ENV !== "production") ? shallowReadonly(resolvedValues) : resolvedValues,
+        !!(define_process_env_default$2.NODE_ENV !== "production")
+          ? shallowReadonly(resolvedValues)
+          : resolvedValues,
         !camelizePropsKey.includes(key)
       );
     }
@@ -3966,7 +4380,9 @@ If you want to remount the same app, move your app creation logic into a factory
       }
     }
     if (validator && !validator(value, props)) {
-      warn$1('Invalid prop: custom validator check failed for prop "' + name + '".');
+      warn$1(
+        'Invalid prop: custom validator check failed for prop "' + name + '".'
+      );
     }
   }
   const isSimpleType = /* @__PURE__ */ makeMap(
@@ -3992,19 +4408,25 @@ If you want to remount the same app, move your app creation logic into a factory
     }
     return {
       valid,
-      expectedType
+      expectedType,
     };
   }
   function getInvalidTypeMessage(name, value, expectedTypes) {
     if (expectedTypes.length === 0) {
       return `Prop type [] for prop "${name}" won't match anything. Did you mean to use type Array instead?`;
     }
-    let message = `Invalid prop: type check failed for prop "${name}". Expected ${expectedTypes.map(capitalize).join(" | ")}`;
+    let message = `Invalid prop: type check failed for prop "${name}". Expected ${expectedTypes
+      .map(capitalize)
+      .join(" | ")}`;
     const expectedType = expectedTypes[0];
     const receivedType = toRawType(value);
     const expectedValue = styleValue(value, expectedType);
     const receivedValue = styleValue(value, receivedType);
-    if (expectedTypes.length === 1 && isExplicable(expectedType) && !isBoolean(expectedType, receivedType)) {
+    if (
+      expectedTypes.length === 1 &&
+      isExplicable(expectedType) &&
+      !isBoolean(expectedType, receivedType)
+    ) {
       message += ` with value ${expectedValue}`;
     }
     message += `, got ${receivedType} `;
@@ -4029,14 +4451,21 @@ If you want to remount the same app, move your app creation logic into a factory
   function isBoolean(...args) {
     return args.some((elem) => elem.toLowerCase() === "boolean");
   }
-  const isInternalKey = (key) => key === "_" || key === "__" || key === "_ctx" || key === "$stable";
-  const normalizeSlotValue = (value) => isArray(value) ? value.map(normalizeVNode) : [normalizeVNode(value)];
+  const isInternalKey = (key) =>
+    key === "_" || key === "__" || key === "_ctx" || key === "$stable";
+  const normalizeSlotValue = (value) =>
+    isArray(value) ? value.map(normalizeVNode) : [normalizeVNode(value)];
   const normalizeSlot = (key, rawSlot, ctx) => {
     if (rawSlot._n) {
       return rawSlot;
     }
     const normalized = withCtx((...args) => {
-      if (!!(define_process_env_default$2.NODE_ENV !== "production") && currentInstance && !(ctx === null && currentRenderingInstance) && !(ctx && ctx.root !== currentInstance.root)) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        currentInstance &&
+        !(ctx === null && currentRenderingInstance) &&
+        !(ctx && ctx.root !== currentInstance.root)
+      ) {
         warn$1(
           `Slot "${key}" invoked outside of the render function: this will not track dependencies used in the slot. Invoke the slot function inside the render function instead.`
         );
@@ -4054,7 +4483,10 @@ If you want to remount the same app, move your app creation logic into a factory
       if (isFunction(value)) {
         slots[key] = normalizeSlot(key, value, ctx);
       } else if (value != null) {
-        if (!!(define_process_env_default$2.NODE_ENV !== "production") && true) {
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          true
+        ) {
           warn$1(
             `Non-function value encountered for slot "${key}". Prefer function slots for better performance.`
           );
@@ -4065,7 +4497,11 @@ If you want to remount the same app, move your app creation logic into a factory
     }
   };
   const normalizeVNodeSlots = (instance, children) => {
-    if (!!(define_process_env_default$2.NODE_ENV !== "production") && !isKeepAlive(instance.vnode) && true) {
+    if (
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      !isKeepAlive(instance.vnode) &&
+      true
+    ) {
       warn$1(
         `Non-function value encountered for default slot. Prefer function slots for better performance.`
       );
@@ -4081,7 +4517,7 @@ If you want to remount the same app, move your app creation logic into a factory
     }
   };
   const initSlots = (instance, children, optimized) => {
-    const slots = instance.slots = createInternalObject();
+    const slots = (instance.slots = createInternalObject());
     if (instance.vnode.shapeFlag & 32) {
       const cacheIndexes = children.__;
       if (cacheIndexes) def(slots, "__", cacheIndexes, true);
@@ -4105,7 +4541,10 @@ If you want to remount the same app, move your app creation logic into a factory
     if (vnode.shapeFlag & 32) {
       const type = children._;
       if (type) {
-        if (!!(define_process_env_default$2.NODE_ENV !== "production") && isHmrUpdating) {
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          isHmrUpdating
+        ) {
           assignSlots(slots, children, optimized);
           trigger(instance, "set", "$slots");
         } else if (optimized && type === 1) {
@@ -4137,7 +4576,11 @@ If you want to remount the same app, move your app creation logic into a factory
       perf.mark(`vue-${type}-${instance.uid}`);
     }
     if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
-      devtoolsPerfStart(instance, type, isSupported() ? perf.now() : Date.now());
+      devtoolsPerfStart(
+        instance,
+        type,
+        isSupported() ? perf.now() : Date.now()
+      );
     }
   }
   function endMeasure(instance, type) {
@@ -4171,10 +4614,15 @@ If you want to remount the same app, move your app creation logic into a factory
   }
   function initFeatureFlags() {
     const needWarn = [];
-    if (!!(define_process_env_default$2.NODE_ENV !== "production") && needWarn.length) {
+    if (
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      needWarn.length
+    ) {
       const multi = needWarn.length > 1;
       console.warn(
-        `Feature flag${multi ? `s` : ``} ${needWarn.join(", ")} ${multi ? `are` : `is`} not explicitly defined. You are running the esm-bundler build of Vue, which expects these compile-time feature flags to be globally injected via the bundler config in order to get better tree-shaking in the production bundle.
+        `Feature flag${multi ? `s` : ``} ${needWarn.join(", ")} ${
+          multi ? `are` : `is`
+        } not explicitly defined. You are running the esm-bundler build of Vue, which expects these compile-time feature flags to be globally injected via the bundler config in order to get better tree-shaking in the production bundle.
 
 For more details, see https://link.vuejs.org/feature-flags.`
       );
@@ -4205,9 +4653,22 @@ For more details, see https://link.vuejs.org/feature-flags.`
       parentNode: hostParentNode,
       nextSibling: hostNextSibling,
       setScopeId: hostSetScopeId = NOOP,
-      insertStaticContent: hostInsertStaticContent
+      insertStaticContent: hostInsertStaticContent,
     } = options;
-    const patch = (n1, n2, container, anchor = null, parentComponent = null, parentSuspense = null, namespace = void 0, slotScopeIds = null, optimized = !!(define_process_env_default$2.NODE_ENV !== "production") && isHmrUpdating ? false : !!n2.dynamicChildren) => {
+    const patch = (
+      n1,
+      n2,
+      container,
+      anchor = null,
+      parentComponent = null,
+      parentSuspense = null,
+      namespace = void 0,
+      slotScopeIds = null,
+      optimized = !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      isHmrUpdating
+        ? false
+        : !!n2.dynamicChildren
+    ) => {
       if (n1 === n2) {
         return;
       }
@@ -4231,7 +4692,9 @@ For more details, see https://link.vuejs.org/feature-flags.`
         case Static:
           if (n1 == null) {
             mountStaticNode(n2, container, anchor, namespace);
-          } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
+          } else if (
+            !!(define_process_env_default$2.NODE_ENV !== "production")
+          ) {
             patchStaticNode(n1, n2, container, namespace);
           }
           break;
@@ -4299,7 +4762,9 @@ For more details, see https://link.vuejs.org/feature-flags.`
               optimized,
               internals
             );
-          } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
+          } else if (
+            !!(define_process_env_default$2.NODE_ENV !== "production")
+          ) {
             warn$1("Invalid VNode type:", type, `(${typeof type})`);
           }
       }
@@ -4311,13 +4776,9 @@ For more details, see https://link.vuejs.org/feature-flags.`
     };
     const processText = (n1, n2, container, anchor) => {
       if (n1 == null) {
-        hostInsert(
-          n2.el = hostCreateText(n2.children),
-          container,
-          anchor
-        );
+        hostInsert((n2.el = hostCreateText(n2.children)), container, anchor);
       } else {
-        const el = n2.el = n1.el;
+        const el = (n2.el = n1.el);
         if (n2.children !== n1.children) {
           hostSetText(el, n2.children);
         }
@@ -4326,7 +4787,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
     const processCommentNode = (n1, n2, container, anchor) => {
       if (n1 == null) {
         hostInsert(
-          n2.el = hostCreateComment(n2.children || ""),
+          (n2.el = hostCreateComment(n2.children || "")),
           container,
           anchor
         );
@@ -4377,7 +4838,17 @@ For more details, see https://link.vuejs.org/feature-flags.`
       }
       hostRemove(anchor);
     };
-    const processElement = (n1, n2, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) => {
+    const processElement = (
+      n1,
+      n2,
+      container,
+      anchor,
+      parentComponent,
+      parentSuspense,
+      namespace,
+      slotScopeIds,
+      optimized
+    ) => {
       if (n2.type === "svg") {
         namespace = "svg";
       } else if (n2.type === "math") {
@@ -4406,7 +4877,16 @@ For more details, see https://link.vuejs.org/feature-flags.`
         );
       }
     };
-    const mountElement = (vnode, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) => {
+    const mountElement = (
+      vnode,
+      container,
+      anchor,
+      parentComponent,
+      parentSuspense,
+      namespace,
+      slotScopeIds,
+      optimized
+    ) => {
       let el;
       let vnodeHook;
       const { props, shapeFlag, transition, dirs } = vnode;
@@ -4437,13 +4917,20 @@ For more details, see https://link.vuejs.org/feature-flags.`
       if (props) {
         for (const key in props) {
           if (key !== "value" && !isReservedProp(key)) {
-            hostPatchProp(el, key, null, props[key], namespace, parentComponent);
+            hostPatchProp(
+              el,
+              key,
+              null,
+              props[key],
+              namespace,
+              parentComponent
+            );
           }
         }
         if ("value" in props) {
           hostPatchProp(el, "value", null, props.value, namespace);
         }
-        if (vnodeHook = props.onVnodeBeforeMount) {
+        if ((vnodeHook = props.onVnodeBeforeMount)) {
           invokeVNodeHook(vnodeHook, parentComponent, vnode);
         }
       }
@@ -4454,12 +4941,19 @@ For more details, see https://link.vuejs.org/feature-flags.`
       if (dirs) {
         invokeDirectiveHook(vnode, null, parentComponent, "beforeMount");
       }
-      const needCallTransitionHooks = needTransition(parentSuspense, transition);
+      const needCallTransitionHooks = needTransition(
+        parentSuspense,
+        transition
+      );
       if (needCallTransitionHooks) {
         transition.beforeEnter(el);
       }
       hostInsert(el, container, anchor);
-      if ((vnodeHook = props && props.onVnodeMounted) || needCallTransitionHooks || dirs) {
+      if (
+        (vnodeHook = props && props.onVnodeMounted) ||
+        needCallTransitionHooks ||
+        dirs
+      ) {
         queuePostRenderEffect(() => {
           vnodeHook && invokeVNodeHook(vnodeHook, parentComponent, vnode);
           needCallTransitionHooks && transition.enter(el);
@@ -4478,10 +4972,18 @@ For more details, see https://link.vuejs.org/feature-flags.`
       }
       if (parentComponent) {
         let subTree = parentComponent.subTree;
-        if (!!(define_process_env_default$2.NODE_ENV !== "production") && subTree.patchFlag > 0 && subTree.patchFlag & 2048) {
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          subTree.patchFlag > 0 &&
+          subTree.patchFlag & 2048
+        ) {
           subTree = filterSingleRoot(subTree.children) || subTree;
         }
-        if (vnode === subTree || isSuspense(subTree.type) && (subTree.ssContent === vnode || subTree.ssFallback === vnode)) {
+        if (
+          vnode === subTree ||
+          (isSuspense(subTree.type) &&
+            (subTree.ssContent === vnode || subTree.ssFallback === vnode))
+        ) {
           const parentVNode = parentComponent.vnode;
           setScopeId(
             el,
@@ -4493,9 +4995,21 @@ For more details, see https://link.vuejs.org/feature-flags.`
         }
       }
     };
-    const mountChildren = (children, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized, start = 0) => {
+    const mountChildren = (
+      children,
+      container,
+      anchor,
+      parentComponent,
+      parentSuspense,
+      namespace,
+      slotScopeIds,
+      optimized,
+      start = 0
+    ) => {
       for (let i = start; i < children.length; i++) {
-        const child = children[i] = optimized ? cloneIfMounted(children[i]) : normalizeVNode(children[i]);
+        const child = (children[i] = optimized
+          ? cloneIfMounted(children[i])
+          : normalizeVNode(children[i]));
         patch(
           null,
           child,
@@ -4509,8 +5023,16 @@ For more details, see https://link.vuejs.org/feature-flags.`
         );
       }
     };
-    const patchElement = (n1, n2, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) => {
-      const el = n2.el = n1.el;
+    const patchElement = (
+      n1,
+      n2,
+      parentComponent,
+      parentSuspense,
+      namespace,
+      slotScopeIds,
+      optimized
+    ) => {
+      const el = (n2.el = n1.el);
       if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
         el.__vnode = n2;
       }
@@ -4520,19 +5042,25 @@ For more details, see https://link.vuejs.org/feature-flags.`
       const newProps = n2.props || EMPTY_OBJ;
       let vnodeHook;
       parentComponent && toggleRecurse(parentComponent, false);
-      if (vnodeHook = newProps.onVnodeBeforeUpdate) {
+      if ((vnodeHook = newProps.onVnodeBeforeUpdate)) {
         invokeVNodeHook(vnodeHook, parentComponent, n2, n1);
       }
       if (dirs) {
         invokeDirectiveHook(n2, n1, parentComponent, "beforeUpdate");
       }
       parentComponent && toggleRecurse(parentComponent, true);
-      if (!!(define_process_env_default$2.NODE_ENV !== "production") && isHmrUpdating) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        isHmrUpdating
+      ) {
         patchFlag = 0;
         optimized = false;
         dynamicChildren = null;
       }
-      if (oldProps.innerHTML && newProps.innerHTML == null || oldProps.textContent && newProps.textContent == null) {
+      if (
+        (oldProps.innerHTML && newProps.innerHTML == null) ||
+        (oldProps.textContent && newProps.textContent == null)
+      ) {
         hostSetElementText(el, "");
       }
       if (dynamicChildren) {
@@ -4571,7 +5099,13 @@ For more details, see https://link.vuejs.org/feature-flags.`
             }
           }
           if (patchFlag & 4) {
-            hostPatchProp(el, "style", oldProps.style, newProps.style, namespace);
+            hostPatchProp(
+              el,
+              "style",
+              oldProps.style,
+              newProps.style,
+              namespace
+            );
           }
           if (patchFlag & 8) {
             const propsToUpdate = n2.dynamicProps;
@@ -4600,24 +5134,31 @@ For more details, see https://link.vuejs.org/feature-flags.`
         }, parentSuspense);
       }
     };
-    const patchBlockChildren = (oldChildren, newChildren, fallbackContainer, parentComponent, parentSuspense, namespace, slotScopeIds) => {
+    const patchBlockChildren = (
+      oldChildren,
+      newChildren,
+      fallbackContainer,
+      parentComponent,
+      parentSuspense,
+      namespace,
+      slotScopeIds
+    ) => {
       for (let i = 0; i < newChildren.length; i++) {
         const oldVNode = oldChildren[i];
         const newVNode = newChildren[i];
-        const container = (
+        const container =
           // oldVNode may be an errored async setup() component inside Suspense
           // which will not have a mounted element
           oldVNode.el && // - In the case of a Fragment, we need to provide the actual parent
           // of the Fragment itself so it can move its children.
           (oldVNode.type === Fragment || // - In the case of different nodes, there is going to be a replacement
-          // which also requires the correct parent container
-          !isSameVNodeType(oldVNode, newVNode) || // - In the case of a component, it could contain anything.
-          oldVNode.shapeFlag & (6 | 64 | 128)) ? hostParentNode(oldVNode.el) : (
-            // In other cases, the parent container is not actually used so we
-            // just pass the block element here to avoid a DOM parentNode call.
-            fallbackContainer
-          )
-        );
+            // which also requires the correct parent container
+            !isSameVNodeType(oldVNode, newVNode) || // - In the case of a component, it could contain anything.
+            oldVNode.shapeFlag & (6 | 64 | 128))
+            ? hostParentNode(oldVNode.el)
+            : // In other cases, the parent container is not actually used so we
+              // just pass the block element here to avoid a DOM parentNode call.
+              fallbackContainer;
         patch(
           oldVNode,
           newVNode,
@@ -4660,18 +5201,38 @@ For more details, see https://link.vuejs.org/feature-flags.`
         }
       }
     };
-    const processFragment = (n1, n2, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) => {
-      const fragmentStartAnchor = n2.el = n1 ? n1.el : hostCreateText("");
-      const fragmentEndAnchor = n2.anchor = n1 ? n1.anchor : hostCreateText("");
-      let { patchFlag, dynamicChildren, slotScopeIds: fragmentSlotScopeIds } = n2;
-      if (!!(define_process_env_default$2.NODE_ENV !== "production") && // #5523 dev root fragment may inherit directives
-      (isHmrUpdating || patchFlag & 2048)) {
+    const processFragment = (
+      n1,
+      n2,
+      container,
+      anchor,
+      parentComponent,
+      parentSuspense,
+      namespace,
+      slotScopeIds,
+      optimized
+    ) => {
+      const fragmentStartAnchor = (n2.el = n1 ? n1.el : hostCreateText(""));
+      const fragmentEndAnchor = (n2.anchor = n1
+        ? n1.anchor
+        : hostCreateText(""));
+      let {
+        patchFlag,
+        dynamicChildren,
+        slotScopeIds: fragmentSlotScopeIds,
+      } = n2;
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") && // #5523 dev root fragment may inherit directives
+        (isHmrUpdating || patchFlag & 2048)
+      ) {
         patchFlag = 0;
         optimized = false;
         dynamicChildren = null;
       }
       if (fragmentSlotScopeIds) {
-        slotScopeIds = slotScopeIds ? slotScopeIds.concat(fragmentSlotScopeIds) : fragmentSlotScopeIds;
+        slotScopeIds = slotScopeIds
+          ? slotScopeIds.concat(fragmentSlotScopeIds)
+          : fragmentSlotScopeIds;
       }
       if (n1 == null) {
         hostInsert(fragmentStartAnchor, container, anchor);
@@ -4691,9 +5252,13 @@ For more details, see https://link.vuejs.org/feature-flags.`
           optimized
         );
       } else {
-        if (patchFlag > 0 && patchFlag & 64 && dynamicChildren && // #2715 the previous fragment could've been a BAILed one as a result
-        // of renderSlot() with no valid children
-        n1.dynamicChildren) {
+        if (
+          patchFlag > 0 &&
+          patchFlag & 64 &&
+          dynamicChildren && // #2715 the previous fragment could've been a BAILed one as a result
+          // of renderSlot() with no valid children
+          n1.dynamicChildren
+        ) {
           patchBlockChildren(
             n1.dynamicChildren,
             dynamicChildren,
@@ -4710,7 +5275,8 @@ For more details, see https://link.vuejs.org/feature-flags.`
             //  get moved around. Make sure all root level vnodes inherit el.
             // #2134 or if it's a component root, it may also get moved around
             // as the component is being moved.
-            n2.key != null || parentComponent && n2 === parentComponent.subTree
+            n2.key != null ||
+            (parentComponent && n2 === parentComponent.subTree)
           ) {
             traverseStaticChildren(
               n1,
@@ -4734,7 +5300,17 @@ For more details, see https://link.vuejs.org/feature-flags.`
         }
       }
     };
-    const processComponent = (n1, n2, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) => {
+    const processComponent = (
+      n1,
+      n2,
+      container,
+      anchor,
+      parentComponent,
+      parentSuspense,
+      namespace,
+      slotScopeIds,
+      optimized
+    ) => {
       n2.slotScopeIds = slotScopeIds;
       if (n1 == null) {
         if (n2.shapeFlag & 512) {
@@ -4760,13 +5336,24 @@ For more details, see https://link.vuejs.org/feature-flags.`
         updateComponent(n1, n2, optimized);
       }
     };
-    const mountComponent = (initialVNode, container, anchor, parentComponent, parentSuspense, namespace, optimized) => {
-      const instance = initialVNode.component = createComponentInstance(
+    const mountComponent = (
+      initialVNode,
+      container,
+      anchor,
+      parentComponent,
+      parentSuspense,
+      namespace,
+      optimized
+    ) => {
+      const instance = (initialVNode.component = createComponentInstance(
         initialVNode,
         parentComponent,
         parentSuspense
-      );
-      if (!!(define_process_env_default$2.NODE_ENV !== "production") && instance.type.__hmrId) {
+      ));
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        instance.type.__hmrId
+      ) {
         registerHMR(instance);
       }
       if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
@@ -4785,11 +5372,16 @@ For more details, see https://link.vuejs.org/feature-flags.`
           endMeasure(instance, `init`);
         }
       }
-      if (!!(define_process_env_default$2.NODE_ENV !== "production") && isHmrUpdating) initialVNode.el = null;
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        isHmrUpdating
+      )
+        initialVNode.el = null;
       if (instance.asyncDep) {
-        parentSuspense && parentSuspense.registerDep(instance, setupRenderEffect, optimized);
+        parentSuspense &&
+          parentSuspense.registerDep(instance, setupRenderEffect, optimized);
         if (!initialVNode.el) {
-          const placeholder = instance.subTree = createVNode(Comment);
+          const placeholder = (instance.subTree = createVNode(Comment));
           processCommentNode(null, placeholder, container, anchor);
           initialVNode.placeholder = placeholder.el;
         }
@@ -4810,7 +5402,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
       }
     };
     const updateComponent = (n1, n2, optimized) => {
-      const instance = n2.component = n1.component;
+      const instance = (n2.component = n1.component);
       if (shouldUpdateComponent(n1, n2, optimized)) {
         if (instance.asyncDep && !instance.asyncResolved) {
           if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
@@ -4830,7 +5422,15 @@ For more details, see https://link.vuejs.org/feature-flags.`
         instance.vnode = n2;
       }
     };
-    const setupRenderEffect = (instance, initialVNode, container, anchor, parentSuspense, namespace, optimized) => {
+    const setupRenderEffect = (
+      instance,
+      initialVNode,
+      container,
+      anchor,
+      parentSuspense,
+      namespace,
+      optimized
+    ) => {
       const componentUpdateFn = () => {
         if (!instance.isMounted) {
           let vnodeHook;
@@ -4841,19 +5441,24 @@ For more details, see https://link.vuejs.org/feature-flags.`
           if (bm) {
             invokeArrayFns(bm);
           }
-          if (!isAsyncWrapperVNode && (vnodeHook = props && props.onVnodeBeforeMount)) {
+          if (
+            !isAsyncWrapperVNode &&
+            (vnodeHook = props && props.onVnodeBeforeMount)
+          ) {
             invokeVNodeHook(vnodeHook, parent, initialVNode);
           }
           toggleRecurse(instance, true);
           {
-            if (root.ce && // @ts-expect-error _def is private
-            root.ce._def.shadowRoot !== false) {
+            if (
+              root.ce && // @ts-expect-error _def is private
+              root.ce._def.shadowRoot !== false
+            ) {
               root.ce._injectChildStyle(type);
             }
             if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
               startMeasure(instance, `render`);
             }
-            const subTree = instance.subTree = renderComponentRoot(instance);
+            const subTree = (instance.subTree = renderComponentRoot(instance));
             if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
               endMeasure(instance, `render`);
             }
@@ -4877,18 +5482,29 @@ For more details, see https://link.vuejs.org/feature-flags.`
           if (m) {
             queuePostRenderEffect(m, parentSuspense);
           }
-          if (!isAsyncWrapperVNode && (vnodeHook = props && props.onVnodeMounted)) {
+          if (
+            !isAsyncWrapperVNode &&
+            (vnodeHook = props && props.onVnodeMounted)
+          ) {
             const scopedInitialVNode = initialVNode;
             queuePostRenderEffect(
               () => invokeVNodeHook(vnodeHook, parent, scopedInitialVNode),
               parentSuspense
             );
           }
-          if (initialVNode.shapeFlag & 256 || parent && isAsyncWrapper(parent.vnode) && parent.vnode.shapeFlag & 256) {
+          if (
+            initialVNode.shapeFlag & 256 ||
+            (parent &&
+              isAsyncWrapper(parent.vnode) &&
+              parent.vnode.shapeFlag & 256)
+          ) {
             instance.a && queuePostRenderEffect(instance.a, parentSuspense);
           }
           instance.isMounted = true;
-          if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
+          if (
+            !!(define_process_env_default$2.NODE_ENV !== "production") ||
+            false
+          ) {
             devtoolsComponentAdded(instance);
           }
           initialVNode = container = anchor = null;
@@ -4924,7 +5540,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
           if (bu) {
             invokeArrayFns(bu);
           }
-          if (vnodeHook = next.props && next.props.onVnodeBeforeUpdate) {
+          if ((vnodeHook = next.props && next.props.onVnodeBeforeUpdate)) {
             invokeVNodeHook(vnodeHook, parent, next, vnode);
           }
           toggleRecurse(instance, true);
@@ -4961,13 +5577,16 @@ For more details, see https://link.vuejs.org/feature-flags.`
           if (u) {
             queuePostRenderEffect(u, parentSuspense);
           }
-          if (vnodeHook = next.props && next.props.onVnodeUpdated) {
+          if ((vnodeHook = next.props && next.props.onVnodeUpdated)) {
             queuePostRenderEffect(
               () => invokeVNodeHook(vnodeHook, parent, next, vnode),
               parentSuspense
             );
           }
-          if (!!(define_process_env_default$2.NODE_ENV !== "production") || false) {
+          if (
+            !!(define_process_env_default$2.NODE_ENV !== "production") ||
+            false
+          ) {
             devtoolsComponentUpdated(instance);
           }
           if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
@@ -4976,17 +5595,21 @@ For more details, see https://link.vuejs.org/feature-flags.`
         }
       };
       instance.scope.on();
-      const effect2 = instance.effect = new ReactiveEffect(componentUpdateFn);
+      const effect2 = (instance.effect = new ReactiveEffect(componentUpdateFn));
       instance.scope.off();
-      const update = instance.update = effect2.run.bind(effect2);
-      const job = instance.job = effect2.runIfDirty.bind(effect2);
+      const update = (instance.update = effect2.run.bind(effect2));
+      const job = (instance.job = effect2.runIfDirty.bind(effect2));
       job.i = instance;
       job.id = instance.uid;
       effect2.scheduler = () => queueJob(job);
       toggleRecurse(instance, true);
       if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
-        effect2.onTrack = instance.rtc ? (e) => invokeArrayFns(instance.rtc, e) : void 0;
-        effect2.onTrigger = instance.rtg ? (e) => invokeArrayFns(instance.rtg, e) : void 0;
+        effect2.onTrack = instance.rtc
+          ? (e) => invokeArrayFns(instance.rtc, e)
+          : void 0;
+        effect2.onTrigger = instance.rtg
+          ? (e) => invokeArrayFns(instance.rtg, e)
+          : void 0;
       }
       update();
     };
@@ -5001,7 +5624,17 @@ For more details, see https://link.vuejs.org/feature-flags.`
       flushPreFlushCbs(instance);
       resetTracking();
     };
-    const patchChildren = (n1, n2, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized = false) => {
+    const patchChildren = (
+      n1,
+      n2,
+      container,
+      anchor,
+      parentComponent,
+      parentSuspense,
+      namespace,
+      slotScopeIds,
+      optimized = false
+    ) => {
       const c1 = n1 && n1.children;
       const prevShapeFlag = n1 ? n1.shapeFlag : 0;
       const c2 = n2.children;
@@ -5078,7 +5711,17 @@ For more details, see https://link.vuejs.org/feature-flags.`
         }
       }
     };
-    const patchUnkeyedChildren = (c1, c2, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) => {
+    const patchUnkeyedChildren = (
+      c1,
+      c2,
+      container,
+      anchor,
+      parentComponent,
+      parentSuspense,
+      namespace,
+      slotScopeIds,
+      optimized
+    ) => {
       c1 = c1 || EMPTY_ARR;
       c2 = c2 || EMPTY_ARR;
       const oldLength = c1.length;
@@ -5086,7 +5729,9 @@ For more details, see https://link.vuejs.org/feature-flags.`
       const commonLength = Math.min(oldLength, newLength);
       let i;
       for (i = 0; i < commonLength; i++) {
-        const nextChild = c2[i] = optimized ? cloneIfMounted(c2[i]) : normalizeVNode(c2[i]);
+        const nextChild = (c2[i] = optimized
+          ? cloneIfMounted(c2[i])
+          : normalizeVNode(c2[i]));
         patch(
           c1[i],
           nextChild,
@@ -5122,14 +5767,26 @@ For more details, see https://link.vuejs.org/feature-flags.`
         );
       }
     };
-    const patchKeyedChildren = (c1, c2, container, parentAnchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) => {
+    const patchKeyedChildren = (
+      c1,
+      c2,
+      container,
+      parentAnchor,
+      parentComponent,
+      parentSuspense,
+      namespace,
+      slotScopeIds,
+      optimized
+    ) => {
       let i = 0;
       const l2 = c2.length;
       let e1 = c1.length - 1;
       let e2 = l2 - 1;
       while (i <= e1 && i <= e2) {
         const n1 = c1[i];
-        const n2 = c2[i] = optimized ? cloneIfMounted(c2[i]) : normalizeVNode(c2[i]);
+        const n2 = (c2[i] = optimized
+          ? cloneIfMounted(c2[i])
+          : normalizeVNode(c2[i]));
         if (isSameVNodeType(n1, n2)) {
           patch(
             n1,
@@ -5149,7 +5806,9 @@ For more details, see https://link.vuejs.org/feature-flags.`
       }
       while (i <= e1 && i <= e2) {
         const n1 = c1[e1];
-        const n2 = c2[e2] = optimized ? cloneIfMounted(c2[e2]) : normalizeVNode(c2[e2]);
+        const n2 = (c2[e2] = optimized
+          ? cloneIfMounted(c2[e2])
+          : normalizeVNode(c2[e2]));
         if (isSameVNodeType(n1, n2)) {
           patch(
             n1,
@@ -5175,7 +5834,9 @@ For more details, see https://link.vuejs.org/feature-flags.`
           while (i <= e2) {
             patch(
               null,
-              c2[i] = optimized ? cloneIfMounted(c2[i]) : normalizeVNode(c2[i]),
+              (c2[i] = optimized
+                ? cloneIfMounted(c2[i])
+                : normalizeVNode(c2[i])),
               container,
               anchor,
               parentComponent,
@@ -5197,9 +5858,14 @@ For more details, see https://link.vuejs.org/feature-flags.`
         const s2 = i;
         const keyToNewIndexMap = /* @__PURE__ */ new Map();
         for (i = s2; i <= e2; i++) {
-          const nextChild = c2[i] = optimized ? cloneIfMounted(c2[i]) : normalizeVNode(c2[i]);
+          const nextChild = (c2[i] = optimized
+            ? cloneIfMounted(c2[i])
+            : normalizeVNode(c2[i]));
           if (nextChild.key != null) {
-            if (!!(define_process_env_default$2.NODE_ENV !== "production") && keyToNewIndexMap.has(nextChild.key)) {
+            if (
+              !!(define_process_env_default$2.NODE_ENV !== "production") &&
+              keyToNewIndexMap.has(nextChild.key)
+            ) {
               warn$1(
                 `Duplicate keys found during update:`,
                 JSON.stringify(nextChild.key),
@@ -5227,7 +5893,10 @@ For more details, see https://link.vuejs.org/feature-flags.`
             newIndex = keyToNewIndexMap.get(prevChild.key);
           } else {
             for (j = s2; j <= e2; j++) {
-              if (newIndexToOldIndexMap[j - s2] === 0 && isSameVNodeType(prevChild, c2[j])) {
+              if (
+                newIndexToOldIndexMap[j - s2] === 0 &&
+                isSameVNodeType(prevChild, c2[j])
+              ) {
                 newIndex = j;
                 break;
               }
@@ -5256,16 +5925,19 @@ For more details, see https://link.vuejs.org/feature-flags.`
             patched++;
           }
         }
-        const increasingNewIndexSequence = moved ? getSequence(newIndexToOldIndexMap) : EMPTY_ARR;
+        const increasingNewIndexSequence = moved
+          ? getSequence(newIndexToOldIndexMap)
+          : EMPTY_ARR;
         j = increasingNewIndexSequence.length - 1;
         for (i = toBePatched - 1; i >= 0; i--) {
           const nextIndex = s2 + i;
           const nextChild = c2[nextIndex];
           const anchorVNode = c2[nextIndex + 1];
-          const anchor = nextIndex + 1 < l2 ? (
-            // #13559, fallback to el placeholder for unresolved async component
-            anchorVNode.el || anchorVNode.placeholder
-          ) : parentAnchor;
+          const anchor =
+            nextIndex + 1 < l2
+              ? // #13559, fallback to el placeholder for unresolved async component
+                anchorVNode.el || anchorVNode.placeholder
+              : parentAnchor;
           if (newIndexToOldIndexMap[i] === 0) {
             patch(
               null,
@@ -5288,7 +5960,13 @@ For more details, see https://link.vuejs.org/feature-flags.`
         }
       }
     };
-    const move = (vnode, container, anchor, moveType, parentSuspense = null) => {
+    const move = (
+      vnode,
+      container,
+      anchor,
+      moveType,
+      parentSuspense = null
+    ) => {
       const { el, type, transition, children, shapeFlag } = vnode;
       if (shapeFlag & 6) {
         move(vnode.component.subTree, container, anchor, moveType);
@@ -5345,7 +6023,13 @@ For more details, see https://link.vuejs.org/feature-flags.`
         hostInsert(el, container, anchor);
       }
     };
-    const unmount = (vnode, parentComponent, parentSuspense, doRemove = false, optimized = false) => {
+    const unmount = (
+      vnode,
+      parentComponent,
+      parentSuspense,
+      doRemove = false,
+      optimized = false
+    ) => {
       const {
         type,
         props,
@@ -5355,7 +6039,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
         shapeFlag,
         patchFlag,
         dirs,
-        cacheIndex
+        cacheIndex,
       } = vnode;
       if (patchFlag === -2) {
         optimized = false;
@@ -5375,7 +6059,10 @@ For more details, see https://link.vuejs.org/feature-flags.`
       const shouldInvokeDirs = shapeFlag & 1 && dirs;
       const shouldInvokeVnodeHook = !isAsyncWrapper(vnode);
       let vnodeHook;
-      if (shouldInvokeVnodeHook && (vnodeHook = props && props.onVnodeBeforeUnmount)) {
+      if (
+        shouldInvokeVnodeHook &&
+        (vnodeHook = props && props.onVnodeBeforeUnmount)
+      ) {
         invokeVNodeHook(vnodeHook, parentComponent, vnode);
       }
       if (shapeFlag & 6) {
@@ -5396,13 +6083,15 @@ For more details, see https://link.vuejs.org/feature-flags.`
             internals,
             doRemove
           );
-        } else if (dynamicChildren && // #5154
-        // when v-once is used inside a block, setBlockTracking(-1) marks the
-        // parent block with hasOnce: true
-        // so that it doesn't take the fast path during unmount - otherwise
-        // components nested in v-once are never unmounted.
-        !dynamicChildren.hasOnce && // #1153: fast path should not be taken for non-stable (v-for) fragments
-        (type !== Fragment || patchFlag > 0 && patchFlag & 64)) {
+        } else if (
+          dynamicChildren && // #5154
+          // when v-once is used inside a block, setBlockTracking(-1) marks the
+          // parent block with hasOnce: true
+          // so that it doesn't take the fast path during unmount - otherwise
+          // components nested in v-once are never unmounted.
+          !dynamicChildren.hasOnce && // #1153: fast path should not be taken for non-stable (v-for) fragments
+          (type !== Fragment || (patchFlag > 0 && patchFlag & 64))
+        ) {
           unmountChildren(
             dynamicChildren,
             parentComponent,
@@ -5410,24 +6099,38 @@ For more details, see https://link.vuejs.org/feature-flags.`
             false,
             true
           );
-        } else if (type === Fragment && patchFlag & (128 | 256) || !optimized && shapeFlag & 16) {
+        } else if (
+          (type === Fragment && patchFlag & (128 | 256)) ||
+          (!optimized && shapeFlag & 16)
+        ) {
           unmountChildren(children, parentComponent, parentSuspense);
         }
         if (doRemove) {
           remove2(vnode);
         }
       }
-      if (shouldInvokeVnodeHook && (vnodeHook = props && props.onVnodeUnmounted) || shouldInvokeDirs) {
+      if (
+        (shouldInvokeVnodeHook &&
+          (vnodeHook = props && props.onVnodeUnmounted)) ||
+        shouldInvokeDirs
+      ) {
         queuePostRenderEffect(() => {
           vnodeHook && invokeVNodeHook(vnodeHook, parentComponent, vnode);
-          shouldInvokeDirs && invokeDirectiveHook(vnode, null, parentComponent, "unmounted");
+          shouldInvokeDirs &&
+            invokeDirectiveHook(vnode, null, parentComponent, "unmounted");
         }, parentSuspense);
       }
     };
     const remove2 = (vnode) => {
       const { type, el, anchor, transition } = vnode;
       if (type === Fragment) {
-        if (!!(define_process_env_default$2.NODE_ENV !== "production") && vnode.patchFlag > 0 && vnode.patchFlag & 2048 && transition && !transition.persisted) {
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          vnode.patchFlag > 0 &&
+          vnode.patchFlag & 2048 &&
+          transition &&
+          !transition.persisted
+        ) {
           vnode.children.forEach((child) => {
             if (child.type === Comment) {
               hostRemove(child.el);
@@ -5472,7 +6175,10 @@ For more details, see https://link.vuejs.org/feature-flags.`
       hostRemove(end);
     };
     const unmountComponent = (instance, parentSuspense, doRemove) => {
-      if (!!(define_process_env_default$2.NODE_ENV !== "production") && instance.type.__hmrId) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        instance.type.__hmrId
+      ) {
         unregisterHMR(instance);
       }
       const {
@@ -5484,7 +6190,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
         m,
         a,
         parent,
-        slots: { __: slotCacheKeys }
+        slots: { __: slotCacheKeys },
       } = instance;
       invalidateMount(m);
       invalidateMount(a);
@@ -5507,7 +6213,14 @@ For more details, see https://link.vuejs.org/feature-flags.`
       queuePostRenderEffect(() => {
         instance.isUnmounted = true;
       }, parentSuspense);
-      if (parentSuspense && parentSuspense.pendingBranch && !parentSuspense.isUnmounted && instance.asyncDep && !instance.asyncResolved && instance.suspenseId === parentSuspense.pendingId) {
+      if (
+        parentSuspense &&
+        parentSuspense.pendingBranch &&
+        !parentSuspense.isUnmounted &&
+        instance.asyncDep &&
+        !instance.asyncResolved &&
+        instance.suspenseId === parentSuspense.pendingId
+      ) {
         parentSuspense.deps--;
         if (parentSuspense.deps === 0) {
           parentSuspense.resolve();
@@ -5517,9 +6230,22 @@ For more details, see https://link.vuejs.org/feature-flags.`
         devtoolsComponentRemoved(instance);
       }
     };
-    const unmountChildren = (children, parentComponent, parentSuspense, doRemove = false, optimized = false, start = 0) => {
+    const unmountChildren = (
+      children,
+      parentComponent,
+      parentSuspense,
+      doRemove = false,
+      optimized = false,
+      start = 0
+    ) => {
       for (let i = start; i < children.length; i++) {
-        unmount(children[i], parentComponent, parentSuspense, doRemove, optimized);
+        unmount(
+          children[i],
+          parentComponent,
+          parentSuspense,
+          doRemove,
+          optimized
+        );
       }
     };
     const getNextHostNode = (vnode) => {
@@ -5568,17 +6294,24 @@ For more details, see https://link.vuejs.org/feature-flags.`
       pc: patchChildren,
       pbc: patchBlockChildren,
       n: getNextHostNode,
-      o: options
+      o: options,
     };
     let hydrate;
     return {
       render,
       hydrate,
-      createApp: createAppAPI(render)
+      createApp: createAppAPI(render),
     };
   }
   function resolveChildrenNamespace({ type, props }, currentNamespace) {
-    return currentNamespace === "svg" && type === "foreignObject" || currentNamespace === "mathml" && type === "annotation-xml" && props && props.encoding && props.encoding.includes("html") ? void 0 : currentNamespace;
+    return (currentNamespace === "svg" && type === "foreignObject") ||
+      (currentNamespace === "mathml" &&
+        type === "annotation-xml" &&
+        props &&
+        props.encoding &&
+        props.encoding.includes("html"))
+      ? void 0
+      : currentNamespace;
   }
   function toggleRecurse({ effect: effect2, job }, allowed) {
     if (allowed) {
@@ -5590,7 +6323,11 @@ For more details, see https://link.vuejs.org/feature-flags.`
     }
   }
   function needTransition(parentSuspense, transition) {
-    return (!parentSuspense || parentSuspense && !parentSuspense.pendingBranch) && transition && !transition.persisted;
+    return (
+      (!parentSuspense || (parentSuspense && !parentSuspense.pendingBranch)) &&
+      transition &&
+      !transition.persisted
+    );
   }
   function traverseStaticChildren(n1, n2, shallow = false) {
     const ch1 = n1.children;
@@ -5604,8 +6341,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
             c2 = ch2[i] = cloneIfMounted(ch2[i]);
             c2.el = c1.el;
           }
-          if (!shallow && c2.patchFlag !== -2)
-            traverseStaticChildren(c1, c2);
+          if (!shallow && c2.patchFlag !== -2) traverseStaticChildren(c1, c2);
         }
         if (c2.type === Text) {
           c2.el = c1.el;
@@ -5636,7 +6372,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
         u = 0;
         v = result.length - 1;
         while (u < v) {
-          c = u + v >> 1;
+          c = (u + v) >> 1;
           if (arr[result[c]] < arrI) {
             u = c + 1;
           } else {
@@ -5671,8 +6407,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
   }
   function invalidateMount(hooks) {
     if (hooks) {
-      for (let i = 0; i < hooks.length; i++)
-        hooks[i].flags |= 8;
+      for (let i = 0; i < hooks.length; i++) hooks[i].flags |= 8;
     }
   }
   const ssrContextKey = Symbol.for("v-scx");
@@ -5680,15 +6415,19 @@ For more details, see https://link.vuejs.org/feature-flags.`
     {
       const ctx = inject(ssrContextKey);
       if (!ctx) {
-        !!(define_process_env_default$2.NODE_ENV !== "production") && warn$1(
-          `Server rendering context not provided. Make sure to only call useSSRContext() conditionally in the server build.`
-        );
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          warn$1(
+            `Server rendering context not provided. Make sure to only call useSSRContext() conditionally in the server build.`
+          );
       }
       return ctx;
     }
   };
   function watch(source, cb, options) {
-    if (!!(define_process_env_default$2.NODE_ENV !== "production") && !isFunction(cb)) {
+    if (
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      !isFunction(cb)
+    ) {
       warn$1(
         `\`watch(fn, options?)\` signature has been moved to a separate API. Use \`watchEffect(fn, options?)\` instead. \`watch\` now only supports \`watch(source, cb, options?) signature.`
       );
@@ -5715,16 +6454,16 @@ For more details, see https://link.vuejs.org/feature-flags.`
       }
     }
     const baseWatchOptions = extend({}, options);
-    if (!!(define_process_env_default$2.NODE_ENV !== "production")) baseWatchOptions.onWarn = warn$1;
-    const runsImmediately = cb && immediate || !cb && flush !== "post";
+    if (!!(define_process_env_default$2.NODE_ENV !== "production"))
+      baseWatchOptions.onWarn = warn$1;
+    const runsImmediately = (cb && immediate) || (!cb && flush !== "post");
     let ssrCleanup;
     if (isInSSRComponentSetup) {
       if (flush === "sync") {
         const ctx = useSSRContext();
         ssrCleanup = ctx.__watcherHandles || (ctx.__watcherHandles = []);
       } else if (!runsImmediately) {
-        const watchStopHandle = () => {
-        };
+        const watchStopHandle = () => {};
         watchStopHandle.stop = NOOP;
         watchStopHandle.resume = NOOP;
         watchStopHandle.pause = NOOP;
@@ -5732,7 +6471,8 @@ For more details, see https://link.vuejs.org/feature-flags.`
       }
     }
     const instance = currentInstance;
-    baseWatchOptions.call = (fn, type, args) => callWithAsyncErrorHandling(fn, instance, type, args);
+    baseWatchOptions.call = (fn, type, args) =>
+      callWithAsyncErrorHandling(fn, instance, type, args);
     let isPre = false;
     if (flush === "post") {
       baseWatchOptions.scheduler = (job) => {
@@ -5772,7 +6512,11 @@ For more details, see https://link.vuejs.org/feature-flags.`
   }
   function instanceWatch(source, value, options) {
     const publicThis = this.proxy;
-    const getter = isString(source) ? source.includes(".") ? createPathGetter(publicThis, source) : () => publicThis[source] : source.bind(publicThis, publicThis);
+    const getter = isString(source)
+      ? source.includes(".")
+        ? createPathGetter(publicThis, source)
+        : () => publicThis[source]
+      : source.bind(publicThis, publicThis);
     let cb;
     if (isFunction(value)) {
       cb = value;
@@ -5796,7 +6540,11 @@ For more details, see https://link.vuejs.org/feature-flags.`
     };
   }
   const getModelModifiers = (props, modelName) => {
-    return modelName === "modelValue" || modelName === "model-value" ? props.modelModifiers : props[`${modelName}Modifiers`] || props[`${camelize(modelName)}Modifiers`] || props[`${hyphenate(modelName)}Modifiers`];
+    return modelName === "modelValue" || modelName === "model-value"
+      ? props.modelModifiers
+      : props[`${modelName}Modifiers`] ||
+          props[`${camelize(modelName)}Modifiers`] ||
+          props[`${hyphenate(modelName)}Modifiers`];
   };
   function emit(instance, event, ...rawArgs) {
     if (instance.isUnmounted) return;
@@ -5804,13 +6552,18 @@ For more details, see https://link.vuejs.org/feature-flags.`
     if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       const {
         emitsOptions,
-        propsOptions: [propsOptions]
+        propsOptions: [propsOptions],
       } = instance;
       if (emitsOptions) {
         if (!(event in emitsOptions) && true) {
-          if (!propsOptions || !(toHandlerKey(camelize(event)) in propsOptions)) {
+          if (
+            !propsOptions ||
+            !(toHandlerKey(camelize(event)) in propsOptions)
+          ) {
             warn$1(
-              `Component emitted event "${event}" but it is neither declared in the emits option nor as an "${toHandlerKey(camelize(event))}" prop.`
+              `Component emitted event "${event}" but it is neither declared in the emits option nor as an "${toHandlerKey(
+                camelize(event)
+              )}" prop.`
             );
           }
         } else {
@@ -5828,10 +6581,11 @@ For more details, see https://link.vuejs.org/feature-flags.`
     }
     let args = rawArgs;
     const isModelListener2 = event.startsWith("update:");
-    const modifiers = isModelListener2 && getModelModifiers(props, event.slice(7));
+    const modifiers =
+      isModelListener2 && getModelModifiers(props, event.slice(7));
     if (modifiers) {
       if (modifiers.trim) {
-        args = rawArgs.map((a) => isString(a) ? a.trim() : a);
+        args = rawArgs.map((a) => (isString(a) ? a.trim() : a));
       }
       if (modifiers.number) {
         args = rawArgs.map(looseToNumber);
@@ -5854,18 +6608,14 @@ For more details, see https://link.vuejs.org/feature-flags.`
       }
     }
     let handlerName;
-    let handler = props[handlerName = toHandlerKey(event)] || // also try camelCase event handler (#2249)
-    props[handlerName = toHandlerKey(camelize(event))];
+    let handler =
+      props[(handlerName = toHandlerKey(event))] || // also try camelCase event handler (#2249)
+      props[(handlerName = toHandlerKey(camelize(event)))];
     if (!handler && isModelListener2) {
-      handler = props[handlerName = toHandlerKey(hyphenate(event))];
+      handler = props[(handlerName = toHandlerKey(hyphenate(event)))];
     }
     if (handler) {
-      callWithAsyncErrorHandling(
-        handler,
-        instance,
-        6,
-        args
-      );
+      callWithAsyncErrorHandling(handler, instance, 6, args);
     }
     const onceHandler = props[handlerName + `Once`];
     if (onceHandler) {
@@ -5875,12 +6625,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
         return;
       }
       instance.emitted[handlerName] = true;
-      callWithAsyncErrorHandling(
-        onceHandler,
-        instance,
-        6,
-        args
-      );
+      callWithAsyncErrorHandling(onceHandler, instance, 6, args);
     }
   }
   function normalizeEmitsOptions(comp, appContext, asMixin = false) {
@@ -5894,7 +6639,11 @@ For more details, see https://link.vuejs.org/feature-flags.`
     let hasExtends = false;
     if (!isFunction(comp)) {
       const extendEmits = (raw2) => {
-        const normalizedFromExtend = normalizeEmitsOptions(raw2, appContext, true);
+        const normalizedFromExtend = normalizeEmitsOptions(
+          raw2,
+          appContext,
+          true
+        );
         if (normalizedFromExtend) {
           hasExtends = true;
           extend(normalized, normalizedFromExtend);
@@ -5917,7 +6666,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
       return null;
     }
     if (isArray(raw)) {
-      raw.forEach((key) => normalized[key] = null);
+      raw.forEach((key) => (normalized[key] = null));
     } else {
       extend(normalized, raw);
     }
@@ -5931,7 +6680,11 @@ For more details, see https://link.vuejs.org/feature-flags.`
       return false;
     }
     key = key.slice(2).replace(/Once$/, "");
-    return hasOwn(options, key[0].toLowerCase() + key.slice(1)) || hasOwn(options, hyphenate(key)) || hasOwn(options, key);
+    return (
+      hasOwn(options, key[0].toLowerCase() + key.slice(1)) ||
+      hasOwn(options, hyphenate(key)) ||
+      hasOwn(options, key)
+    );
   }
   let accessedAttrs = false;
   function markAttrsAccessed() {
@@ -5953,7 +6706,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
       data,
       setupState,
       ctx,
-      inheritAttrs
+      inheritAttrs,
     } = instance;
     const prev = setCurrentRenderingInstance(instance);
     let result;
@@ -5964,22 +6717,28 @@ For more details, see https://link.vuejs.org/feature-flags.`
     try {
       if (vnode.shapeFlag & 4) {
         const proxyToUse = withProxy || proxy;
-        const thisProxy = !!(define_process_env_default$2.NODE_ENV !== "production") && setupState.__isScriptSetup ? new Proxy(proxyToUse, {
-          get(target, key, receiver) {
-            warn$1(
-              `Property '${String(
-                key
-              )}' was accessed via 'this'. Avoid using 'this' in templates.`
-            );
-            return Reflect.get(target, key, receiver);
-          }
-        }) : proxyToUse;
+        const thisProxy =
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          setupState.__isScriptSetup
+            ? new Proxy(proxyToUse, {
+                get(target, key, receiver) {
+                  warn$1(
+                    `Property '${String(
+                      key
+                    )}' was accessed via 'this'. Avoid using 'this' in templates.`
+                  );
+                  return Reflect.get(target, key, receiver);
+                },
+              })
+            : proxyToUse;
         result = normalizeVNode(
           render.call(
             thisProxy,
             proxyToUse,
             renderCache,
-            !!(define_process_env_default$2.NODE_ENV !== "production") ? shallowReadonly(props) : props,
+            !!(define_process_env_default$2.NODE_ENV !== "production")
+              ? shallowReadonly(props)
+              : props,
             setupState,
             data,
             ctx
@@ -5988,26 +6747,39 @@ For more details, see https://link.vuejs.org/feature-flags.`
         fallthroughAttrs = attrs;
       } else {
         const render2 = Component;
-        if (!!(define_process_env_default$2.NODE_ENV !== "production") && attrs === props) {
+        if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          attrs === props
+        ) {
           markAttrsAccessed();
         }
         result = normalizeVNode(
-          render2.length > 1 ? render2(
-            !!(define_process_env_default$2.NODE_ENV !== "production") ? shallowReadonly(props) : props,
-            !!(define_process_env_default$2.NODE_ENV !== "production") ? {
-              get attrs() {
-                markAttrsAccessed();
-                return shallowReadonly(attrs);
-              },
-              slots,
-              emit: emit2
-            } : { attrs, slots, emit: emit2 }
-          ) : render2(
-            !!(define_process_env_default$2.NODE_ENV !== "production") ? shallowReadonly(props) : props,
-            null
-          )
+          render2.length > 1
+            ? render2(
+                !!(define_process_env_default$2.NODE_ENV !== "production")
+                  ? shallowReadonly(props)
+                  : props,
+                !!(define_process_env_default$2.NODE_ENV !== "production")
+                  ? {
+                      get attrs() {
+                        markAttrsAccessed();
+                        return shallowReadonly(attrs);
+                      },
+                      slots,
+                      emit: emit2,
+                    }
+                  : { attrs, slots, emit: emit2 }
+              )
+            : render2(
+                !!(define_process_env_default$2.NODE_ENV !== "production")
+                  ? shallowReadonly(props)
+                  : props,
+                null
+              )
         );
-        fallthroughAttrs = Component.props ? attrs : getFunctionalFallthrough(attrs);
+        fallthroughAttrs = Component.props
+          ? attrs
+          : getFunctionalFallthrough(attrs);
       }
     } catch (err) {
       blockStack.length = 0;
@@ -6016,7 +6788,11 @@ For more details, see https://link.vuejs.org/feature-flags.`
     }
     let root = result;
     let setRoot = void 0;
-    if (!!(define_process_env_default$2.NODE_ENV !== "production") && result.patchFlag > 0 && result.patchFlag & 2048) {
+    if (
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      result.patchFlag > 0 &&
+      result.patchFlag & 2048
+    ) {
       [root, setRoot] = getChildRoot(result);
     }
     if (fallthroughAttrs && inheritAttrs !== false) {
@@ -6031,7 +6807,11 @@ For more details, see https://link.vuejs.org/feature-flags.`
             );
           }
           root = cloneVNode(root, fallthroughAttrs, false, true);
-        } else if (!!(define_process_env_default$2.NODE_ENV !== "production") && !accessedAttrs && root.type !== Comment) {
+        } else if (
+          !!(define_process_env_default$2.NODE_ENV !== "production") &&
+          !accessedAttrs &&
+          root.type !== Comment
+        ) {
           const allAttrs = Object.keys(attrs);
           const eventAttrs = [];
           const extraAttrs = [];
@@ -6047,19 +6827,26 @@ For more details, see https://link.vuejs.org/feature-flags.`
           }
           if (extraAttrs.length) {
             warn$1(
-              `Extraneous non-props attributes (${extraAttrs.join(", ")}) were passed to component but could not be automatically inherited because component renders fragment or text or teleport root nodes.`
+              `Extraneous non-props attributes (${extraAttrs.join(
+                ", "
+              )}) were passed to component but could not be automatically inherited because component renders fragment or text or teleport root nodes.`
             );
           }
           if (eventAttrs.length) {
             warn$1(
-              `Extraneous non-emits event listeners (${eventAttrs.join(", ")}) were passed to component but could not be automatically inherited because component renders fragment or text root nodes. If the listener is intended to be a component custom event listener only, declare it using the "emits" option.`
+              `Extraneous non-emits event listeners (${eventAttrs.join(
+                ", "
+              )}) were passed to component but could not be automatically inherited because component renders fragment or text root nodes. If the listener is intended to be a component custom event listener only, declare it using the "emits" option.`
             );
           }
         }
       }
     }
     if (vnode.dirs) {
-      if (!!(define_process_env_default$2.NODE_ENV !== "production") && !isElementRoot(root)) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        !isElementRoot(root)
+      ) {
         warn$1(
           `Runtime directive used on component with non-element root node. The directives will not function as intended.`
         );
@@ -6068,7 +6855,10 @@ For more details, see https://link.vuejs.org/feature-flags.`
       root.dirs = root.dirs ? root.dirs.concat(vnode.dirs) : vnode.dirs;
     }
     if (vnode.transition) {
-      if (!!(define_process_env_default$2.NODE_ENV !== "production") && !isElementRoot(root)) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        !isElementRoot(root)
+      ) {
         warn$1(
           `Component inside <Transition> renders non-element root node that cannot be animated.`
         );
@@ -6089,11 +6879,17 @@ For more details, see https://link.vuejs.org/feature-flags.`
     const childRoot = filterSingleRoot(rawChildren, false);
     if (!childRoot) {
       return [vnode, void 0];
-    } else if (!!(define_process_env_default$2.NODE_ENV !== "production") && childRoot.patchFlag > 0 && childRoot.patchFlag & 2048) {
+    } else if (
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      childRoot.patchFlag > 0 &&
+      childRoot.patchFlag & 2048
+    ) {
       return getChildRoot(childRoot);
     }
     const index = rawChildren.indexOf(childRoot);
-    const dynamicIndex = dynamicChildren ? dynamicChildren.indexOf(childRoot) : -1;
+    const dynamicIndex = dynamicChildren
+      ? dynamicChildren.indexOf(childRoot)
+      : -1;
     const setRoot = (updatedRoot) => {
       rawChildren[index] = updatedRoot;
       if (dynamicChildren) {
@@ -6116,7 +6912,12 @@ For more details, see https://link.vuejs.org/feature-flags.`
             return;
           } else {
             singleRoot = child;
-            if (!!(define_process_env_default$2.NODE_ENV !== "production") && recurse && singleRoot.patchFlag > 0 && singleRoot.patchFlag & 2048) {
+            if (
+              !!(define_process_env_default$2.NODE_ENV !== "production") &&
+              recurse &&
+              singleRoot.patchFlag > 0 &&
+              singleRoot.patchFlag & 2048
+            ) {
               return filterSingleRoot(singleRoot.children);
             }
           }
@@ -6152,7 +6953,11 @@ For more details, see https://link.vuejs.org/feature-flags.`
     const { props: prevProps, children: prevChildren, component } = prevVNode;
     const { props: nextProps, children: nextChildren, patchFlag } = nextVNode;
     const emits = component.emitsOptions;
-    if (!!(define_process_env_default$2.NODE_ENV !== "production") && (prevChildren || nextChildren) && isHmrUpdating) {
+    if (
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      (prevChildren || nextChildren) &&
+      isHmrUpdating
+    ) {
       return true;
     }
     if (nextVNode.dirs || nextVNode.transition) {
@@ -6171,7 +6976,10 @@ For more details, see https://link.vuejs.org/feature-flags.`
         const dynamicProps = nextVNode.dynamicProps;
         for (let i = 0; i < dynamicProps.length; i++) {
           const key = dynamicProps[i];
-          if (nextProps[key] !== prevProps[key] && !isEmitListener(emits, key)) {
+          if (
+            nextProps[key] !== prevProps[key] &&
+            !isEmitListener(emits, key)
+          ) {
             return true;
           }
         }
@@ -6202,7 +7010,10 @@ For more details, see https://link.vuejs.org/feature-flags.`
     }
     for (let i = 0; i < nextKeys.length; i++) {
       const key = nextKeys[i];
-      if (nextProps[key] !== prevProps[key] && !isEmitListener(emitsOptions, key)) {
+      if (
+        nextProps[key] !== prevProps[key] &&
+        !isEmitListener(emitsOptions, key)
+      ) {
         return true;
       }
     }
@@ -6241,7 +7052,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
   const blockStack = [];
   let currentBlock = null;
   function openBlock(disableTracking = false) {
-    blockStack.push(currentBlock = disableTracking ? null : []);
+    blockStack.push((currentBlock = disableTracking ? null : []));
   }
   function closeBlock() {
     blockStack.pop();
@@ -6255,14 +7066,22 @@ For more details, see https://link.vuejs.org/feature-flags.`
     }
   }
   function setupBlock(vnode) {
-    vnode.dynamicChildren = isBlockTreeEnabled > 0 ? currentBlock || EMPTY_ARR : null;
+    vnode.dynamicChildren =
+      isBlockTreeEnabled > 0 ? currentBlock || EMPTY_ARR : null;
     closeBlock();
     if (isBlockTreeEnabled > 0 && currentBlock) {
       currentBlock.push(vnode);
     }
     return vnode;
   }
-  function createElementBlock(type, props, children, patchFlag, dynamicProps, shapeFlag) {
+  function createElementBlock(
+    type,
+    props,
+    children,
+    patchFlag,
+    dynamicProps,
+    shapeFlag
+  ) {
     return setupBlock(
       createBaseVNode(
         type,
@@ -6277,21 +7096,18 @@ For more details, see https://link.vuejs.org/feature-flags.`
   }
   function createBlock(type, props, children, patchFlag, dynamicProps) {
     return setupBlock(
-      createVNode(
-        type,
-        props,
-        children,
-        patchFlag,
-        dynamicProps,
-        true
-      )
+      createVNode(type, props, children, patchFlag, dynamicProps, true)
     );
   }
   function isVNode(value) {
     return value ? value.__v_isVNode === true : false;
   }
   function isSameVNodeType(n1, n2) {
-    if (!!(define_process_env_default$2.NODE_ENV !== "production") && n2.shapeFlag & 6 && n1.component) {
+    if (
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      n2.shapeFlag & 6 &&
+      n1.component
+    ) {
       const dirtyInstances = hmrDirtyComponents.get(n2.type);
       if (dirtyInstances && dirtyInstances.has(n1.component)) {
         n1.shapeFlag &= -257;
@@ -6302,22 +7118,29 @@ For more details, see https://link.vuejs.org/feature-flags.`
     return n1.type === n2.type && n1.key === n2.key;
   }
   const createVNodeWithArgsTransform = (...args) => {
-    return _createVNode(
-      ...args
-    );
+    return _createVNode(...args);
   };
-  const normalizeKey = ({ key }) => key != null ? key : null;
-  const normalizeRef = ({
-    ref: ref3,
-    ref_key,
-    ref_for
-  }) => {
+  const normalizeKey = ({ key }) => (key != null ? key : null);
+  const normalizeRef = ({ ref: ref3, ref_key, ref_for }) => {
     if (typeof ref3 === "number") {
       ref3 = "" + ref3;
     }
-    return ref3 != null ? isString(ref3) || isRef(ref3) || isFunction(ref3) ? { i: currentRenderingInstance, r: ref3, k: ref_key, f: !!ref_for } : ref3 : null;
+    return ref3 != null
+      ? isString(ref3) || isRef(ref3) || isFunction(ref3)
+        ? { i: currentRenderingInstance, r: ref3, k: ref_key, f: !!ref_for }
+        : ref3
+      : null;
   };
-  function createBaseVNode(type, props = null, children = null, patchFlag = 0, dynamicProps = null, shapeFlag = type === Fragment ? 0 : 1, isBlockNode = false, needFullChildrenNormalization = false) {
+  function createBaseVNode(
+    type,
+    props = null,
+    children = null,
+    patchFlag = 0,
+    dynamicProps = null,
+    shapeFlag = type === Fragment ? 0 : 1,
+    isBlockNode = false,
+    needFullChildrenNormalization = false
+  ) {
     const vnode = {
       __v_isVNode: true,
       __v_skip: true,
@@ -6345,7 +7168,7 @@ For more details, see https://link.vuejs.org/feature-flags.`
       dynamicProps,
       dynamicChildren: null,
       appContext: null,
-      ctx: currentRenderingInstance
+      ctx: currentRenderingInstance,
     };
     if (needFullChildrenNormalization) {
       normalizeChildren(vnode, children);
@@ -6355,24 +7178,38 @@ For more details, see https://link.vuejs.org/feature-flags.`
     } else if (children) {
       vnode.shapeFlag |= isString(children) ? 8 : 16;
     }
-    if (!!(define_process_env_default$2.NODE_ENV !== "production") && vnode.key !== vnode.key) {
+    if (
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      vnode.key !== vnode.key
+    ) {
       warn$1(`VNode created with invalid key (NaN). VNode type:`, vnode.type);
     }
-    if (isBlockTreeEnabled > 0 && // avoid a block node from tracking itself
-    !isBlockNode && // has current parent block
-    currentBlock && // presence of a patch flag indicates this node needs patching on updates.
-    // component nodes also should always be patched, because even if the
-    // component doesn't need to update, it needs to persist the instance on to
-    // the next vnode so that it can be properly unmounted later.
-    (vnode.patchFlag > 0 || shapeFlag & 6) && // the EVENTS flag is only for hydration and if it is the only flag, the
-    // vnode should not be considered dynamic due to handler caching.
-    vnode.patchFlag !== 32) {
+    if (
+      isBlockTreeEnabled > 0 && // avoid a block node from tracking itself
+      !isBlockNode && // has current parent block
+      currentBlock && // presence of a patch flag indicates this node needs patching on updates.
+      // component nodes also should always be patched, because even if the
+      // component doesn't need to update, it needs to persist the instance on to
+      // the next vnode so that it can be properly unmounted later.
+      (vnode.patchFlag > 0 || shapeFlag & 6) && // the EVENTS flag is only for hydration and if it is the only flag, the
+      // vnode should not be considered dynamic due to handler caching.
+      vnode.patchFlag !== 32
+    ) {
       currentBlock.push(vnode);
     }
     return vnode;
   }
-  const createVNode = !!(define_process_env_default$2.NODE_ENV !== "production") ? createVNodeWithArgsTransform : _createVNode;
-  function _createVNode(type, props = null, children = null, patchFlag = 0, dynamicProps = null, isBlockNode = false) {
+  const createVNode = !!(define_process_env_default$2.NODE_ENV !== "production")
+    ? createVNodeWithArgsTransform
+    : _createVNode;
+  function _createVNode(
+    type,
+    props = null,
+    children = null,
+    patchFlag = 0,
+    dynamicProps = null,
+    isBlockNode = false
+  ) {
     if (!type || type === NULL_DYNAMIC_COMPONENT) {
       if (!!(define_process_env_default$2.NODE_ENV !== "production") && !type) {
         warn$1(`Invalid vnode type when creating vnode: ${type}.`);
@@ -6415,8 +7252,22 @@ For more details, see https://link.vuejs.org/feature-flags.`
         props.style = normalizeStyle(style);
       }
     }
-    const shapeFlag = isString(type) ? 1 : isSuspense(type) ? 128 : isTeleport(type) ? 64 : isObject(type) ? 4 : isFunction(type) ? 2 : 0;
-    if (!!(define_process_env_default$2.NODE_ENV !== "production") && shapeFlag & 4 && isProxy(type)) {
+    const shapeFlag = isString(type)
+      ? 1
+      : isSuspense(type)
+      ? 128
+      : isTeleport(type)
+      ? 64
+      : isObject(type)
+      ? 4
+      : isFunction(type)
+      ? 2
+      : 0;
+    if (
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      shapeFlag & 4 &&
+      isProxy(type)
+    ) {
       type = toRaw(type);
       warn$1(
         `Vue received a Component that was made a reactive object. This can lead to unnecessary performance overhead and should be avoided by marking the component with \`markRaw\` or using \`shallowRef\` instead of \`ref\`.`,
@@ -6438,26 +7289,45 @@ Component that was made reactive: `,
   }
   function guardReactiveProps(props) {
     if (!props) return null;
-    return isProxy(props) || isInternalObject(props) ? extend({}, props) : props;
+    return isProxy(props) || isInternalObject(props)
+      ? extend({}, props)
+      : props;
   }
-  function cloneVNode(vnode, extraProps, mergeRef = false, cloneTransition = false) {
+  function cloneVNode(
+    vnode,
+    extraProps,
+    mergeRef = false,
+    cloneTransition = false
+  ) {
     const { props, ref: ref3, patchFlag, children, transition } = vnode;
-    const mergedProps = extraProps ? mergeProps(props || {}, extraProps) : props;
+    const mergedProps = extraProps
+      ? mergeProps(props || {}, extraProps)
+      : props;
     const cloned = {
       __v_isVNode: true,
       __v_skip: true,
       type: vnode.type,
       props: mergedProps,
       key: mergedProps && normalizeKey(mergedProps),
-      ref: extraProps && extraProps.ref ? (
-        // #2078 in the case of <component :is="vnode" ref="extra"/>
-        // if the vnode itself already has a ref, cloneVNode will need to merge
-        // the refs so the single vnode can be set on multiple refs
-        mergeRef && ref3 ? isArray(ref3) ? ref3.concat(normalizeRef(extraProps)) : [ref3, normalizeRef(extraProps)] : normalizeRef(extraProps)
-      ) : ref3,
+      ref:
+        extraProps && extraProps.ref
+          ? // #2078 in the case of <component :is="vnode" ref="extra"/>
+            // if the vnode itself already has a ref, cloneVNode will need to merge
+            // the refs so the single vnode can be set on multiple refs
+            mergeRef && ref3
+            ? isArray(ref3)
+              ? ref3.concat(normalizeRef(extraProps))
+              : [ref3, normalizeRef(extraProps)]
+            : normalizeRef(extraProps)
+          : ref3,
       scopeId: vnode.scopeId,
       slotScopeIds: vnode.slotScopeIds,
-      children: !!(define_process_env_default$2.NODE_ENV !== "production") && patchFlag === -1 && isArray(children) ? children.map(deepCloneVNode) : children,
+      children:
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        patchFlag === -1 &&
+        isArray(children)
+          ? children.map(deepCloneVNode)
+          : children,
       target: vnode.target,
       targetStart: vnode.targetStart,
       targetAnchor: vnode.targetAnchor,
@@ -6467,7 +7337,12 @@ Component that was made reactive: `,
       // existing patch flag to be reliable and need to add the FULL_PROPS flag.
       // note: preserve flag for fragments since they use the flag for children
       // fast paths only.
-      patchFlag: extraProps && vnode.type !== Fragment ? patchFlag === -1 ? 16 : patchFlag | 16 : patchFlag,
+      patchFlag:
+        extraProps && vnode.type !== Fragment
+          ? patchFlag === -1
+            ? 16
+            : patchFlag | 16
+          : patchFlag,
       dynamicProps: vnode.dynamicProps,
       dynamicChildren: vnode.dynamicChildren,
       appContext: vnode.appContext,
@@ -6485,13 +7360,10 @@ Component that was made reactive: `,
       el: vnode.el,
       anchor: vnode.anchor,
       ctx: vnode.ctx,
-      ce: vnode.ce
+      ce: vnode.ce,
     };
     if (transition && cloneTransition) {
-      setTransitionHooks(
-        cloned,
-        transition.clone(cloned)
-      );
+      setTransitionHooks(cloned, transition.clone(cloned));
     }
     return cloned;
   }
@@ -6522,7 +7394,9 @@ Component that was made reactive: `,
     }
   }
   function cloneIfMounted(child) {
-    return child.el === null && child.patchFlag !== -1 || child.memo ? child : cloneVNode(child);
+    return (child.el === null && child.patchFlag !== -1) || child.memo
+      ? child
+      : cloneVNode(child);
   }
   function normalizeChildren(vnode, children) {
     let type = 0;
@@ -6583,7 +7457,11 @@ Component that was made reactive: `,
         } else if (isOn(key)) {
           const existing = ret[key];
           const incoming = toMerge[key];
-          if (incoming && existing !== incoming && !(isArray(existing) && existing.includes(incoming))) {
+          if (
+            incoming &&
+            existing !== incoming &&
+            !(isArray(existing) && existing.includes(incoming))
+          ) {
             ret[key] = existing ? [].concat(existing, incoming) : incoming;
           }
         } else if (key !== "") {
@@ -6594,16 +7472,14 @@ Component that was made reactive: `,
     return ret;
   }
   function invokeVNodeHook(hook, instance, vnode, prevVNode = null) {
-    callWithAsyncErrorHandling(hook, instance, 7, [
-      vnode,
-      prevVNode
-    ]);
+    callWithAsyncErrorHandling(hook, instance, 7, [vnode, prevVNode]);
   }
   const emptyAppContext = createAppContext();
   let uid = 0;
   function createComponentInstance(vnode, parent, suspense) {
     const type = vnode.type;
-    const appContext = (parent ? parent.appContext : vnode.appContext) || emptyAppContext;
+    const appContext =
+      (parent ? parent.appContext : vnode.appContext) || emptyAppContext;
     const instance = {
       uid: uid++,
       vnode,
@@ -6678,7 +7554,7 @@ Component that was made reactive: `,
       rtg: null,
       rtc: null,
       ec: null,
-      sp: null
+      sp: null,
     };
     if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
       instance.ctx = createDevRenderContext(instance);
@@ -6709,11 +7585,11 @@ Component that was made reactive: `,
     };
     internalSetCurrentInstance = registerGlobalSetter(
       `__VUE_INSTANCE_SETTERS__`,
-      (v) => currentInstance = v
+      (v) => (currentInstance = v)
     );
     setInSSRSetupState = registerGlobalSetter(
       `__VUE_SSR_SETTERS__`,
-      (v) => isInSSRComponentSetup = v
+      (v) => (isInSSRComponentSetup = v)
     );
   }
   const setCurrentInstance = (instance) => {
@@ -6747,7 +7623,9 @@ Component that was made reactive: `,
     const isStateful = isStatefulComponent(instance);
     initProps(instance, props, isStateful, isSSR);
     initSlots(instance, children, optimized || isSSR);
-    const setupResult = isStateful ? setupStatefulComponent(instance, isSSR) : void 0;
+    const setupResult = isStateful
+      ? setupStatefulComponent(instance, isSSR)
+      : void 0;
     isSSR && setInSSRSetupState(false);
     return setupResult;
   }
@@ -6784,17 +7662,15 @@ Component that was made reactive: `,
     const { setup } = Component;
     if (setup) {
       pauseTracking();
-      const setupContext = instance.setupContext = setup.length > 1 ? createSetupContext(instance) : null;
+      const setupContext = (instance.setupContext =
+        setup.length > 1 ? createSetupContext(instance) : null);
       const reset = setCurrentInstance(instance);
-      const setupResult = callWithErrorHandling(
-        setup,
-        instance,
-        0,
-        [
-          !!(define_process_env_default$2.NODE_ENV !== "production") ? shallowReadonly(instance.props) : instance.props,
-          setupContext
-        ]
-      );
+      const setupResult = callWithErrorHandling(setup, instance, 0, [
+        !!(define_process_env_default$2.NODE_ENV !== "production")
+          ? shallowReadonly(instance.props)
+          : instance.props,
+        setupContext,
+      ]);
       const isAsyncSetup = isPromise(setupResult);
       resetTracking();
       reset();
@@ -6804,14 +7680,19 @@ Component that was made reactive: `,
       if (isAsyncSetup) {
         setupResult.then(unsetCurrentInstance, unsetCurrentInstance);
         if (isSSR) {
-          return setupResult.then((resolvedResult) => {
-            handleSetupResult(instance, resolvedResult, isSSR);
-          }).catch((e) => {
-            handleError(e, instance, 0);
-          });
+          return setupResult
+            .then((resolvedResult) => {
+              handleSetupResult(instance, resolvedResult, isSSR);
+            })
+            .catch((e) => {
+              handleError(e, instance, 0);
+            });
         } else {
           instance.asyncDep = setupResult;
-          if (!!(define_process_env_default$2.NODE_ENV !== "production") && !instance.suspense) {
+          if (
+            !!(define_process_env_default$2.NODE_ENV !== "production") &&
+            !instance.suspense
+          ) {
             const name = (_a = Component.name) != null ? _a : "Anonymous";
             warn$1(
               `Component <${name}>: setup function returned a promise, but no <Suspense> boundary was found in the parent component tree. A component with async setup() must be nested in a <Suspense> in order to be rendered.`
@@ -6833,7 +7714,10 @@ Component that was made reactive: `,
         instance.render = setupResult;
       }
     } else if (isObject(setupResult)) {
-      if (!!(define_process_env_default$2.NODE_ENV !== "production") && isVNode(setupResult)) {
+      if (
+        !!(define_process_env_default$2.NODE_ENV !== "production") &&
+        isVNode(setupResult)
+      ) {
         warn$1(
           `setup() should not return VNodes directly - return a render function instead.`
         );
@@ -6845,9 +7729,14 @@ Component that was made reactive: `,
       if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         exposeSetupStateOnRenderContext(instance);
       }
-    } else if (!!(define_process_env_default$2.NODE_ENV !== "production") && setupResult !== void 0) {
+    } else if (
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      setupResult !== void 0
+    ) {
       warn$1(
-        `setup() should return an object. Received: ${setupResult === null ? "null" : typeof setupResult}`
+        `setup() should return an object. Received: ${
+          setupResult === null ? "null" : typeof setupResult
+        }`
       );
     }
     finishComponentSetup(instance, isSSR);
@@ -6868,7 +7757,12 @@ Component that was made reactive: `,
         reset();
       }
     }
-    if (!!(define_process_env_default$2.NODE_ENV !== "production") && !Component.render && instance.render === NOOP && !isSSR) {
+    if (
+      !!(define_process_env_default$2.NODE_ENV !== "production") &&
+      !Component.render &&
+      instance.render === NOOP &&
+      !isSSR
+    ) {
       if (Component.template) {
         warn$1(
           `Component provided template option but runtime compilation is not supported in this build of Vue. Configure your bundler to alias "vue" to "vue/dist/vue.esm-bundler.js".`
@@ -6878,32 +7772,36 @@ Component that was made reactive: `,
       }
     }
   }
-  const attrsProxyHandlers = !!(define_process_env_default$2.NODE_ENV !== "production") ? {
-    get(target, key) {
-      markAttrsAccessed();
-      track(target, "get", "");
-      return target[key];
-    },
-    set() {
-      warn$1(`setupContext.attrs is readonly.`);
-      return false;
-    },
-    deleteProperty() {
-      warn$1(`setupContext.attrs is readonly.`);
-      return false;
-    }
-  } : {
-    get(target, key) {
-      track(target, "get", "");
-      return target[key];
-    }
-  };
+  const attrsProxyHandlers = !!(
+    define_process_env_default$2.NODE_ENV !== "production"
+  )
+    ? {
+        get(target, key) {
+          markAttrsAccessed();
+          track(target, "get", "");
+          return target[key];
+        },
+        set() {
+          warn$1(`setupContext.attrs is readonly.`);
+          return false;
+        },
+        deleteProperty() {
+          warn$1(`setupContext.attrs is readonly.`);
+          return false;
+        },
+      }
+    : {
+        get(target, key) {
+          track(target, "get", "");
+          return target[key];
+        },
+      };
   function getSlotsProxy(instance) {
     return new Proxy(instance.slots, {
       get(target, key) {
         track(instance, "get", "$slots");
         return target[key];
-      }
+      },
     });
   }
   function createSetupContext(instance) {
@@ -6935,7 +7833,10 @@ Component that was made reactive: `,
       let slotsProxy;
       return Object.freeze({
         get attrs() {
-          return attrsProxy || (attrsProxy = new Proxy(instance.attrs, attrsProxyHandlers));
+          return (
+            attrsProxy ||
+            (attrsProxy = new Proxy(instance.attrs, attrsProxyHandlers))
+          );
         },
         get slots() {
           return slotsProxy || (slotsProxy = getSlotsProxy(instance));
@@ -6943,39 +7844,48 @@ Component that was made reactive: `,
         get emit() {
           return (event, ...args) => instance.emit(event, ...args);
         },
-        expose
+        expose,
       });
     } else {
       return {
         attrs: new Proxy(instance.attrs, attrsProxyHandlers),
         slots: instance.slots,
         emit: instance.emit,
-        expose
+        expose,
       };
     }
   }
   function getComponentPublicInstance(instance) {
     if (instance.exposed) {
-      return instance.exposeProxy || (instance.exposeProxy = new Proxy(proxyRefs(markRaw(instance.exposed)), {
-        get(target, key) {
-          if (key in target) {
-            return target[key];
-          } else if (key in publicPropertiesMap) {
-            return publicPropertiesMap[key](instance);
+      return (
+        instance.exposeProxy ||
+        (instance.exposeProxy = new Proxy(
+          proxyRefs(markRaw(instance.exposed)),
+          {
+            get(target, key) {
+              if (key in target) {
+                return target[key];
+              } else if (key in publicPropertiesMap) {
+                return publicPropertiesMap[key](instance);
+              }
+            },
+            has(target, key) {
+              return key in target || key in publicPropertiesMap;
+            },
           }
-        },
-        has(target, key) {
-          return key in target || key in publicPropertiesMap;
-        }
-      }));
+        ))
+      );
     } else {
       return instance.proxy;
     }
   }
   const classifyRE = /(?:^|[-_])(\w)/g;
-  const classify = (str) => str.replace(classifyRE, (c) => c.toUpperCase()).replace(/[-_]/g, "");
+  const classify = (str) =>
+    str.replace(classifyRE, (c) => c.toUpperCase()).replace(/[-_]/g, "");
   function getComponentName(Component, includeInferred = true) {
-    return isFunction(Component) ? Component.displayName || Component.name : Component.name || includeInferred && Component.__name;
+    return isFunction(Component)
+      ? Component.displayName || Component.name
+      : Component.name || (includeInferred && Component.__name);
   }
   function formatComponentName(instance, Component, isRoot = false) {
     let name = getComponentName(Component);
@@ -6993,9 +7903,10 @@ Component that was made reactive: `,
           }
         }
       };
-      name = inferFromRegistry(
-        instance.components || instance.parent.type.components
-      ) || inferFromRegistry(instance.appContext.components);
+      name =
+        inferFromRegistry(
+          instance.components || instance.parent.type.components
+        ) || inferFromRegistry(instance.appContext.components);
     }
     return name ? classify(name) : isRoot ? `App` : `Anonymous`;
   }
@@ -7013,7 +7924,10 @@ Component that was made reactive: `,
     return c;
   };
   function initCustomFormatter() {
-    if (!!!(define_process_env_default$2.NODE_ENV !== "production") || typeof window === "undefined") {
+    if (
+      !!!(define_process_env_default$2.NODE_ENV !== "production") ||
+      typeof window === "undefined"
+    ) {
       return;
     }
     const vueStyle = { style: "color:#3ba776" };
@@ -7038,7 +7952,7 @@ Component that was made reactive: `,
             ["span", vueStyle, genRefFlag(obj)],
             "<",
             formatValue(value),
-            `>`
+            `>`,
           ];
         } else if (isReactive(obj)) {
           return [
@@ -7047,7 +7961,7 @@ Component that was made reactive: `,
             ["span", vueStyle, isShallow(obj) ? "ShallowReactive" : "Reactive"],
             "<",
             formatValue(obj),
-            `>${isReadonly(obj) ? ` (readonly)` : ``}`
+            `>${isReadonly(obj) ? ` (readonly)` : ``}`,
           ];
         } else if (isReadonly(obj)) {
           return [
@@ -7056,7 +7970,7 @@ Component that was made reactive: `,
             ["span", vueStyle, isShallow(obj) ? "ShallowReadonly" : "Readonly"],
             "<",
             formatValue(obj),
-            ">"
+            ">",
           ];
         }
         return null;
@@ -7066,13 +7980,9 @@ Component that was made reactive: `,
       },
       body(obj) {
         if (obj && obj.__isVue) {
-          return [
-            "div",
-            {},
-            ...formatInstance(obj.$)
-          ];
+          return ["div", {}, ...formatInstance(obj.$)];
         }
-      }
+      },
     };
     function formatInstance(instance) {
       const blocks = [];
@@ -7099,11 +8009,11 @@ Component that was made reactive: `,
         [
           "span",
           {
-            style: keywordStyle.style + ";opacity:0.66"
+            style: keywordStyle.style + ";opacity:0.66",
           },
-          "$ (internal): "
+          "$ (internal): ",
         ],
-        ["object", { object: instance }]
+        ["object", { object: instance }],
       ]);
       return blocks;
     }
@@ -7118,24 +8028,24 @@ Component that was made reactive: `,
         [
           "div",
           {
-            style: "color:#476582"
+            style: "color:#476582",
           },
-          type
+          type,
         ],
         [
           "div",
           {
-            style: "padding-left:1.25em"
+            style: "padding-left:1.25em",
           },
           ...Object.keys(target).map((key) => {
             return [
               "div",
               {},
               ["span", keywordStyle, key + ": "],
-              formatValue(target[key], false)
+              formatValue(target[key], false),
             ];
-          })
-        ]
+          }),
+        ],
       ];
     }
     function formatValue(v, asRaw = true) {
@@ -7166,7 +8076,10 @@ Component that was made reactive: `,
     }
     function isKeyOfType(Comp, key, type) {
       const opts = Comp[type];
-      if (isArray(opts) && opts.includes(key) || isObject(opts) && key in opts) {
+      if (
+        (isArray(opts) && opts.includes(key)) ||
+        (isObject(opts) && key in opts)
+      ) {
         return true;
       }
       if (Comp.extends && isKeyOfType(Comp.extends, key, type)) {
@@ -7192,24 +8105,30 @@ Component that was made reactive: `,
     }
   }
   const version = "3.5.18";
-  const warn = !!(define_process_env_default$2.NODE_ENV !== "production") ? warn$1 : NOOP;
+  const warn = !!(define_process_env_default$2.NODE_ENV !== "production")
+    ? warn$1
+    : NOOP;
   var define_process_env_default$1 = {};
   let policy = void 0;
   const tt = typeof window !== "undefined" && window.trustedTypes;
   if (tt) {
     try {
       policy = /* @__PURE__ */ tt.createPolicy("vue", {
-        createHTML: (val) => val
+        createHTML: (val) => val,
       });
     } catch (e) {
-      !!(define_process_env_default$1.NODE_ENV !== "production") && warn(`Error creating trusted types policy: ${e}`);
+      !!(define_process_env_default$1.NODE_ENV !== "production") &&
+        warn(`Error creating trusted types policy: ${e}`);
     }
   }
-  const unsafeToTrustedHTML = policy ? (val) => policy.createHTML(val) : (val) => val;
+  const unsafeToTrustedHTML = policy
+    ? (val) => policy.createHTML(val)
+    : (val) => val;
   const svgNS = "http://www.w3.org/2000/svg";
   const mathmlNS = "http://www.w3.org/1998/Math/MathML";
   const doc = typeof document !== "undefined" ? document : null;
-  const templateContainer = doc && /* @__PURE__ */ doc.createElement("template");
+  const templateContainer =
+    doc && /* @__PURE__ */ doc.createElement("template");
   const nodeOps = {
     insert: (child, parent, anchor) => {
       parent.insertBefore(child, anchor || null);
@@ -7221,7 +8140,14 @@ Component that was made reactive: `,
       }
     },
     createElement: (tag, namespace, is, props) => {
-      const el = namespace === "svg" ? doc.createElementNS(svgNS, tag) : namespace === "mathml" ? doc.createElementNS(mathmlNS, tag) : is ? doc.createElement(tag, { is }) : doc.createElement(tag);
+      const el =
+        namespace === "svg"
+          ? doc.createElementNS(svgNS, tag)
+          : namespace === "mathml"
+          ? doc.createElementNS(mathmlNS, tag)
+          : is
+          ? doc.createElement(tag, { is })
+          : doc.createElement(tag);
       if (tag === "select" && props && props.multiple != null) {
         el.setAttribute("multiple", props.multiple);
       }
@@ -7254,7 +8180,11 @@ Component that was made reactive: `,
         }
       } else {
         templateContainer.innerHTML = unsafeToTrustedHTML(
-          namespace === "svg" ? `<svg>${content}</svg>` : namespace === "mathml" ? `<math>${content}</math>` : content
+          namespace === "svg"
+            ? `<svg>${content}</svg>`
+            : namespace === "mathml"
+            ? `<math>${content}</math>`
+            : content
         );
         const template = templateContainer.content;
         if (namespace === "svg" || namespace === "mathml") {
@@ -7270,15 +8200,17 @@ Component that was made reactive: `,
         // first
         before ? before.nextSibling : parent.firstChild,
         // last
-        anchor ? anchor.previousSibling : parent.lastChild
+        anchor ? anchor.previousSibling : parent.lastChild,
       ];
-    }
+    },
   };
   const vtcKey = Symbol("_vtc");
   function patchClass(el, value, isSVG) {
     const transitionClasses = el[vtcKey];
     if (transitionClasses) {
-      value = (value ? [value, ...transitionClasses] : [...transitionClasses]).join(" ");
+      value = (
+        value ? [value, ...transitionClasses] : [...transitionClasses]
+      ).join(" ");
     }
     if (value == null) {
       el.removeAttribute("class");
@@ -7290,7 +8222,11 @@ Component that was made reactive: `,
   }
   const vShowOriginalDisplay = Symbol("_vod");
   const vShowHidden = Symbol("_vsh");
-  const CSS_VAR_TEXT = Symbol(!!(define_process_env_default$1.NODE_ENV !== "production") ? "CSS_VAR_TEXT" : "");
+  const CSS_VAR_TEXT = Symbol(
+    !!(define_process_env_default$1.NODE_ENV !== "production")
+      ? "CSS_VAR_TEXT"
+      : ""
+  );
   const displayRE = /(^|;)\s*display\s*:/;
   function patchStyle(el, prev, next) {
     const style = el.style;
@@ -7379,19 +8315,26 @@ Component that was made reactive: `,
     }
     let name = camelize(rawName);
     if (name !== "filter" && name in style) {
-      return prefixCache[rawName] = name;
+      return (prefixCache[rawName] = name);
     }
     name = capitalize(name);
     for (let i = 0; i < prefixes.length; i++) {
       const prefixed = prefixes[i] + name;
       if (prefixed in style) {
-        return prefixCache[rawName] = prefixed;
+        return (prefixCache[rawName] = prefixed);
       }
     }
     return rawName;
   }
   const xlinkNS = "http://www.w3.org/1999/xlink";
-  function patchAttr(el, key, value, isSVG, instance, isBoolean2 = isSpecialBooleanAttr(key)) {
+  function patchAttr(
+    el,
+    key,
+    value,
+    isSVG,
+    instance,
+    isBoolean2 = isSpecialBooleanAttr(key)
+  ) {
     if (isSVG && key.startsWith("xlink:")) {
       if (value == null) {
         el.removeAttributeNS(xlinkNS, key.slice(6, key.length));
@@ -7399,7 +8342,7 @@ Component that was made reactive: `,
         el.setAttributeNS(xlinkNS, key, value);
       }
     } else {
-      if (value == null || isBoolean2 && !includeBooleanAttr(value)) {
+      if (value == null || (isBoolean2 && !includeBooleanAttr(value))) {
         el.removeAttribute(key);
       } else {
         el.setAttribute(
@@ -7417,14 +8360,21 @@ Component that was made reactive: `,
       return;
     }
     const tag = el.tagName;
-    if (key === "value" && tag !== "PROGRESS" && // custom elements may use _value internally
-    !tag.includes("-")) {
-      const oldValue = tag === "OPTION" ? el.getAttribute("value") || "" : el.value;
-      const newValue = value == null ? (
-        // #11647: value should be set as empty string for null and undefined,
-        // but <input type="checkbox"> should be set as 'on'.
-        el.type === "checkbox" ? "on" : ""
-      ) : String(value);
+    if (
+      key === "value" &&
+      tag !== "PROGRESS" && // custom elements may use _value internally
+      !tag.includes("-")
+    ) {
+      const oldValue =
+        tag === "OPTION" ? el.getAttribute("value") || "" : el.value;
+      const newValue =
+        value == null
+          ? // #11647: value should be set as empty string for null and undefined,
+            // but <input type="checkbox"> should be set as 'on'.
+            el.type === "checkbox"
+            ? "on"
+            : ""
+          : String(value);
       if (oldValue !== newValue || !("_value" in el)) {
         el.value = newValue;
       }
@@ -7450,7 +8400,10 @@ Component that was made reactive: `,
     try {
       el[key] = value;
     } catch (e) {
-      if (!!(define_process_env_default$1.NODE_ENV !== "production") && !needRemove) {
+      if (
+        !!(define_process_env_default$1.NODE_ENV !== "production") &&
+        !needRemove
+      ) {
         warn(
           `Failed setting prop "${key}" on <${tag.toLowerCase()}>: value ${value} is invalid.`,
           e
@@ -7470,14 +8423,20 @@ Component that was made reactive: `,
     const invokers = el[veiKey] || (el[veiKey] = {});
     const existingInvoker = invokers[rawName];
     if (nextValue && existingInvoker) {
-      existingInvoker.value = !!(define_process_env_default$1.NODE_ENV !== "production") ? sanitizeEventValue(nextValue, rawName) : nextValue;
+      existingInvoker.value = !!(
+        define_process_env_default$1.NODE_ENV !== "production"
+      )
+        ? sanitizeEventValue(nextValue, rawName)
+        : nextValue;
     } else {
       const [name, options] = parseName(rawName);
       if (nextValue) {
-        const invoker = invokers[rawName] = createInvoker(
-          !!(define_process_env_default$1.NODE_ENV !== "production") ? sanitizeEventValue(nextValue, rawName) : nextValue,
+        const invoker = (invokers[rawName] = createInvoker(
+          !!(define_process_env_default$1.NODE_ENV !== "production")
+            ? sanitizeEventValue(nextValue, rawName)
+            : nextValue,
           instance
-        );
+        ));
         addEventListener(el, name, invoker, options);
       } else if (existingInvoker) {
         removeEventListener(el, name, existingInvoker, options);
@@ -7491,7 +8450,7 @@ Component that was made reactive: `,
     if (optionsModifierRE.test(name)) {
       options = {};
       let m;
-      while (m = name.match(optionsModifierRE)) {
+      while ((m = name.match(optionsModifierRE))) {
         name = name.slice(0, name.length - m[0].length);
         options[m[0].toLowerCase()] = true;
       }
@@ -7501,7 +8460,8 @@ Component that was made reactive: `,
   }
   let cachedNow = 0;
   const p = /* @__PURE__ */ Promise.resolve();
-  const getNow = () => cachedNow || (p.then(() => cachedNow = 0), cachedNow = Date.now());
+  const getNow = () =>
+    cachedNow || (p.then(() => (cachedNow = 0)), (cachedNow = Date.now()));
   function createInvoker(initialValue, instance) {
     const invoker = (e) => {
       if (!e._vts) {
@@ -7537,16 +8497,24 @@ Expected function or array of functions, received type ${typeof value}.`
         originalStop.call(e);
         e._stopped = true;
       };
-      return value.map(
-        (fn) => (e2) => !e2._stopped && fn && fn(e2)
-      );
+      return value.map((fn) => (e2) => !e2._stopped && fn && fn(e2));
     } else {
       return value;
     }
   }
-  const isNativeOn = (key) => key.charCodeAt(0) === 111 && key.charCodeAt(1) === 110 && // lowercase letter
-  key.charCodeAt(2) > 96 && key.charCodeAt(2) < 123;
-  const patchProp = (el, key, prevValue, nextValue, namespace, parentComponent) => {
+  const isNativeOn = (key) =>
+    key.charCodeAt(0) === 111 &&
+    key.charCodeAt(1) === 110 && // lowercase letter
+    key.charCodeAt(2) > 96 &&
+    key.charCodeAt(2) < 123;
+  const patchProp = (
+    el,
+    key,
+    prevValue,
+    nextValue,
+    namespace,
+    parentComponent
+  ) => {
     const isSVG = namespace === "svg";
     if (key === "class") {
       patchClass(el, nextValue, isSVG);
@@ -7556,14 +8524,24 @@ Expected function or array of functions, received type ${typeof value}.`
       if (!isModelListener(key)) {
         patchEvent(el, key, prevValue, nextValue, parentComponent);
       }
-    } else if (key[0] === "." ? (key = key.slice(1), true) : key[0] === "^" ? (key = key.slice(1), false) : shouldSetAsProp(el, key, nextValue, isSVG)) {
+    } else if (
+      key[0] === "."
+        ? ((key = key.slice(1)), true)
+        : key[0] === "^"
+        ? ((key = key.slice(1)), false)
+        : shouldSetAsProp(el, key, nextValue, isSVG)
+    ) {
       patchDOMProp(el, key, nextValue);
-      if (!el.tagName.includes("-") && (key === "value" || key === "checked" || key === "selected")) {
+      if (
+        !el.tagName.includes("-") &&
+        (key === "value" || key === "checked" || key === "selected")
+      ) {
         patchAttr(el, key, nextValue, isSVG, parentComponent, key !== "value");
       }
     } else if (
       // #11081 force set props for possible async custom element
-      el._isVueCE && (/[A-Z]/.test(key) || !isString(nextValue))
+      el._isVueCE &&
+      (/[A-Z]/.test(key) || !isString(nextValue))
     ) {
       patchDOMProp(el, camelize(key), nextValue, parentComponent, key);
     } else {
@@ -7585,7 +8563,12 @@ Expected function or array of functions, received type ${typeof value}.`
       }
       return false;
     }
-    if (key === "spellcheck" || key === "draggable" || key === "translate" || key === "autocorrect") {
+    if (
+      key === "spellcheck" ||
+      key === "draggable" ||
+      key === "translate" ||
+      key === "autocorrect"
+    ) {
       return false;
     }
     if (key === "form") {
@@ -7599,7 +8582,12 @@ Expected function or array of functions, received type ${typeof value}.`
     }
     if (key === "width" || key === "height") {
       const tag = el.tagName;
-      if (tag === "IMG" || tag === "VIDEO" || tag === "CANVAS" || tag === "SOURCE") {
+      if (
+        tag === "IMG" ||
+        tag === "VIDEO" ||
+        tag === "CANVAS" ||
+        tag === "SOURCE"
+      ) {
         return false;
       }
     }
@@ -7643,14 +8631,17 @@ Expected function or array of functions, received type ${typeof value}.`
     if (container instanceof SVGElement) {
       return "svg";
     }
-    if (typeof MathMLElement === "function" && container instanceof MathMLElement) {
+    if (
+      typeof MathMLElement === "function" &&
+      container instanceof MathMLElement
+    ) {
       return "mathml";
     }
   }
   function injectNativeTagCheck(app) {
     Object.defineProperty(app.config, "isNativeTag", {
       value: (tag) => isHTMLTag(tag) || isSVGTag(tag) || isMathMLTag(tag),
-      writable: false
+      writable: false,
     });
   }
   function injectCompilerOptionsCheck(app) {
@@ -7664,7 +8655,7 @@ Expected function or array of functions, received type ${typeof value}.`
           warn(
             `The \`isCustomElement\` config option is deprecated. Use \`compilerOptions.isCustomElement\` instead.`
           );
-        }
+        },
       });
       const compilerOptions = app.config.compilerOptions;
       const msg = `The \`compilerOptions\` config option is only respected when using a build of Vue.js that includes the runtime compiler (aka "full build"). Since you are using the runtime-only build, \`compilerOptions\` must be passed to \`@vue/compiler-dom\` in the build setup instead.
@@ -7678,7 +8669,7 @@ Expected function or array of functions, received type ${typeof value}.`
         },
         set() {
           warn(msg);
-        }
+        },
       });
     }
   }
@@ -7692,7 +8683,12 @@ Expected function or array of functions, received type ${typeof value}.`
       }
       return res;
     }
-    if (!!(define_process_env_default$1.NODE_ENV !== "production") && window.ShadowRoot && container instanceof window.ShadowRoot && container.mode === "closed") {
+    if (
+      !!(define_process_env_default$1.NODE_ENV !== "production") &&
+      window.ShadowRoot &&
+      container instanceof window.ShadowRoot &&
+      container.mode === "closed"
+    ) {
       warn(
         `mounting on a ShadowRoot with \`{mode: "closed"}\` may lead to unpredictable bugs`
       );
@@ -7719,33 +8715,52 @@ Expected function or array of functions, received type ${typeof value}.`
   const _sfc_main$1 = {
     __name: "HelloWorld",
     props: {
-      msg: String
+      msg: String,
     },
     setup(__props) {
       const count = ref(0);
       return (_ctx, _cache) => {
-        return openBlock(), createElementBlock(Fragment, null, [
-          createBaseVNode("h1", null, toDisplayString(__props.msg), 1),
-          _cache[1] || (_cache[1] = createBaseVNode("h2", null, "1404-05-07", -1)),
-          createBaseVNode("div", _hoisted_1, [
-            createBaseVNode("button", {
-              type: "button",
-              onClick: _cache[0] || (_cache[0] = ($event) => count.value++)
-            }, "count is " + toDisplayString(count.value), 1)
-          ])
-        ], 64);
+        return (
+          openBlock(),
+          createElementBlock(
+            Fragment,
+            null,
+            [
+              createBaseVNode("h1", null, toDisplayString(__props.msg), 1),
+              createBaseVNode("div", _hoisted_1, [
+                createBaseVNode(
+                  "button",
+                  {
+                    type: "button",
+                    onClick:
+                      _cache[0] || (_cache[0] = ($event) => count.value++),
+                  },
+                  "count is " + toDisplayString(count.value),
+                  1
+                ),
+              ]),
+            ],
+            64
+          )
+        );
       };
-    }
+    },
   };
-  const HelloWorld = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-1cb48b2e"]]);
+  const HelloWorld = /* @__PURE__ */ _export_sfc(_sfc_main$1, [
+    ["__scopeId", "data-v-7835a103"],
+  ]);
   const _sfc_main = {
     __name: "App",
     setup(__props) {
       return (_ctx, _cache) => {
-        return openBlock(), createBlock(HelloWorld, { msg: "hossen sheykhi test" });
+        return (
+          openBlock(), createBlock(HelloWorld, { msg: "hossen sheykhi test" })
+        );
       };
-    }
+    },
   };
-  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-fcd42a5e"]]);
-  createApp(App).mount("#app");
+  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [
+    ["__scopeId", "data-v-fcd42a5e"],
+  ]);
+  createApp(App).mount("app");
 })();
