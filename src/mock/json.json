@@ -1,0 +1,148 @@
+{
+  "type": "menu",
+  "object_id": "1234.1234.1423.1234",
+  "label": [
+    {
+      "en": "Sidebar Menu"
+    },
+    {
+      "fa": "منوی کناری"
+    }
+  ],
+  "tooltip": [
+    {
+      "en": "Sidebar Menu"
+    },
+    {
+      "fa": "منوی کناری"
+    }
+  ],
+  "href": "/main",
+  "settings": [],
+  "children": [
+    {
+      "type": "menu",
+      "label": [
+        {
+          "en": "Sub-Menu 1"
+        },
+        {
+          "fa": "زیر منوی 1"
+        }
+      ],
+      "tooltip": [
+        {
+          "en": "Sub-Menu 1"
+        },
+        {
+          "fa": "زیر منوی 1"
+        }
+      ],
+      "href": "/submenu1",
+      "settings": [],
+      "children": [
+        {
+          "type": "command",
+          "label": [
+            {
+              "en": "label command"
+            },
+            {
+              "fa": "دستور"
+            }
+          ],
+          "tooltip": [
+            {
+              "en": "label command"
+            },
+            {
+              "fa": "دستور"
+            }
+          ],
+          "href": "/label-action",
+          "settings": [
+            {
+              "key": "icon",
+              "value": "label-command.jpg"
+            },
+            {
+              "key": "disabled",
+              "value": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "menu",
+      "label": [
+        {
+          "en": "static commands"
+        },
+        {
+          "fa": "دستورات ثابت"
+        }
+      ],
+      "tooltip": [
+        {
+          "en": "static commands"
+        },
+        {
+          "fa": "دستورات ثابت"
+        }
+      ],
+      "href": "/static-commands",
+      "settings": [],
+      "children": [
+        {
+          "type": "command",
+          "label": [
+            {
+              "en": "Recents"
+            },
+            {
+              "fa": "اخیر"
+            }
+          ],
+          "tooltip": [
+            {
+              "en": "Recents"
+            },
+            {
+              "fa": "اخیر"
+            }
+          ],
+          "href": "/recents",
+          "settings": [
+            {
+              "key": "icon",
+              "value": "/recnets.jpg"
+            }
+          ]
+        },
+        {
+          "type": "command",
+          "label": [
+            {
+              "en": "Open"
+            },
+            {
+              "fa": "باز کردن"
+            }
+          ],
+          "tooltip": [
+            {
+              "en": "Open"
+            },
+            {
+              "fa": "باز کردن"
+            }
+          ],
+          "href": "/open",
+          "settings": []
+        }
+      ]
+    }
+  ]
+}
+ 

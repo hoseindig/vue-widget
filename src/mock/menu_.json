@@ -1,0 +1,194 @@
+{
+    "type": "menu",
+    "object_id": "1234.1234.1423.1234",
+    "label": [
+        {
+            "en": "Sidebar Menu"
+        },
+        {
+            "fa": "منوی کناری"
+        }
+    ],
+    "tooltip": [
+        {
+            "en": "Label Tooltip"
+        },
+        {
+            "fa": "راهنمای برچسب"
+        }
+    ],
+    "href": "/main",
+    "settings": [],
+    "children": [
+        {
+            "type": "menu ",
+            "label": [
+                {
+                    "en": "Use Change Management solution to create changes, manage changes with governance and implement your changes."
+                },
+                {
+                    "fa": "از راهکار مدیریت تغییر برای ایجاد تغییرات، مدیریت تغییرات با استفاده از مدیریت و اجرای تغییرات خود استفاده کنید."
+                }
+            ],
+            "tooltip": [
+                {
+                    "en": "Tooltip"
+                },
+                {
+                    "fa": "راهنمای "
+                }
+            ],
+            "href": "/submenu1",
+            "settings": []
+        },
+        {
+            "type": "menu",
+            "label": [
+                {
+                    "en": "Sub-Menu 1"
+                },
+                {
+                    "fa": "زیرمنوی ۱"
+                }
+            ],
+            "tooltip": [
+                {
+                    "en": "Label Tooltip"
+                },
+                {
+                    "fa": "راهنمای برچسب"
+                }
+            ],
+            "href": "/submenu1",
+            "settings": [],
+            "children": [
+                {
+                    "type": "command",
+                    "label": [
+                        {
+                            "en": "child sub menu 1"
+                        },
+                        {
+                            "fa": "بچه زیر منوی ۱"
+                        }
+                    ],
+                    "tooltip": [
+                        {
+                            "en": "Label Tooltip"
+                        },
+                        {
+                            "fa": "راهنمای برچسب"
+                        }
+                    ],
+                    "href": "/label-action",
+                    "settings": [
+                        {
+                            "key": "icon",
+                            "value": "label-command.jpg"
+                        },
+                        {
+                            "key": "disabled",
+                            "value": "true"
+                        }
+                    ]
+                },
+                {
+                    "type": "command",
+                    "label": [
+                        {
+                            "en": "child sub menu 1"
+                        },
+                        {
+                            "fa": "بچه زیر منوی ۲"
+                        }
+                    ],
+                    "tooltip": [
+                        {
+                            "en": "Label Tooltip"
+                        },
+                        {
+                            "fa": "راهنمای برچسب"
+                        }
+                    ],
+                    "href": "/label-action",
+                    "settings": [
+                        {
+                            "key": "icon",
+                            "value": "label-command.jpg"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "menu",
+            "label": [
+                {
+                    "en": "static commands"
+                },
+                {
+                    "fa": "دستورات ثابت"
+                }
+            ],
+            "tooltip": [
+                {
+                    "en": "Label Tooltip"
+                },
+                {
+                    "fa": "راهنمای برچسب"
+                }
+            ],
+            "href": "/static-commands",
+            "settings": [],
+            "children": [
+                {
+                    "type": "command",
+                    "label": [
+                        {
+                            "en": "Recents"
+                        },
+                        {
+                            "fa": "اخیر"
+                        }
+                    ],
+                    "tooltip": [
+                        {
+                            "en": "Label Tooltip"
+                        },
+                        {
+                            "fa": "راهنمای برچسب"
+                        }
+                    ],
+                    "href": "/recents",
+                    "settings": [
+                        {
+                            "key": "icon",
+                            "value": "/recnets.jpg"
+                        }
+                    ]
+                },
+                {
+                    "type": "command",
+                    "label": [
+                        {
+                            "en": "Open"
+                        },
+                        {
+                            "fa": "باز کردن"
+                        }
+                    ],
+                    "tooltip": [
+                        {
+                            "en": "Label Tooltip"
+                        },
+                        {
+                            "fa": "راهنمای برچسب"
+                        }
+                    ],
+                    "href": "/open",
+                    "settings": []
+                }
+            ]
+        }
+    ]
+}

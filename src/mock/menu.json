@@ -1,0 +1,169 @@
+{
+  "object_id": "111.222.333",
+    "href": "/side",
+    "label": {},
+    "tooltip": {},
+    "settings": [],
+    "children": [
+        {
+            "object_id": "111.222.334",
+            "href": "",
+            "label": {
+                "en": "Change Execution",
+                "fa": "ejraye change"
+            },
+            "tooltip": {},
+            "settings": [],
+            "children": [
+                {
+                    "object_id": "111.111.111",
+                    "type": "COMMAND",
+                    "href": "",
+                    "label": {
+                        "en": "Use Change Management solution to create changes, manage changes with governance and implement your changes.",
+                        "fa": "az change estefade kon baraye sakhat va modiriat change ha."
+                    },
+                    "tooltip": {},
+                    "settings": [
+                        {
+                            "key": "disabled",
+                            "value": "true"
+                        }
+                    ]
+                }
+            ],
+            "type": "MENU"
+        },
+        {
+            "object_id": "111.222.335",
+            "href": "",
+            "label": {
+                "en": "Access Your Work",
+                "fa": "ejraye change"
+            },
+            "tooltip": {},
+            "settings": [],
+            "children": [
+                {
+                    "object_id": "111.111.112",
+                    "type": "COMMAND",
+                    "href": "3dspace/resources/recents",
+                    "label": {
+                        "en": "Recents",
+                        "fa": "akhiran"
+                    },
+                    "tooltip": {
+                        "en": "Recents",
+                        "fa": "akhiran"
+                    },
+                    "settings": [
+                        {
+                            "key": "icon_type",
+                            "value": "class"
+                        },
+                        {
+                            "key": "icon",
+                            "value": "panel-icon fonticon fonticon-clock"
+                        }
+                    ]
+                },
+                {
+                    "object_id": "111.111.113",
+                    "type": "COMMAND",
+                    "href": "3dspace/resources/open",
+                    "label": {
+                        "en": "Open",
+                        "fa": "baz"
+                    },
+                    "tooltip": {
+                        "en": "Open",
+                        "fa": "baz"
+                    },
+                    "settings": [
+                        {
+                            "key": "icon_type",
+                            "value": "class"
+                        },
+                        {
+                            "key": "icon",
+                            "value": "panel-icon fonticon fonticon-open"
+                        }
+                    ]
+                },
+                {
+                    "object_id": "111.111.114",
+                    "type": "COMMAND",
+                    "href": "3dspace/resources/cr",
+                    "label": {
+                        "en": "My Change Requests",
+                        "fa": "change man"
+                    },
+                    "tooltip": {
+                        "en": "My Change Requests",
+                        "fa": "change man"
+                    },
+                    "settings": [
+                        {
+                            "key": "icon_type",
+                            "value": "class"
+                        },
+                        {
+                            "key": "icon",
+                            "value": "panel-icon fonticon fonticon-change-request"
+                        }
+                    ]
+                },
+                {
+                    "object_id": "111.111.115",
+                    "type": "COMMAND",
+                    "href": "3dspace/resources/co",
+                    "label": {
+                        "en": "My Change Orders",
+                        "fa": "change man"
+                    },
+                    "tooltip": {
+                        "en": "My Change Orders",
+                        "fa": "change man"
+                    },
+                    "settings": [
+                        {
+                            "key": "icon_type",
+                            "value": "class"
+                        },
+                        {
+                            "key": "icon",
+                            "value": "panel-icon fonticon fonticon-change-order"
+                        }
+                    ]
+                },
+                {
+                    "object_id": "111.111.116",
+                    "type": "COMMAND",
+                    "href": "3dspace/resources/ca",
+                    "label": {
+                        "en": "My Change Actions",
+                        "fa": "change man"
+                    },
+                    "tooltip": {
+                        "en": "My Change Actions",
+                        "fa": "change man"
+                    },
+                    "settings": [
+                        {
+                            "key": "icon_type",
+                            "value": "class"
+                        },
+                        {
+                            "key": "icon",
+                            "value": "panel-icon fonticon fonticon-change-action"
+                        }
+                    ]
+                }
+            ],
+            "type": "MENU"
+        }
+    ],
+    "type": "MENU"
+}
+
+ 
