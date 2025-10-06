@@ -81,6 +81,9 @@
       </div>
     </template>
 
+    <!-- StepDialog -->
+    <StepDialog v-model="dialog" />
+    <v-btn color="primary" @click="dialog = true"> باز کردن مودال </v-btn>
     <!-- Error State -->
     <v-alert
       v-if="sidebar.error"
@@ -96,13 +99,15 @@
 import { ref, onMounted, computed } from "vue";
 import { useSidebarStore } from "../stores/sidebar";
 import { useSettingsStore } from "../stores/settings";
-import LanguageSwitch from "./LanguageSwitch.vue";
+import StepDialog from "../components/StepDialog.vue";
+
 import SidebarParentItem from "./SidebarParentItem.vue";
 import type { MenuItem } from "@/types/menu";
 
 // Reactive state for drawer visibility
 const drawer = ref(true);
-
+const dialog = ref(false);
+const name = ref("");
 // Store instances
 const sidebar = useSidebarStore();
 const settings = useSettingsStore();

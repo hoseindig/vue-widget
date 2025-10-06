@@ -89,5 +89,5 @@ setTimeout(() => {
   });
 
   app.use(i18n);
-  app.mount("my-app");
+  app.mount("#app");
 }, 2000);
