@@ -1,5 +1,7 @@
 <template>
+  <!-- :rail-width="41" -->
   <v-navigation-drawer
+    :width="270"
     v-model="drawer"
     :rail="sidebar.isCollapsed"
     permanent
@@ -31,7 +33,7 @@
     <template v-else>
       <!-- Top header with logo + version -->
       <div class="d-flex align-center justify-space-between mb-4 px-3">
-        <LanguageSwitch v-if="!sidebar.isCollapsed" />
+        <!-- <LanguageSwitch v-if="!sidebar.isCollapsed" /> -->
         <small class="text-disabled text-caption">{{ appVersion }}</small>
       </div>
 
@@ -49,9 +51,10 @@
           {{ collapseIcon }}
         </v-icon>
       </v-btn>
+      <!-- test icon -->
+      <!-- <div class="panel-icon fonticon fonticon-change-request"></div> -->
 
       <!-- <v-divider class="my-2" /> -->
-
       <!-- Sections -->
       <div
         v-for="section in sidebar.sections"
@@ -59,67 +62,22 @@
         class="section-wrapper"
       >
         <!-- Section Title -->
-        <div v-if="!sidebar.isCollapsed" class="section-title mx-3 mb-2">
-          <h4 class=" font-weight-bold" style="cursor: default;">
-            {{ section.title[settings.locale] }}
+        <!-- <div v-if="!sidebar.isCollapsed" class="section-title mx-3 mb-2">
+          <h4 class="font-13" style="cursor: default">
+            {{ section.label[settings.locale] }}
           </h4>
-        </div>
+        </div> -->
 
+        <div class="panel-icon fonticon fonticon-default"></div>
         <!-- Menu Items -->
-        <v-list density="compact" nav class="pa-0 ma-0">
-          <template v-for="item in section.items" :key="item.id">
-         <div :title="item.tooltip?.[settings.locale] || ''">
-              <!-- Label Item -->
-              <h5 v-if="item.type === 'menu'&&!sidebar.isCollapsed" class="mx-3 my-4" style="cursor: default;">
-                {{ item.label[settings.locale] }}
-              </h5>
-
-              <!-- Parent Item -->
-              <v-list-item
-                v-if="item.route && item.type === 'command'"
-                :to="item.route"
-                :disabled="item.disabled"
-                class="sidebar-item"
-                active-class="sidebar-item--active"
-              >
-                <template #prepend>
-                  <div class="mx-2 panel-icon fonticon fonticon-change-request"></div>
-
-                  <!-- <v-icon size="18" class="panel-icon fonticon fonticon-change-request">
-                    {{ item.icon }}
-                  </v-icon> -->
-                </template>
-
-                <v-list-item-title v-if="!sidebar.isCollapsed">
-                  <h4>{{ item.label[settings.locale] }}</h4>
-                </v-list-item-title>
-              </v-list-item>
-
-              <!-- Child Items -->
-              <v-list-item
-                v-for="child in item.children"
-                :key="child.id"
-                v-bind="child.route ? { to: child.route } : {}"
-                :disabled="child.disabled"
-                class="sidebar-item"
-                active-class="sidebar-item--active"
-              >
-                <template #prepend>
-                  <div class="panel-icon fonticon fonticon-change-request"></div>
-                  <!-- <v-icon size="18" class="panel-icon fonticon fonticon-change-request">
-                    {{ child.icon }}
-                  </v-icon> -->
-                </template>
-
-                <v-list-item-title v-if="!sidebar.isCollapsed">
-                  {{ child.label[settings.locale] }}
-                </v-list-item-title>
-              </v-list-item>
-            </div>
-
-            <v-divider v-if="item.children?.length" class="my-2" />
-          </template>
-        </v-list>
+        <SidebarParentItem
+          v-for="item in section.items"
+          :key="item.id"
+          :item="item"
+          :is-collapsed="sidebar.isCollapsed"
+          :locale="settings.locale"
+          :get-item-class="getItemClass"
+        />
       </div>
     </template>
 
@@ -139,6 +97,8 @@ import { ref, onMounted, computed } from "vue";
 import { useSidebarStore } from "../stores/sidebar";
 import { useSettingsStore } from "../stores/settings";
 import LanguageSwitch from "./LanguageSwitch.vue";
+import SidebarParentItem from "./SidebarParentItem.vue";
+import type { MenuItem } from "@/types/menu";
 
 // Reactive state for drawer visibility
 const drawer = ref(true);
@@ -146,6 +106,10 @@ const drawer = ref(true);
 // Store instances
 const sidebar = useSidebarStore();
 const settings = useSettingsStore();
+
+const isRtl = computed(() => {
+  return settings.direction === "rtl";
+});
 
 // Application version from environment
 const appVersion = import.meta.env.VITE_APP_VERSION || "v0.0.0";
@@ -163,6 +127,12 @@ const collapseIcon = computed(() => {
       : "mdi-chevron-double-left";
   }
 });
+
+const getItemClass = (item: MenuItem) => {
+  const direction = isRtl.value ? "text-left pl-2" : "text-right pr-2";
+  const iconClass = item.icon || "panel-icon fonticon fonticon-default";
+  return [iconClass, direction];
+};
 
 // Load sidebar sections on component mount
 onMounted(() => {
@@ -211,7 +181,9 @@ onMounted(() => {
 }
 
 /* Hover effect for items */
-.sidebar-item:hover {
+.sidebar-item:hover,
+ist-item :hover {
   background-color: var(--v-theme-surface-variant);
+  cursor: pointer !important;
 }
 </style>

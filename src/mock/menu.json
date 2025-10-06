@@ -1,7 +1,10 @@
 {
-  "object_id": "111.222.333",
+    "object_id": "111.222.333",
     "href": "/side",
-    "label": {},
+    "label": {
+        "en": "side bar mock data",
+        "fa": "fa side bar mock data"
+    },
     "tooltip": {},
     "settings": [],
     "children": [
@@ -165,5 +168,3 @@
     ],
     "type": "MENU"
 }
-
- 

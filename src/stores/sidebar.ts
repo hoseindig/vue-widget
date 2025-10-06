@@ -2,27 +2,13 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import axios from "axios";
 
+const baseUrl = import.meta.env.VITE_APP_BASE_URL || "";
+const widgetName = import.meta.env.VITE_APP_WIDGETNAME || "";
+// console.log(bseUrl);
+
 // Mock
 import menuData from "../mock/menu.json";
-
-// Types
-interface MenuItem {
-  id: string;
-  label: Record<string, string>;
-  route: string | null;
-  type: string;
-  icon?: string;
-  disabled?: boolean;
-  tooltip?: Record<string, string>;
-  children?: MenuItem[];
-}
-
-interface Section {
-  id: string;
-  title: Record<string, string>;
-  description: string;
-  items: MenuItem[];
-}
+import type { MenuItem, Section } from "@/types/menu";
 
 // ---- Parsers ----
 function parseSettings(settings: any[]) {
@@ -39,7 +25,7 @@ function parseSettings(settings: any[]) {
   return result;
 }
 
- 
+
 function parseMultiLang(arr: any): Record<string, string> {
   const result: Record<string, string> = {};
 
@@ -81,46 +67,6 @@ function transformMenu(data: any, lang: string = "fa"): MenuItem[] {
 
 
 // ---- API Service ----
-// async function fetchSidebarMenu(): Promise<any | null> {
-//   try {
-
-//     debugger
-//     // const token=await axios.get("https://3dxlab3.plm.ir/3dspace/ticket/login?ticket=RTJCMDdEODkwRjA1NDUxQjkyMzZEMDlBOEVBQkJFQjZ8YWRtaW5fcGxhdGZvcm18YWRtaW5fcGxhdGZvcm18fHwwfA==");
-//     const api = axios.create({
-//       baseURL: "https://3dxlab3.plm.ir/3dspace",
-//       withCredentials: true, // 
-//     });
-
-//     // login
-//     await api.get(
-//       "/ticket/login?ticket=RTJCMDdEODkwRjA1NDUxQjkyMzZEMDlBOEVBQkJFQjZ8YWRtaW5fcGxhdGZvcm18YWRtaW5fcGxhdGZvcm18fHwwfA=="
-//     );
-
-//     // protected call
-//     const { data } = await api.get("/resources/cw/widget/sidebar/aaaa");
-//     console.log(data);
-
-//     debugger
-//     // const { data } = await axios.get("https://3dxlab3.plm.ir/3dspace/resources/cw/widget/sidebar/aaaa");
-//     return data;
-//   } catch (err) {
-//     console.error("API call failed, using mock menu:", err);
-//     return null;
-//   }
-// }
-
-// function extractSessionFromXML(xmlString: string): string{
-//   // Create a new DOMParser instance
-//   const parser = new DOMParser();
-
-//   // Parse the XML string into a document object
-//   const xmlDoc = parser.parseFromString(xmlString, "application/xml");
-
-//   // Get the session value by querying the XML structure
-//   const session = xmlDoc.getElementsByTagName("session")[0].textContent;
-
-//   return session;
-// }
 function extractSessionFromXML(xmlString: string): string {
   const parser = new DOMParser();
   const xmlDoc = parser.parseFromString(xmlString, "application/xml");
@@ -130,35 +76,85 @@ function extractSessionFromXML(xmlString: string): string {
   return session;
 }
 
-async function fetchSidebarMenu(): Promise<any | null> {
-  try {
-    // Set up axios instance
-    const api = axios.create({
-      baseURL: "https://3dxlab3.plm.ir/3dspace",
-      withCredentials: true, 
-    });
 
-    // login and store the JSESSIONID cookie
+const api = axios.create({
+  baseURL: baseUrl,//"https://3dxlab3.plm.ir/3dspace",
+  withCredentials: true,
+});
+
+
+async function loginAndGetSession(): Promise<string | null> {
+  try {
     const loginResponse = await api.get(
       "/ticket/login?ticket=RTJCMDdEODkwRjA1NDUxQjkyMzZEMDlBOEVBQkJFQjZ8YWRtaW5fcGxhdGZvcm18YWRtaW5fcGxhdGZvcm18fHwwfA=="
     );
-    const Session = extractSessionFromXML(loginResponse.data)
 
-    // Now use the JSESSIONID cookie in the protected request
-    const { data } = await api.get("/resources/cw/widget/sidebar/aaaa", {
-      headers: {
-        'Cookie': 'JSESSIONID=' + Session, // Send the JSESSIONID cookie
-      },
+    return extractSessionFromXML(loginResponse.data);
+  } catch (err: any) {
+    if (err.response?.status === 500) {
+      console.warn("Login returned 500 but session might still be valid.");
+      return null; // یعنی سشن رو از کوکی یا قبلی بگیریم
+    }
+    console.error("Login failed:", err);
+    throw err;
+  }
+}
+
+
+export async function fetchSidebarMenu(widgetName: string = "defaultSidebar"): Promise<any | null> {
+  console.log("fetchSidebarMenu for", widgetName);
+  try {
+    // مرحله ۱: لاگین
+    let Session = await loginAndGetSession();
+
+    // اگر لاگین 500 داد، احتمالاً سشن معتبر داریم → تلاش بدون ست کردن دستی
+    const { data } = await api.get(`/resources/cw/widget/sidebar/${widgetName}`, {
+      headers: Session
+        ? { Cookie: "JSESSIONID=" + Session }
+        : {}, // اگر Session نداشتیم rely کنیم به کوکی موجود
     });
 
-    console.log(data);
+    console.log("fetchSidebarMenu success", data);
     return data;
-
   } catch (err) {
-    console.error("API call failed, using mock menu:", err);
+    console.error("fetchSidebarMenu failed, using mock menu:", err);
     return null;
   }
 }
+
+
+// async function fetchSidebarMenu(): Promise<any | null> {
+//   console.log(window.location.href);
+//   try {
+//     // Set up axios instance
+//     const api = axios.create({
+//       baseURL: "https://3dxlab3.plm.ir/3dspace",
+//       withCredentials: true,
+//     });
+
+//     // // login and store the JSESSIONID cookie
+//     const loginResponse = await api.get(
+//       "/ticket/login?ticket=RTJCMDdEODkwRjA1NDUxQjkyMzZEMDlBOEVBQkJFQjZ8YWRtaW5fcGxhdGZvcm18YWRtaW5fcGxhdGZvcm18fHwwfA=="
+//     );
+//     const Session = extractSessionFromXML(loginResponse.data)
+
+//     // Now use the JSESSIONID cookie in the protected request
+//     const { data } = await api.get(`/resources/cw/widget/sidebar/${widgetName}`
+//       , {
+//         headers: {
+//           'Cookie': 'JSESSIONID=' + Session, // Send the JSESSIONID cookie
+//         },
+//       }
+//     );
+
+//     console.log('fetchSidebarMenu', data);
+//     return data;
+
+//   } catch (err) {
+//     console.error("API call failed, using mock menu:", err);
+//     return null;
+//   }
+// }
 
 // ---- Store ----
 export const useSidebarStore = defineStore("sidebar", () => {
@@ -178,8 +174,8 @@ export const useSidebarStore = defineStore("sidebar", () => {
 
     try {
       let rawData: any = null;
-      if (false) {//!useMock
-        rawData = await fetchSidebarMenu();
+      if (true) {//!useMock
+        rawData = await fetchSidebarMenu(widgetName);
       }
 
       const source = rawData || menuData;
@@ -187,7 +183,7 @@ export const useSidebarStore = defineStore("sidebar", () => {
       sections.value = [
         {
           id: source.object_id,
-          title: parseMultiLang(source.label || []),
+          label: parseMultiLang(source.label || []),
           description: "",
           items: transformMenu(source, lang)
         }

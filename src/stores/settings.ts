@@ -4,8 +4,8 @@ import { ref, watch } from "vue";
 
 export const useSettingsStore = defineStore("settings", () => {
   // مقادیر پیش‌فرض
-  const defaultLocale = "fa";
-  const defaultDirection = "rtl";
+  const defaultLocale = "en";
+  const defaultDirection = "ltr";
 
   // خواندن مقادیر از localStorage با fallback
   const locale = ref(localStorage.getItem("locale") || defaultLocale);

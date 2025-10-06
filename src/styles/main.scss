@@ -1,8 +1,9 @@
 /* اضافه کردن به فایل src/style.css یا در main.ts */
 
 body {
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif Arial, sans-serif;
 }
+
 /* تنظیمات کلی برای RTL/LTR */
 html[dir="rtl"] {
   direction: rtl;
@@ -57,12 +58,17 @@ html[dir="ltr"] * {
 }
 
 /* تنظیمات دکمه‌ها و فاصله‌ها */
-html[dir="rtl"] .v-btn + .v-btn {
+html[dir="rtl"] .v-btn+.v-btn {
   margin-right: 8px;
   margin-left: 0;
 }
 
-html[dir="ltr"] .v-btn + .v-btn {
+html[dir="ltr"] .v-btn+.v-btn {
   margin-left: 8px;
   margin-right: 0;
+}
+
+.default-icon-sidebar {
+  width: 18px;
+  height: 25px;
 }
