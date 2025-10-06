@@ -1,6 +1,6 @@
 <template>
-  <v-dialog v-model="dialogModel" max-width="800" persistent>
-    <v-card class="rounded-xl pa-4">
+  <v-dialog v-model="dialogModel" max-width="450" persistent>
+    <v-card class="rounded-xl pa-4 px-1">
       <!-- Header with Stepper -->
       <v-card-title class="d-flex align-center justify-space-between">
         <div class="text-h6 font-weight-medium">New Request</div>
