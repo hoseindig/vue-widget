@@ -10,7 +10,7 @@
       <v-divider class="my-2" />
 
       <!-- Stepper -->
-      <v-stepper v-model="step" alt-labels class="pb-4">
+      <!-- <v-stepper v-model="step" alt-labels class="pb-4">
         <v-stepper-header>
           <v-stepper-item :value="1" title="Request" subtitle="Category" />
           <v-divider />
@@ -21,6 +21,18 @@
           <v-stepper-item :value="4" title="Attachments" />
           <v-divider />
           <v-stepper-item :value="5" title="Summary" />
+        </v-stepper-header>
+      </v-stepper> -->
+      <v-stepper v-model="step" alt-labels class="pb-4">
+        <v-stepper-header>
+          <!-- :title="s.label['en']" -->
+          <v-stepper-item
+            v-for="(s, index) in steps"
+            :key="s.object_id"
+            :value="index + 1"
+            :subtitle="s.tooltip['en']"
+          />
+          <v-divider v-if="index < steps.length - 1" />
         </v-stepper-header>
       </v-stepper>
 
@@ -149,17 +161,27 @@ const dialogModel = computed({
 const step = ref(1);
 
 // فرم داخلی محلی (تا در صورت بستن، تغییرات ذخیره‌نشده از بین بره)
-const form = ref({
-  title: "",
-  category: "Component Introduction Request",
-  description: "",
-  items: "",
-  dueDate: "",
-  project: "",
-  product: "",
-  plant: "",
-  details: "",
-  files: [],
+// const form = ref({
+//   title: "",
+//   category: "Component Introduction Request",
+//   description: "",
+//   items: "",
+//   dueDate: "",
+//   project: "",
+//   product: "",
+//   plant: "",
+//   details: "",
+//   files: [],
+// });
+
+const form = ref<any>({}); // فرم داینامیک
+const steps = computed(() => {
+  if (!props.formData) return [];
+  // اگر آرایه items داری، اولین آیتم رو استفاده می‌کنیم
+  const item = Array.isArray(props.formData)
+    ? props.formData[0]
+    : props.formData;
+  return item?.steps || [];
 });
 
 // هر بار که prop جدید بیاد، فرم داخلی به‌روز میشه
