@@ -166,7 +166,14 @@ const form = ref({
 watch(
   () => props.formData,
   (val) => {
-    form.value = { ...form.value, ...val };
+    if (Array.isArray(val)) {
+      // مثال: فقط آیتم اول رو میگیریم
+      form.value = { ...form.value, ...val[0] };
+      console.log("formData (first item):", val[0]);
+    } else {
+      form.value = { ...form.value, ...val };
+      console.log("formData:", JSON.parse(JSON.stringify(val)));
+    }
   },
   { immediate: true }
 );

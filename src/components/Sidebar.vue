@@ -84,7 +84,7 @@
     <!-- StepDialog -->
     <StepDialog
       v-model="dialog"
-      :formData="selectedData"
+      :form-data="formStore.items"
       @submit="handleSubmit"
     />
     <v-btn color="primary" @click="dialog = true"> باز کردن مودال </v-btn>
@@ -107,6 +107,7 @@ import StepDialog from "../components/StepDialog.vue";
 
 import SidebarParentItem from "./SidebarParentItem.vue";
 import type { MenuItem } from "@/types/menu";
+import { useFormStore } from "../stores/formStore";
 
 // Reactive state for drawer visibility
 const drawer = ref(true);
@@ -119,6 +120,8 @@ const selectedData = ref({
 // Store instances
 const sidebar = useSidebarStore();
 const settings = useSettingsStore();
+const formStore = useFormStore();
+console.log(formStore.items);
 
 const isRtl = computed(() => {
   return settings.direction === "rtl";
@@ -150,6 +153,7 @@ const getItemClass = (item: MenuItem) => {
 // Load sidebar sections on component mount
 onMounted(() => {
   sidebar.loadSections(false);
+  formStore.loadRequests();
 });
 </script>
 
