@@ -82,7 +82,11 @@
     </template>
 
     <!-- StepDialog -->
-    <StepDialog v-model="dialog" />
+    <StepDialog
+      v-model="dialog"
+      :formData="selectedData"
+      @submit="handleSubmit"
+    />
     <v-btn color="primary" @click="dialog = true"> باز کردن مودال </v-btn>
     <!-- Error State -->
     <v-alert
@@ -107,7 +111,11 @@ import type { MenuItem } from "@/types/menu";
 // Reactive state for drawer visibility
 const drawer = ref(true);
 const dialog = ref(false);
-const name = ref("");
+const selectedData = ref({
+  title: "Test Request",
+  category: "Software",
+  dueDate: "2025-10-10",
+});
 // Store instances
 const sidebar = useSidebarStore();
 const settings = useSettingsStore();
