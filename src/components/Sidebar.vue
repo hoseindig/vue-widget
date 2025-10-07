@@ -82,7 +82,7 @@
     </template>
 
     <!-- StepDialog -->
-    <StepDialog v-model="dialog" :form-data="formStore.items" />
+    <Dialog v-model="dialog" :form-data="formStore.items" v-if="dialog" />
     <v-btn color="primary" @click="dialog = true"> باز کردن مودال </v-btn>
     <!-- Error State -->
     <v-alert
@@ -99,7 +99,7 @@
 import { ref, onMounted, computed } from "vue";
 import { useSidebarStore } from "../stores/sidebar";
 import { useSettingsStore } from "../stores/settings";
-import StepDialog from "../components/StepDialog.vue";
+import Dialog from "../components/Dialog.vue";
 
 import SidebarParentItem from "./SidebarParentItem.vue";
 import type { MenuItem } from "@/types/menu";
