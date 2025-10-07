@@ -8,24 +8,18 @@
               {{ section.label.en }}
             </v-expansion-panel-title>
             <v-expansion-panel-text>
-              <SectionFields
-                :fields="section.fields"
-                v-model="formValues[section.object_id]"
-              />
+              <SectionFields :fields="section.fields" v-model="formValues[section.object_id]" />
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
 
         <div v-else>
           <h3 class="text-lg font-semibold mb-4">{{ section.label.en }}</h3>
-          <SectionFields
-            :fields="section.fields"
-            v-model="formValues[section.object_id]"
-          />
+          <SectionFields :fields="section.fields" v-model="formValues[section.object_id]" />
         </div>
       </div>
 
-      <v-btn color="primary" @click="submitForm">ارسال</v-btn>
+      <!-- <v-btn color="primary" @click="submitForm">ارسال</v-btn> -->
     </v-form>
   </v-container>
 </template>
