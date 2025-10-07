@@ -31,7 +31,7 @@ import DynamicForm from "./DynamicForm.vue";
 const props = defineProps<{
   // 1. formSchema:   (SCHEMA)
   formSchema: FormData | FormData[];
-  // 2. formValues:   (DATA -   v-model:form-values در Dialog.vue)
+  // 2. formValues:   (DATA -   v-model:form-values   Dialog.vue)
   formValues: any;
   // 3. activeStepIndex:   (  v-model:activeStepIndex)
   activeStepIndex: number;

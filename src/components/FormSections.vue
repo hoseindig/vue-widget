@@ -60,7 +60,7 @@ const formValues = reactive<Record<string, Record<string, any>>>({});
 const isValid = ref(false);
 const formRef = ref();
 
-// مقدار اولیه برای هر سکشن و فیلد
+// base value
 props.sections.forEach((section) => {
   formValues[section.object_id] = {};
   section.fields.forEach((field) => {

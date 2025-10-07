@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue"; // <-- computed را ایمپورت کنید
+import { computed } from "vue";
 
 interface Field {
   object_id: string;
@@ -47,11 +47,11 @@ const emit = defineEmits<{
   (e: "update:modelValue", value: Record<string, any>): void;
 }>();
 
-// یک computed property ایجاد کنید تا v-model کار کند
+//   computed property   v-model
 const fieldModel = computed({
   get: () => props.modelValue,
   set: (newValue) => {
-    // هنگام تغییر، update:modelValue را emit کنید
+    //   update:modelValue   emit
     emit("update:modelValue", newValue);
   },
 });

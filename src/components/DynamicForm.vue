@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from "vue"; // computed را اضافه کنید
+import { ref, reactive, computed } from "vue"; // computed
 import type { PropType } from "vue";
 import SectionFields from "./SectionFields.vue";
 
@@ -36,43 +36,32 @@ import SectionFields from "./SectionFields.vue";
 
 const props = defineProps<{
   sections: Section[];
-  // 1. دریافت دیتای کاربر از StepBase با v-model:form-values
+  // 1.   StepBase   v-model:form-values
   formValues: Record<string, Record<string, any>>;
 }>();
 
 const emit = defineEmits<{
-  // 2. Emit برای آپدیت دیتای کاربر در StepBase
+  // 2. Emit   StepBase
   (e: "update:formValues", value: Record<string, Record<string, any>>): void;
 }>();
 
 const isValid = ref(false);
 const formRef = ref();
 
-// حذف: const formValues = reactive<Record<string, Record<string, any>>>({});
-// حذف: منطق props.sections.forEach
-
-// تابع برای ایجاد computed property برای هر بخش از فرم
+//   computed property
 function getSectionModel(sectionId: string) {
   return computed({
     get: () => {
-      // برگرداندن دیتای بخش یا یک شیء خالی
+      // def {} val
       return props.formValues[sectionId] || {};
     },
     set: (sectionData: Record<string, any>) => {
-      // انتشار تغییر به StepBase برای آپدیت کل شیء دیتای فرم
+      //  update  StepBase data
       emit("update:formValues", {
-        ...props.formValues, // حفظ دیتای سایر بخش ها
-        [sectionId]: sectionData, // آپدیت دیتای بخش جاری
+        ...props.formValues, //
+        [sectionId]: sectionData, // update
       });
     },
   });
-}
-
-function submitForm() {
-  if (formRef.value?.validate()) {
-    // استفاده از props.formValues که اکنون دیتای کامل کاربر را دارد
-    console.log("📤 فرم نهایی:", JSON.parse(JSON.stringify(props.formValues)));
-    alert("فرم در کنسول چاپ شد");
-  }
 }
 </script>

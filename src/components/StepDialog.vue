@@ -192,7 +192,6 @@ const steps = computed(() => {
   });
 });
 
-// هر بار که prop جدید بیاد، فرم داخلی به‌روز میشه
 watch(
   () => props.formData,
   (val) => {
@@ -217,10 +216,10 @@ const closeDialog = () => {
   step.value = 1;
 };
 
-// تعریف مقدار پیش‌فرض برای lang
+//   lang
 const lang = defineModel<"en" | "fa">("lang", { default: "en" });
 
-// استخراج کلاس آیکون از settings
+//   settings iconSetting
 const getIconClass = (settings: Setting[]): string => {
   const iconSetting = settings.find((setting) => setting.key === "icon");
   return iconSetting ? iconSetting.value : "";
