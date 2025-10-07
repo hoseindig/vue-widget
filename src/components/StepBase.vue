@@ -1,14 +1,15 @@
 <template>
   <div>
     <!-- {{ formData }} -->
-    <v-stepper v-model="step" :items="items" show-actions editable>
+    <v-stepper v-model="step" :items="stepLabels" show-actions editable>
       <template
-        v-for="(item, index) in items"
+        v-for="(item, index) in formData.steps"
         :key="index"
         v-slot:[`item.${index+1}`]
       >
         <div class="pa-4 text-center">
-          <h3>محتوای استپ {{ index + 1 }} - {{ item }}</h3>
+          <h3>محتوای استپ {{ index + 1 }} - {{ item.label.en }}</h3>
+          <p>{{ step }}</p>
         </div>
       </template>
     </v-stepper>
@@ -16,17 +17,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import type { FormData } from "@/types/form";
 
 const step = ref(1);
-const items = ["استپ اول", "استپ دوم", "استپ سوم", "استپ چهارم"];
+// const items = ["استپ اول", "استپ دوم", "استپ سوم", "استپ چهارم"];
 const form = ref<any>({});
 
 const props = defineProps<{
   modelValue: boolean;
   formData: FormData | FormData[];
 }>();
+
+const stepLabels = computed(() => {
+  if (Array.isArray(props.formData)) {
+    return props.formData.map((item) => item.label.fa);
+  } else {
+    return props.formData.steps.map((item) => item.label.fa);
+  }
+});
 
 watch(
   () => props.formData,
