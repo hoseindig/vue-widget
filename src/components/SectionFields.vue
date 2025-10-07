@@ -3,6 +3,7 @@
     <v-col v-for="field in fields" :key="field.object_id" cols="12" md="6">
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props }">
+          {{ modelValue[field.object_id] }}
           <v-text-field
             v-bind="props"
             v-model="modelValue[field.object_id]"

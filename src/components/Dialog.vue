@@ -1,8 +1,8 @@
 <template>
   <v-dialog v-model="dialogModel" max-width="600">
-    <v-card class="rounded-xl pa-4 px-1">
+    <v-card class="rounded-xl">
       <!-- <p>Dialog</p> -->
-      {{ currentStep }}
+      <!-- {{ currentStep }} -->
       <!-- {{ form }} -->
       <StepBase
         :form-data="form"
@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, computed, watch } from "vue";
-import DynamicForm from "./DynamicForm.vue";
+// import DynamicForm from "./DynamicForm.vue";
 import StepBase from "./StepBase.vue";
 
 const currentStep = ref(1);
