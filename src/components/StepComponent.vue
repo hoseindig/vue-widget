@@ -1,18 +1,26 @@
 <!-- StepComponent.vue -->
 <template>
   <div class="steps-container">
-    <v-stepper v-model="currentStep" flat>
+    <v-stepper
+      :model-value="activeStep"
+      flat
+      :key="activeStep"
+      @update:model-value="$emit('update:activeStep', $event)"
+    >
       <v-stepper-header>
-        <template v-for="(step, index) in steps" :key="step.object_id">
+        <template v-for="(step, index) in stepsData" :key="step.object_id">
           <v-stepper-item :value="index + 1">
             <div class="step-content">
-              <!-- آیکون از settings با key: 'icon' -->
+              <!-- آیکون از settings -->
               <div :class="getIconClass(step.settings)"></div>
-              <!-- نمایش لیبل به زبان فارسی -->
-              <span>{{ step.label.fa }}</span>
+              <!-- لیبل در پایین آیکون -->
+              <span class="step-label">{{ step.label.fa }}</span>
             </div>
           </v-stepper-item>
-          <v-divider v-if="index < steps.length - 1"></v-divider>
+          <v-divider
+            v-if="index < stepsData.length - 1"
+            :key="`divider-${index}`"
+          ></v-divider>
         </template>
       </v-stepper-header>
     </v-stepper>
@@ -20,34 +28,23 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed } from "vue"; // اگر نیاز به computed باشد، اما فعلاً لازم نیست
 
-// داده‌های JSON شما
-const steps = ref([
-  {
-    object_id: "FirstStep",
-    type: "STEP",
-    label: { en: "Step 1", fa: "قدم اول" },
-    tooltip: { en: "Step 1", fa: "قدم اول" },
-    settings: [
-      { key: "icon_type", value: "class" },
-      { key: "icon", value: "panel-icon fonticon fonticon-clock" },
-    ],
+// پراپس‌ها
+const props = defineProps({
+  stepsData: {
+    type: Array,
+    required: true,
+    default: () => [],
   },
-  {
-    object_id: "SecondStep",
-    type: "STEP",
-    label: { en: "Step 2", fa: "قدم دوم" },
-    tooltip: { en: "Step 2", fa: "قدم دوم" },
-    settings: [
-      { key: "icon_type", value: "class" },
-      { key: "icon", value: "panel-icon fonticon fonticon-clock" },
-    ],
+  activeStep: {
+    type: Number,
+    default: 1,
   },
-]);
+});
 
-// متغیر برای کنترل استپ فعال
-const currentStep = ref(1);
+// تعریف emit برای ارسال تغییرات به والد
+const emit = defineEmits(["update:activeStep"]);
 
 // تابع برای دریافت کلاس آیکون از settings
 const getIconClass = (settings) => {
@@ -63,8 +60,14 @@ const getIconClass = (settings) => {
 
 .step-content {
   display: flex;
+  flex-direction: column; /* لیبل زیر آیکون */
   align-items: center;
   gap: 8px;
+}
+
+.step-label {
+  font-size: 14px;
+  text-align: center;
 }
 
 /* استایل‌های اضافی برای آیکون‌ها */
@@ -72,6 +75,6 @@ const getIconClass = (settings) => {
   font-size: 24px;
 }
 
-/* در صورت نیاز به فونت آیکون خاص، باید فونت مربوطه را وارد کنید */
+/* وارد کردن فونت آیکون */
 @import "@mdi/font/css/materialdesignicons.min.css";
 </style>
