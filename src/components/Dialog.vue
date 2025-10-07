@@ -2,6 +2,7 @@
   <v-dialog v-model="dialogModel" max-width="600">
     <v-card class="rounded-xl pa-4 px-1">
       <!-- <p>Dialog</p> -->
+      <StepComponent />
       <DynamicForm :sections="form.steps[0].sections" v-if="form.steps" />
     </v-card>
   </v-dialog>
@@ -10,6 +11,7 @@
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, computed, watch } from "vue";
 import DynamicForm from "./DynamicForm.vue";
+import StepComponent from "./StepComponent.vue";
 
 const props = defineProps<{
   modelValue: boolean;
