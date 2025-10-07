@@ -3,14 +3,15 @@
     <v-card class="rounded-xl pa-4 px-1">
       <!-- <p>Dialog</p> -->
       {{ currentStep }}
+      <!-- {{ form }} -->
       <StepBase
-        :steps-data="form.steps"
+        :form-data="form"
         :active-step="currentStep"
         v-model:activeStepIndex="currentStep"
       />
       <!-- <v-btn @click="currentStep = 1">استپ ۱</v-btn> -->
       <!-- <v-btn @click="currentStep = 2">استپ ۲</v-btn> -->
-      <DynamicForm :sections="form.steps[0].sections" v-if="form.steps" />
+      <!-- <DynamicForm :sections="form.steps[0].sections" v-if="form.steps" /> -->
     </v-card>
   </v-dialog>
 </template>
