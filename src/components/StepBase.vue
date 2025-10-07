@@ -63,6 +63,6 @@ const stepLabels = computed(() => {
   const schema = Array.isArray(props.formSchema)
     ? props.formSchema[0]
     : props.formSchema;
-  return schema.steps.map((item) => item.label.fa);
+  return schema.steps.map((item) => item.label.en);
 });
 </script>
