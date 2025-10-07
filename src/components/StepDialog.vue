@@ -10,29 +10,18 @@
       <v-divider class="my-2" />
 
       <!-- Stepper -->
-      <!-- <v-stepper v-model="step" alt-labels class="pb-4">
-        <v-stepper-header>
-          <v-stepper-item :value="1" title="Request" subtitle="Category" />
-          <v-divider />
-          <v-stepper-item :value="2" title="Component" subtitle="Category" />
-          <v-divider />
-          <v-stepper-item :value="3" title="Request" subtitle="Details" />
-          <v-divider />
-          <v-stepper-item :value="4" title="Attachments" />
-          <v-divider />
-          <v-stepper-item :value="5" title="Summary" />
-        </v-stepper-header>
-      </v-stepper> -->
       <v-stepper v-model="step" alt-labels class="pb-4">
         <v-stepper-header>
-          <!-- :title="s.label['en']" -->
-          <v-stepper-item
-            v-for="(s, index) in steps"
-            :key="s.object_id"
-            :value="index + 1"
-            :subtitle="s.tooltip['en']"
-          />
-          <v-divider v-if="index < steps.length - 1" />
+          <template v-for="(s, index) in steps" :key="s.object_id">
+            <v-stepper-item :value="index + 1" :subtitle="s.tooltip[lang]">
+              <!-- استفاده از اسلات برای اضافه کردن آیکون و برچسب -->
+              <template #default>
+                <div :class="getIconClass(s.settings)" />
+                <!-- <span>{{ s.label[lang] }}</span> -->
+              </template>
+            </v-stepper-item>
+            <v-divider v-if="index < steps.length - 1" />
+          </template>
         </v-stepper-header>
       </v-stepper>
 
@@ -143,15 +132,41 @@
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, computed, watch } from "vue";
 
-const props = defineProps({
-  modelValue: Boolean,
-  formData: {
-    type: Object,
-    default: () => ({}),
-  },
-});
+// تعریف نوع‌ها
+interface Setting {
+  key: string;
+  value: string;
+}
 
-const emit = defineEmits(["update:modelValue", "submit"]);
+interface Label {
+  en: string;
+  fa: string;
+}
+
+interface Step {
+  object_id: string;
+  type: string;
+  label: Label;
+  tooltip: Label;
+  settings: Setting[];
+  sections: any[];
+}
+
+interface FormData {
+  steps?: Step[];
+  [key: string]: any;
+}
+
+// تعریف پراپ‌ها
+const props = defineProps<{
+  modelValue: boolean;
+  formData: FormData | FormData[];
+}>();
+
+const emit = defineEmits<{
+  (e: "update:modelValue", value: boolean): void;
+  (e: "submit", value: any): void;
+}>();
 
 const dialogModel = computed({
   get: () => props.modelValue,
@@ -160,28 +175,21 @@ const dialogModel = computed({
 
 const step = ref(1);
 
-// فرم داخلی محلی (تا در صورت بستن، تغییرات ذخیره‌نشده از بین بره)
-// const form = ref({
-//   title: "",
-//   category: "Component Introduction Request",
-//   description: "",
-//   items: "",
-//   dueDate: "",
-//   project: "",
-//   product: "",
-//   plant: "",
-//   details: "",
-//   files: [],
-// });
+const form = ref<any>({});
 
-const form = ref<any>({}); // فرم داینامیک
 const steps = computed(() => {
   if (!props.formData) return [];
-  // اگر آرایه items داری، اولین آیتم رو استفاده می‌کنیم
   const item = Array.isArray(props.formData)
     ? props.formData[0]
     : props.formData;
-  return item?.steps || [];
+
+  return (item?.steps || []).map((s: Step) => {
+    const iconSetting = s.settings?.find((st: Setting) => st.key === "icon");
+    return {
+      ...s,
+      icon: iconSetting?.value || "panel-icon fonticon fonticon-default",
+    };
+  });
 });
 
 // هر بار که prop جدید بیاد، فرم داخلی به‌روز میشه
@@ -189,7 +197,6 @@ watch(
   () => props.formData,
   (val) => {
     if (Array.isArray(val)) {
-      // مثال: فقط آیتم اول رو میگیریم
       form.value = { ...form.value, ...val[0] };
       console.log("formData (first item):", val[0]);
     } else {
@@ -209,10 +216,26 @@ const closeDialog = () => {
   dialogModel.value = false;
   step.value = 1;
 };
+
+// تعریف مقدار پیش‌فرض برای lang
+const lang = defineModel<"en" | "fa">("lang", { default: "en" });
+
+// استخراج کلاس آیکون از settings
+const getIconClass = (settings: Setting[]): string => {
+  const iconSetting = settings.find((setting) => setting.key === "icon");
+  return iconSetting ? iconSetting.value : "";
+};
 </script>
 
 <style scoped>
 .scroll-y {
   overflow-y: auto;
+}
+.v-stepper-item {
+  display: flex;
+  align-items: center;
+}
+.v-icon {
+  margin-right: 8px;
 }
 </style>

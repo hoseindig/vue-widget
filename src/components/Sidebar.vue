@@ -82,11 +82,7 @@
     </template>
 
     <!-- StepDialog -->
-    <StepDialog
-      v-model="dialog"
-      :form-data="formStore.items"
-      @submit="handleSubmit"
-    />
+    <StepDialog v-model="dialog" :form-data="formStore.items" />
     <v-btn color="primary" @click="dialog = true"> باز کردن مودال </v-btn>
     <!-- Error State -->
     <v-alert

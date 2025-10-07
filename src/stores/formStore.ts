@@ -19,18 +19,18 @@ const api = axios.create({
 });
 
 
-export async function fetchRequestData(widgetName: string): Promise<any | null> {
-    try {
-        // const Session = await loginAndGetSession();
-        const { data } = await api.get(`/resources/cw/widget/sidebar/${widgetName}`, {
-            headers: Session ? { Cookie: "JSESSIONID=" + Session } : {},
-        });
-        return data;
-    } catch (err) {
-        console.error("API fetch failed, using mock data:", err);
-        return null;
-    }
-}
+// export async function fetchRequestData(widgetName: string): Promise<any | null> {
+//     try {
+//         // const Session = await loginAndGetSession();
+//         const { data } = await api.get(`/resources/cw/widget/sidebar/${widgetName}`, {
+//             headers: Session ? { Cookie: "JSESSIONID=" + Session } : {},
+//         });
+//         return data;
+//     } catch (err) {
+//         console.error("API fetch failed, using mock data:", err);
+//         return null;
+//     }
+// }
 
 // --------------------------
 // 🏪 Store Definition
@@ -50,7 +50,7 @@ export const useFormStore = defineStore("request", () => {
             let rawData: any = null;
             // debugger
             if (false) {//!useMock
-                rawData = await fetchRequestData(widgetName);
+                // rawData = await fetchRequestData(widgetName);
             }
 
             const source = rawData || requestData;
