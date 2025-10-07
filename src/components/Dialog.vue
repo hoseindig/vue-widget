@@ -3,9 +3,13 @@
     <v-card class="rounded-xl pa-4 px-1">
       <!-- <p>Dialog</p> -->
       {{ currentStep }}
-      <StepComponent :steps-data="form.steps" :active-step="currentStep" />
-      <v-btn @click="currentStep = 1">استپ ۱</v-btn>
-      <v-btn @click="currentStep = 2">استپ ۲</v-btn>
+      <StepBase
+        :steps-data="form.steps"
+        :active-step="currentStep"
+        v-model:activeStepIndex="currentStep"
+      />
+      <!-- <v-btn @click="currentStep = 1">استپ ۱</v-btn> -->
+      <!-- <v-btn @click="currentStep = 2">استپ ۲</v-btn> -->
       <DynamicForm :sections="form.steps[0].sections" v-if="form.steps" />
     </v-card>
   </v-dialog>
@@ -14,7 +18,7 @@
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, computed, watch } from "vue";
 import DynamicForm from "./DynamicForm.vue";
-import StepComponent from "./StepComponent.vue";
+import StepBase from "./StepBase.vue";
 
 const currentStep = ref(1);
 
