@@ -2,8 +2,8 @@
   <v-dialog v-model="dialogModel" max-width="600">
     <v-card class="rounded-xl">
       <StepBase
-        :form-data="form"
-        :active-step="currentStep"
+        :form-schema="props.formData"
+        v-model:form-values="form"
         v-model:activeStepIndex="currentStep"
       />
     </v-card>
@@ -12,14 +12,13 @@
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, computed, watch } from "vue";
-// import DynamicForm from "./DynamicForm.vue";
 import StepBase from "./StepBase.vue";
 
 const currentStep = ref(1);
 
 const props = defineProps<{
   modelValue: boolean;
-  formData: FormData | FormData[];
+  formData: FormData | FormData[]; //   schema
 }>();
 
 const emit = defineEmits<{
@@ -32,17 +31,40 @@ const dialogModel = computed({
   set: (value) => emit("update:modelValue", value),
 });
 
-const form = ref<any>({});
+//   ref
+const form = ref<Record<string, Record<string, any>>>({});
+
+// helper Schema
+function initializeFormData(schema: any) {
+  const initialData: Record<string, Record<string, any>> = {};
+  const steps = Array.isArray(schema) ? schema[0].steps : schema.steps;
+
+  if (steps) {
+    steps.forEach((step: any) => {
+      if (step.sections) {
+        step.sections.forEach((section: any) => {
+          initialData[section.object_id] = {};
+          section.fields.forEach((field: any) => {
+            // def value
+            initialData[section.object_id][field.object_id] = "";
+          });
+        });
+      }
+    });
+  }
+  return initialData;
+}
 
 watch(
   () => props.formData,
   (val) => {
-    if (Array.isArray(val)) {
-      form.value = { ...form.value, ...val[0] };
-      console.log("formData (first item):", val[0]);
-    } else {
-      form.value = { ...form.value, ...val };
-      console.log("Dialog formData:", JSON.parse(JSON.stringify(val)));
+    if (val) {
+      //
+      form.value = initializeFormData(val);
+      console.log(
+        "Form Data Initialized:",
+        JSON.parse(JSON.stringify(form.value))
+      );
     }
   },
   { immediate: true }

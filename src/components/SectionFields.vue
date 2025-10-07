@@ -1,12 +1,13 @@
+// D:\project\vue\vue-widget\src\components\SectionFields.vue
+
 <template>
   <v-row dense>
     <v-col v-for="field in fields" :key="field.object_id" cols="12" md="6">
       <v-tooltip v-if="field.tooltip" location="top">
-        <template #activator="{ props }">
-          {{ modelValue[field.object_id] }}
+        <template #activator="{ props: tooltipProps }">
           <v-text-field
-            v-bind="props"
-            v-model="modelValue[field.object_id]"
+            v-bind="tooltipProps"
+            v-model="fieldModel[field.object_id]"
             :label="field.label.en"
             variant="outlined"
             hide-details="auto"
@@ -14,10 +15,9 @@
         </template>
         <span>{{ field.tooltip.en }}</span>
       </v-tooltip>
-
       <v-text-field
         v-else
-        v-model="modelValue[field.object_id]"
+        v-model="fieldModel[field.object_id]"
         :label="field.label.en"
         variant="outlined"
         hide-details="auto"
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType } from "vue";
+import { computed } from "vue"; // <-- computed را ایمپورت کنید
 
 interface Field {
   object_id: string;
@@ -46,4 +46,13 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: "update:modelValue", value: Record<string, any>): void;
 }>();
+
+// یک computed property ایجاد کنید تا v-model کار کند
+const fieldModel = computed({
+  get: () => props.modelValue,
+  set: (newValue) => {
+    // هنگام تغییر، update:modelValue را emit کنید
+    emit("update:modelValue", newValue);
+  },
+});
 </script>
