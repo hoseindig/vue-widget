@@ -10,6 +10,7 @@
         <div class="pa-4 text-center">
           <h3>محتوای استپ {{ index + 1 }} - {{ item.label.en }}</h3>
           <p>{{ step }}</p>
+          <!-- {{ item.sections }} -->
         </div>
       </template>
     </v-stepper>
