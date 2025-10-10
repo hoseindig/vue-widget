@@ -2,7 +2,7 @@
   <v-container>
     <v-form v-model="isValid" ref="formRef">
       <div v-for="section in sections" :key="section.object_id" class="mb-6">
-        <v-expansion-panels v-if="section.collapsable" multiple>
+        <v-expansion-panels :elevation="0" v-if="section.collapsable" multiple>
           <v-expansion-panel>
             <v-expansion-panel-title>
               {{ section.label.en }}
