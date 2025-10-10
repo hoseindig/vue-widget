@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-stepper v-model="stepModel" :items="stepLabels" show-actions editable>
+    <v-stepper
+      v-model="stepModel"
+      :items="stepLabels"
+      show-actions
+      editable
+      elevation="0"
+    >
       <template
         v-for="(item, index) in (Array.isArray(formSchema)
           ? formSchema[0]
