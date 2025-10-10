@@ -9,9 +9,9 @@
         :key="index"
       >
         <div class="text-center">
-          <h3 v-if="index + 1 == stepModel">
+          <!-- <h3 v-if="index + 1 == stepModel">
             index {{ index + 1 }} step {{ stepModel }}- {{ item.label.en }}
-          </h3>
+          </h3> -->
           <DynamicForm
             :sections="item.sections"
             v-model:form-values="formValuesModel"
