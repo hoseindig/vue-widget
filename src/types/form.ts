@@ -21,6 +21,7 @@ export interface Field {
   input: {
     type: string;
   };
+  settings: Setting[];
 }
 
 export interface Section {

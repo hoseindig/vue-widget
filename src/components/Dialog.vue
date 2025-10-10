@@ -61,10 +61,7 @@ watch(
     if (val) {
       //
       form.value = initializeFormData(val);
-      console.log(
-        "Form Data Initialized:",
-        JSON.parse(JSON.stringify(form.value))
-      );
+      console.log("Form Data Initialized:", JSON.parse(JSON.stringify(val)));
     }
   },
   { immediate: true }

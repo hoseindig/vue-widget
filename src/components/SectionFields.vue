@@ -2,26 +2,55 @@
 
 <template>
   <v-row dense>
-    <v-col v-for="field in fields" :key="field.object_id" cols="12" md="6">
+    <v-col
+      v-for="field in fields"
+      :key="field.object_id"
+      cols="12"
+      md="12"
+      style="text-align: left"
+    >
+      <label for="" class="custom-label">{{ field.label.en }} </label>
+      <span style="color: red">{{
+        field?.settings?.find((s) => s.key === "required" && s.value === "true")
+          ? " *"
+          : ""
+      }}</span>
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">
-          <v-text-field
+          <!-- :label="field.label.en" -->
+
+          <!-- <v-text-field
             v-bind="tooltipProps"
             v-model="fieldModel[field.object_id]"
-            :label="field.label.en"
             variant="outlined"
             hide-details="auto"
-          ></v-text-field>
+            class="custom-height"
+          ></v-text-field> -->
+          <input
+            type="text"
+            name=""
+            id=""
+            v-bind="tooltipProps"
+            v-model="fieldModel[field.object_id]"
+            class="custom-height mt-1"
+          />
         </template>
         <span>{{ field.tooltip.en }}</span>
       </v-tooltip>
-      <v-text-field
-        v-else
-        v-model="fieldModel[field.object_id]"
-        :label="field.label.en"
-        variant="outlined"
-        hide-details="auto"
-      ></v-text-field>
+      <div v-else>
+        <input
+          type="text"
+          name=""
+          id=""
+          v-model="fieldModel[field.object_id]"
+          class="custom-height"
+        />
+        <!-- <v-text-field
+          v-model="fieldModel[field.object_id]"
+          variant="outlined"
+          hide-details="auto"
+        ></v-text-field> -->
+      </div>
     </v-col>
   </v-row>
 </template>
@@ -57,3 +86,22 @@ const fieldModel = computed({
   },
 });
 </script>
+
+<style scoped>
+.custom-height {
+  height: 30px;
+  width: 100%;
+  border: 1px solid #d4d4d4;
+  border-radius: 5px;
+  padding: 5px;
+}
+.custom-height .v-field__input {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.custom-label {
+  font-size: 14px;
+  font-weight: bold;
+}
+</style>
