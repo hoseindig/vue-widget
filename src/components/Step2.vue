@@ -1,9 +1,9 @@
 <template>
   <div class="stepper-container">
     <div class="stepper-wrapper">
-      <div v-for="(step, index) in steps" :key="step.id" class="step-item">
+      <template v-for="(step, index) in steps" :key="step.id">
         <!-- Step Circle -->
-        <div class="step-circle-wrapper">
+        <div class="step-item">
           <button
             @click="activeStep = step.id"
             :class="[
@@ -40,17 +40,13 @@
         </div>
 
         <!-- Connecting Line -->
-        <div
-          v-if="index < steps.length - 1"
-          class="connector-line"
-          :style="{ marginTop: `-${props.circleSize / 2 + 4}px` }"
-        >
+        <div v-if="index < steps.length - 1" class="connector-line">
           <div
             :class="['line', { 'line-completed': step.id < activeStep }]"
             :style="{ height: `${props.lineThickness}px` }"
           />
         </div>
-      </div>
+      </template>
     </div>
 
     <!-- Demo Controls -->
@@ -84,11 +80,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-// <DynamicStepper
-//   :circle-size="40"      <!-- سایز دایره -->
-//   :line-thickness="3"    <!-- ضخامت خط -->
-//   :icon-size="20"        <!-- سایز آیکون -->
-// />
+
 // Props for configuration
 interface Props {
   circleSize?: number;
@@ -97,9 +89,9 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  circleSize: 28,
+  circleSize: 40,
   lineThickness: 2,
-  iconSize: 16,
+  iconSize: 20,
 });
 
 const activeStep = ref(1);
@@ -126,16 +118,9 @@ const steps = [
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .step-item {
-  display: flex;
-  align-items: center;
-  flex: 1;
-}
-
-.step-circle-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -152,6 +137,7 @@ const steps = [
   border: 2px solid;
   cursor: pointer;
   background: white;
+  flex-shrink: 0;
 
   &.inactive {
     border-color: #d1d5db;
@@ -175,7 +161,7 @@ const steps = [
     border-color: #3b82f6;
     background: #3b82f6;
     box-shadow: 0 4px 8px -2px rgba(59, 130, 246, 0.3);
-    transform: scale(1.1);
+    transform: scale(1.05);
 
     :deep(.v-icon) {
       color: white;
@@ -184,12 +170,12 @@ const steps = [
 }
 
 .step-label {
-  margin-top: 12px;
+  margin-top: 8px;
   text-align: center;
 }
 
 .label-text {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
   transition: color 0.3s ease;
@@ -209,16 +195,17 @@ const steps = [
 
 .connector-line {
   flex: 1;
-  margin: 0 12px;
-  position: relative;
   display: flex;
   align-items: center;
+  margin: 0 4px;
+  margin-bottom: 32px;
+  min-width: 40px;
 }
 
 .line {
   width: 100%;
   transition: all 0.3s ease;
-  background: #d1d5db;
+  background: #e5e7eb;
 
   &.line-completed {
     background: #3b82f6;
