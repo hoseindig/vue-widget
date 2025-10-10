@@ -9,7 +9,7 @@
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               <SectionFields
-                :fields="section.fields"
+                :fields="section.fields || []"
                 v-model="getSectionModel(section.object_id).value"
               />
             </v-expansion-panel-text>
@@ -18,7 +18,7 @@
         <div v-else>
           <h3 class="text-lg font-semibold mb-4">{{ section.label.en }}</h3>
           <SectionFields
-            :fields="section.fields"
+            :fields="section.fields || []"
             v-model="getSectionModel(section.object_id).value"
           />
         </div>
@@ -31,6 +31,7 @@
 import { ref, reactive, computed } from "vue"; // computed
 import type { PropType } from "vue";
 import SectionFields from "./SectionFields.vue";
+import type { Section } from "@/types/form";
 
 // ... interfaces
 

@@ -32,25 +32,8 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import type { PropType } from "vue";
 import SectionFields from "./SectionFields.vue";
-
-// نوع داده Section
-interface Field {
-  object_id: string;
-  label: { en: string; fa: string };
-  tooltip?: { en: string; fa: string };
-  input: {
-    type: string;
-  };
-}
-
-interface Section {
-  object_id: string;
-  label: { en: string; fa: string };
-  collapsable: boolean;
-  fields: Field[];
-}
+import type { Field, Section } from "@/types/form";
 
 const props = defineProps<{
   sections: Section[];

@@ -1,3 +1,5 @@
+import type { MenuItem } from "./menu";
+
 interface LabelTooltip {
   en: string;
   fa: string;
@@ -8,19 +10,28 @@ interface Setting {
   value: string;
 }
 
-interface Field {
+export interface Field {
   object_id: string;
-  type: "FIELD";
   label: LabelTooltip;
   tooltip: LabelTooltip;
+  id: string;
+  description: string;
+  type: string;
+  value?: any;
+  input: {
+    type: string;
+  };
 }
 
-interface Section {
-  object_id: string;
-  type: "SECTION";
-  label: LabelTooltip;
+export interface Section {
+  type: string;
   tooltip: LabelTooltip;
+  id: string;
+  object_id: string;
   collapsable: boolean;
+  label: Record<string, string>;
+  description: string;
+  items?: MenuItem[];
   fields: Field[];
 }
 
@@ -43,16 +54,16 @@ interface Label {
   fa: string;
 }
 
-interface Step {
+export interface Step {
   object_id: string;
   type: string;
   label: Label;
   tooltip: Label;
   settings: Setting[];
-  sections: any[];
+  sections: Section[];
 }
 
-interface FormData {
+export interface FormData {
   steps?: Step[];
   [key: string]: any;
 }

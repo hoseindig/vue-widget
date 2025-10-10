@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import type { FormData } from "@/types/form";
+import type { FormData, Step } from "@/types/form";
 import DynamicForm from "./DynamicForm.vue";
 
 const props = defineProps<{
@@ -63,6 +63,7 @@ const stepLabels = computed(() => {
   const schema = Array.isArray(props.formSchema)
     ? props.formSchema[0]
     : props.formSchema;
-  return schema.steps.map((item) => item.label.en);
+  // return schema.steps.map((item) => item.label.en);
+  return schema.steps?.map((item: Step) => item.label.en);
 });
 </script>

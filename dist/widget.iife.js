@@ -2,11 +2,10 @@
   "use strict";
   var define_process_env_default$4 = {};
   /**
-  * @vue/shared v3.5.20
+  * @vue/shared v3.5.22
   * (c) 2018-present Yuxi (Evan) You and Vue contributors
   * @license MIT
   **/
-  /*! #__NO_SIDE_EFFECTS__ */
   // @__NO_SIDE_EFFECTS__
   function makeMap(str) {
     const map2 = /* @__PURE__ */ Object.create(null);
@@ -61,10 +60,10 @@
       return hit || (cache[str] = fn(str));
     });
   };
-  const camelizeRE = /-(\w)/g;
+  const camelizeRE = /-\w/g;
   const camelize = cacheStringFunction(
     (str) => {
-      return str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : "");
+      return str.replace(camelizeRE, (c) => c.slice(1).toUpperCase());
     }
   );
   const hyphenateRE = /\B([A-Z])/g;
@@ -899,7 +898,7 @@
       iter._next = iter.next;
       iter.next = () => {
         const result = iter._next();
-        if (result.value) {
+        if (!result.done) {
           result.value = wrapValue(result.value);
         }
         return result;
@@ -1025,7 +1024,8 @@
         return res;
       }
       if (isRef(res)) {
-        return targetIsArray && isIntegerKey(key) ? res : res.value;
+        const value = targetIsArray && isIntegerKey(key) ? res : res.value;
+        return isReadonly2 && isObject(value) ? readonly(value) : value;
       }
       if (isObject(res)) {
         return isReadonly2 ? readonly(res) : reactive(res);
@@ -1719,11 +1719,11 @@
     if (depth <= 0 || !isObject(value) || value["__v_skip"]) {
       return value;
     }
-    seen = seen || /* @__PURE__ */ new Set();
-    if (seen.has(value)) {
+    seen = seen || /* @__PURE__ */ new Map();
+    if ((seen.get(value) || 0) >= depth) {
       return value;
     }
-    seen.add(value);
+    seen.set(value, depth);
     depth--;
     if (isRef(value)) {
       traverse(value.value, depth, seen);
@@ -2224,10 +2224,12 @@
         dirtyInstances.delete(instance);
       } else if (instance.parent) {
         queueJob(() => {
-          isHmrUpdating = true;
-          instance.parent.update();
-          isHmrUpdating = false;
-          dirtyInstances.delete(instance);
+          if (!(instance.job.flags & 8)) {
+            isHmrUpdating = true;
+            instance.parent.update();
+            isHmrUpdating = false;
+            dirtyInstances.delete(instance);
+          }
         });
       } else if (instance.appContext.reload) {
         instance.appContext.reload();
@@ -2337,7 +2339,6 @@
       _devtoolsComponentRemoved(component);
     }
   };
-  /*! #__NO_SIDE_EFFECTS__ */
   // @__NO_SIDE_EFFECTS__
   function createDevtoolsComponentHook(hook) {
     return (component) => {
@@ -2449,7 +2450,6 @@
       vnode.transition = hooks;
     }
   }
-  /*! #__NO_SIDE_EFFECTS__ */
   // @__NO_SIDE_EFFECTS__
   function defineComponent(options, extraOptions) {
     return isFunction(options) ? (
@@ -2462,6 +2462,7 @@
     instance.ids = [instance.ids[0] + instance.ids[2]++ + "-", 0, 0];
   }
   const knownTemplateRefs = /* @__PURE__ */ new WeakSet();
+  const pendingSetRefMap = /* @__PURE__ */ new WeakMap();
   function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount = false) {
     if (isArray(rawRef)) {
       rawRef.forEach(
@@ -2511,6 +2512,7 @@
       return !!!(define_process_env_default$2.NODE_ENV !== "production") || !knownTemplateRefs.has(ref22);
     };
     if (oldRef != null && oldRef !== ref3) {
+      invalidatePendingSetRef(oldRawRef);
       if (isString(oldRef)) {
         refs[oldRef] = null;
         if (canSetSetupRef(oldRef)) {
@@ -2568,14 +2570,27 @@
           }
         };
         if (value) {
-          doSet.id = -1;
-          queuePostRenderEffect(doSet, parentSuspense);
+          const job = () => {
+            doSet();
+            pendingSetRefMap.delete(rawRef);
+          };
+          job.id = -1;
+          pendingSetRefMap.set(rawRef, job);
+          queuePostRenderEffect(job, parentSuspense);
         } else {
+          invalidatePendingSetRef(rawRef);
           doSet();
         }
       } else if (!!(define_process_env_default$2.NODE_ENV !== "production")) {
         warn$1("Invalid template ref type:", ref3, `(${typeof ref3})`);
       }
+    }
+  }
+  function invalidatePendingSetRef(rawRef) {
+    const pendingSetRef = pendingSetRefMap.get(rawRef);
+    if (pendingSetRef) {
+      pendingSetRef.flags |= 8;
+      pendingSetRefMap.delete(rawRef);
     }
   }
   getGlobalThis().requestIdleCallback || ((cb) => setTimeout(cb, 1));
@@ -5847,8 +5862,9 @@ For more details, see https://link.vuejs.org/feature-flags.`
       );
     }
   }
+  const mixinEmitsCache = /* @__PURE__ */ new WeakMap();
   function normalizeEmitsOptions(comp, appContext, asMixin = false) {
-    const cache = appContext.emitsCache;
+    const cache = asMixin ? mixinEmitsCache : appContext.emitsCache;
     const cached = cache.get(comp);
     if (cached !== void 0) {
       return cached;
@@ -6923,7 +6939,7 @@ Component that was made reactive: `,
       return instance.proxy;
     }
   }
-  const classifyRE = /(?:^|[-_])(\w)/g;
+  const classifyRE = /(?:^|[-_])\w/g;
   const classify = (str) => str.replace(classifyRE, (c) => c.toUpperCase()).replace(/[-_]/g, "");
   function getComponentName(Component, includeInferred = true) {
     return isFunction(Component) ? Component.displayName || Component.name : Component.name || includeInferred && Component.__name;
@@ -7142,7 +7158,7 @@ Component that was made reactive: `,
       window.devtoolsFormatters = [formatter];
     }
   }
-  const version = "3.5.20";
+  const version = "3.5.22";
   const warn = !!(define_process_env_default$2.NODE_ENV !== "production") ? warn$1 : NOOP;
   var define_process_env_default$1 = {};
   let policy = void 0;
@@ -7242,7 +7258,7 @@ Component that was made reactive: `,
   const vShowOriginalDisplay = Symbol("_vod");
   const vShowHidden = Symbol("_vsh");
   const CSS_VAR_TEXT = Symbol(!!(define_process_env_default$1.NODE_ENV !== "production") ? "CSS_VAR_TEXT" : "");
-  const displayRE = /(^|;)\s*display\s*:/;
+  const displayRE = /(?:^|;)\s*display\s*:/;
   function patchStyle(el, prev, next) {
     const style = el.style;
     const isCssString = isString(next);

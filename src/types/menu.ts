@@ -1,18 +1,18 @@
 export interface MenuItem {
-    id: string;
-    label: Record<string, string>;
-    route?: string | null;
-    type: string;
-    icon?: string;
-    disabled?: boolean;
-    children?: MenuItem[];
-    tooltip?: Record<string, string>;
+  id: string;
+  label: Record<string, string>;
+  route?: string | null;
+  type: string;
+  icon?: string;
+  children?: MenuItem[];
+  tooltip?: Record<string, string>;
+
+  disabled?: boolean;
 }
 
-
-export interface Section {
-    id: string;
-    label: Record<string, string>;
-    description: string;
-    items: MenuItem[];
+export interface SidebarSection {
+  id: string;
+  label: Record<string, string>;
+  description: string;
+  items: MenuItem[];
 }

@@ -8,7 +8,8 @@ const widgetName = import.meta.env.VITE_APP_WIDGETNAME || "";
 
 // Mock
 import menuData from "../mock/menu.json";
-import type { MenuItem, Section } from "@/types/menu";
+import type { MenuItem, SidebarSection } from "@/types/menu";
+import type { Section } from "@/types/form";
 
 // ---- Parsers ----
 function parseSettings(settings: any[]) {
@@ -24,7 +25,6 @@ function parseSettings(settings: any[]) {
 
   return result;
 }
-
 
 function parseMultiLang(arr: any): Record<string, string> {
   const result: Record<string, string> = {};
@@ -54,7 +54,7 @@ function transformMenu(data: any, lang: string = "fa"): MenuItem[] {
       route: item.href || null,
       type: item.type,
       children: [],
-      ...parseSettings(item.settings || [])
+      ...parseSettings(item.settings || []),
     };
 
     if (item.children?.length) {
@@ -64,7 +64,6 @@ function transformMenu(data: any, lang: string = "fa"): MenuItem[] {
     return base;
   });
 }
-
 
 // ---- API Service ----
 function extractSessionFromXML(xmlString: string): string {
@@ -76,12 +75,10 @@ function extractSessionFromXML(xmlString: string): string {
   return session;
 }
 
-
 const api = axios.create({
-  baseURL: baseUrl,//"https://3dxlab3.plm.ir/3dspace",
+  baseURL: baseUrl, //"https://3dxlab3.plm.ir/3dspace",
   withCredentials: true,
 });
-
 
 async function loginAndGetSession(): Promise<string | null> {
   try {
@@ -100,19 +97,21 @@ async function loginAndGetSession(): Promise<string | null> {
   }
 }
 
-
-export async function fetchSidebarMenu(widgetName: string = "defaultSidebar"): Promise<any | null> {
+export async function fetchSidebarMenu(
+  widgetName: string = "defaultSidebar"
+): Promise<any | null> {
   console.log("fetchSidebarMenu for", widgetName);
   try {
     // مرحله ۱: لاگین
     let Session = await loginAndGetSession();
 
     // اگر لاگین 500 داد، احتمالاً سشن معتبر داریم → تلاش بدون ست کردن دستی
-    const { data } = await api.get(`/resources/cw/widget/sidebar/${widgetName}`, {
-      headers: Session
-        ? { Cookie: "JSESSIONID=" + Session }
-        : {}, // اگر Session نداشتیم rely کنیم به کوکی موجود
-    });
+    const { data } = await api.get(
+      `/resources/cw/widget/sidebar/${widgetName}`,
+      {
+        headers: Session ? { Cookie: "JSESSIONID=" + Session } : {}, // اگر Session نداشتیم rely کنیم به کوکی موجود
+      }
+    );
 
     console.log("fetchSidebarMenu success", data);
     return data;
@@ -121,7 +120,6 @@ export async function fetchSidebarMenu(widgetName: string = "defaultSidebar"): P
     return null;
   }
 }
-
 
 // async function fetchSidebarMenu(): Promise<any | null> {
 //   console.log(window.location.href);
@@ -159,7 +157,7 @@ export async function fetchSidebarMenu(widgetName: string = "defaultSidebar"): P
 // ---- Store ----
 export const useSidebarStore = defineStore("sidebar", () => {
   const isCollapsed = ref(false);
-  const sections = ref<Section[]>([]);
+  const sections = ref<SidebarSection[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
 
@@ -174,7 +172,8 @@ export const useSidebarStore = defineStore("sidebar", () => {
 
     try {
       let rawData: any = null;
-      if (true) {//!useMock
+      if (true) {
+        //!useMock
         rawData = await fetchSidebarMenu(widgetName);
       }
 
@@ -185,8 +184,8 @@ export const useSidebarStore = defineStore("sidebar", () => {
           id: source.object_id,
           label: parseMultiLang(source.label || []),
           description: "",
-          items: transformMenu(source, lang)
-        }
+          items: transformMenu(source, lang),
+        },
       ];
     } catch (e: any) {
       error.value = e.message || "خطا در بارگذاری منو";
@@ -201,6 +200,6 @@ export const useSidebarStore = defineStore("sidebar", () => {
     loading,
     error,
     toggleCollapse,
-    loadSections
+    loadSections,
   };
 });

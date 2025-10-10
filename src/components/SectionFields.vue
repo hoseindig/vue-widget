@@ -27,16 +27,17 @@
 </template>
 
 <script setup lang="ts">
+import type { Field } from "@/types/form";
 import { computed } from "vue";
 
-interface Field {
-  object_id: string;
-  label: { en: string; fa: string };
-  tooltip?: { en: string; fa: string };
-  input: {
-    type: string;
-  };
-}
+// interface Field {
+//   object_id: string;
+//   label: { en: string; fa: string };
+//   tooltip?: { en: string; fa: string };
+//   input: {
+//     type: string;
+//   };
+// }
 
 const props = defineProps<{
   fields: Field[];
