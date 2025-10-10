@@ -4,10 +4,10 @@
       <div v-for="section in sections" :key="section.object_id" class="mb-6">
         <v-expansion-panels :elevation="0" v-if="section.collapsable" multiple>
           <v-expansion-panel>
-            <v-expansion-panel-title>
+            <v-expansion-panel-title class="pa-0 ma-0">
               {{ section.label.en }}
             </v-expansion-panel-title>
-            <v-expansion-panel-text>
+            <v-expansion-panel-text class="pa-0 ma-0">
               <SectionFields
                 :fields="section.fields || []"
                 v-model="getSectionModel(section.object_id).value"
@@ -66,3 +66,9 @@ function getSectionModel(sectionId: string) {
   });
 }
 </script>
+
+<style>
+.v-expansion-panel-text__wrapper {
+  padding: 0 !important;
+}
+</style>
