@@ -23,12 +23,14 @@
           v-model:activeStepIndex="currentStep"
         /> -->
         <!-- {{ props.formData }} -->
-        <Step2
+        <!-- <div style="border: 1px solid red"> -->
+        <CustomStep
           :form-schema="props.formData"
           v-model:form-values="form"
           v-model:form-data="props.formData"
           v-model:activeStepIndex="currentStep"
         />
+        <!-- </div> -->
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -36,8 +38,8 @@
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, computed, watch } from "vue";
-import Step2 from "./CustomStep.vue";
-import StepBase from "./StepBase.vue";
+import CustomStep from "./CustomStep.vue";
+// import StepBase from "./StepBase.vue";
 
 const currentStep = ref(1);
 

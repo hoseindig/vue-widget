@@ -1,6 +1,7 @@
 <template>
-  <div class="stepper-container">
-    <div class="stepper-wrapper">
+  <div class="stepper-container pb-4">
+    {{ activeStepModel }}
+    <div class="stepper-wrapper px-4">
       <template v-for="(step, index) in steps" :key="step.object_id || step.id">
         <!-- Step Circle -->
         <div class="step-item">
@@ -52,12 +53,12 @@
 
     <!-- Step Content Display -->
     <div class="step-content">
-      <h3 class="content-title">{{ currentStepLabel }}</h3>
+      <!-- Debug Info -->
+      <!-- <h3 class="content-title">{{ currentStepLabel }}</h3>
       <p class="content-text">
         محتوای مرحله {{ activeStepModel + 1 }} اینجا نمایش داده می‌شود
-      </p>
+      </p> -->
 
-      <!-- Debug Info -->
       <!-- <div class="debug-info">
         <p>
           <strong>مرحله فعال:</strong> {{ activeStepModel + 1 }} از
@@ -177,13 +178,13 @@ const steps = computed(() => {
 
     return {
       id: index,
-      label: step.label?.fa || step.label?.en || `Step ${index + 1}`,
+      label: step.label?.en || step.label?.en || `Step ${index + 1}`,
       icon:
         iconTypeSetting?.value === "class"
           ? defaultIcon
           : iconSetting?.value || defaultIcon,
       object_id: step.object_id,
-      tooltip: step.tooltip?.fa || step.tooltip?.en || "",
+      tooltip: step.tooltip?.en || step.tooltip?.en || "",
     };
   });
 });
@@ -256,7 +257,7 @@ const goToNextStep = () => {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 32px;
+  padding: 0px;
   background: white;
 }
 
@@ -367,7 +368,7 @@ const goToNextStep = () => {
 
 .step-content {
   margin-top: 24px;
-  padding: 20px;
+  padding: 0px;
   background: #f9fafb;
   border-radius: 8px;
 }

@@ -671,12 +671,12 @@
       "object_id": "FirstStep",
       "type": "STEP",
       "label": {
-        "en": "Step 1",
-        "fa": "قدم اول"
+        "en": "Step 3",
+        "fa": "قدم 3"
       },
       "tooltip": {
-        "en": "Step 1",
-        "fa": "قدم اول"
+        "en": "Step 3",
+        "fa": "قدم 3"
       },
       "settings": [
         {
@@ -1030,12 +1030,12 @@
       "object_id": "SecondStep",
       "type": "STEP",
       "label": {
-        "en": "Step 2",
-        "fa": "قدم دوم"
+        "en": "Step 4",
+        "fa": "قدم 4"
       },
       "tooltip": {
-        "en": "Step 2",
-        "fa": "قدم دوم"
+        "en": "Step 4",
+        "fa": "قدم 4"
       },
       "settings": [
         {
