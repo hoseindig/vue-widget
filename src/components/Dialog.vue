@@ -41,7 +41,7 @@ import { ref, defineProps, defineEmits, computed, watch } from "vue";
 import CustomStep from "./CustomStep.vue";
 // import StepBase from "./StepBase.vue";
 
-const currentStep = ref(1);
+const currentStep = ref(0);
 
 const props = defineProps<{
   modelValue: boolean;

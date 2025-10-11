@@ -15,41 +15,28 @@
           ? " *"
           : ""
       }}</span>
+
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">
-          <!-- :label="field.label.en" -->
           {{ field.data }}
-          <!-- <v-text-field
-            v-bind="tooltipProps"
-            v-model="fieldModel[field.object_id]"
-            variant="outlined"
-            hide-details="auto"
-            class="custom-height"
-          ></v-text-field> -->
           <input
             type="text"
-            name=""
-            id=""
             v-bind="tooltipProps"
-            v-model="fieldModel[field.object_id]"
+            v-model="field.data.value"
+            @input="updateFieldValue(field.object_id, $event.target.value)"
             class="custom-height mt-1"
           />
         </template>
         <span>{{ field.tooltip.en }}</span>
       </v-tooltip>
+
       <div v-else>
         <input
           type="text"
-          name=""
-          id=""
-          v-model="fieldModel[field.object_id].value"
+          v-model="field.data.value"
+          @input="updateFieldValue(field.object_id, $event.target.value)"
           class="custom-height"
         />
-        <!-- <v-text-field
-          v-model="fieldModel[field.object_id]"
-          variant="outlined"
-          hide-details="auto"
-        ></v-text-field> -->
       </div>
     </v-col>
   </v-row>
@@ -57,16 +44,6 @@
 
 <script setup lang="ts">
 import type { Field } from "@/types/form";
-import { computed } from "vue";
-
-// interface Field {
-//   object_id: string;
-//   label: { en: string; fa: string };
-//   tooltip?: { en: string; fa: string };
-//   input: {
-//     type: string;
-//   };
-// }
 
 const props = defineProps<{
   fields: Field[];
@@ -77,14 +54,12 @@ const emit = defineEmits<{
   (e: "update:modelValue", value: Record<string, any>): void;
 }>();
 
-//   computed property   v-model
-const fieldModel = computed({
-  get: () => props.modelValue,
-  set: (newValue) => {
-    //   update:modelValue   emit
-    emit("update:modelValue", newValue);
-  },
-});
+const updateFieldValue = (fieldId: string, value: any) => {
+  emit("update:modelValue", {
+    ...props.modelValue,
+    [fieldId]: value,
+  });
+};
 </script>
 
 <style scoped>

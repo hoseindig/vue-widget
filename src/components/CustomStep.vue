@@ -1,6 +1,5 @@
 <template>
   <div class="stepper-container pb-4">
-    {{ activeStepModel }}
     <div class="stepper-wrapper px-4">
       <template v-for="(step, index) in steps" :key="step.object_id || step.id">
         <!-- Step Circle -->
@@ -86,6 +85,7 @@
       </div> -->
 
       <!-- Dynamic Form -->
+      <p>fields {{ currentSections[0].fields[0] }}</p>
       <DynamicForm
         v-if="currentSections"
         :sections="currentSections"
@@ -296,8 +296,8 @@ const goToNextStep = () => {
   }
 
   &.completed {
-    border-color: #3b82f6;
-    background: #3b82f6;
+    border-color: #3888c1;
+    background: #3888c1;
 
     :deep(.v-icon) {
       color: white;
@@ -305,8 +305,8 @@ const goToNextStep = () => {
   }
 
   &.active {
-    border-color: #3b82f6;
-    background: #3b82f6;
+    border-color: #3888c1;
+    background: #3888c1;
     box-shadow: 0 4px 8px -2px rgba(59, 130, 246, 0.3);
     transform: scale(1.05);
 

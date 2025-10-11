@@ -9,15 +9,13 @@ const widgetName = import.meta.env.VITE_APP_WIDGETNAME || "";
 // 🧩 Mock Data (فایل JSON لوکال)
 import requestData from "../mock/form.json";
 
-
 // --------------------------
 // 🛰️ API Service
 // --------------------------
 const api = axios.create({
-    baseURL: baseUrl,
-    withCredentials: true,
+  baseURL: baseUrl,
+  withCredentials: true,
 });
-
 
 // export async function fetchRequestData(widgetName: string): Promise<any | null> {
 //     try {
@@ -33,51 +31,72 @@ const api = axios.create({
 // }
 
 // --------------------------
+// 🧠 Helper: add "value" to all fields
+// --------------------------
+function addValueToAllFields(obj: any) {
+  if (Array.isArray(obj)) {
+    obj.forEach(addValueToAllFields);
+  } else if (obj && typeof obj === "object") {
+    if (Array.isArray(obj.fields)) {
+      obj.fields.forEach((field) => {
+        if (!field.data) field.data = {};
+        if (!("value" in field.data)) field.data.value = "";
+      });
+    }
+
+    // ادامه‌ی جستجو در بقیه‌ی کلیدها
+    Object.values(obj).forEach(addValueToAllFields);
+  }
+}
+// --------------------------
 // 🏪 Store Definition
 // --------------------------
 export const useFormStore = defineStore("request", () => {
-    const loading = ref(false);
-    const error = ref<string | null>(null);
-    const items = ref<any[]>([]);
-    const selectedItem = ref<any | null>(null);
+  const loading = ref(false);
+  const error = ref<string | null>(null);
+  const items = ref<any[]>([]);
+  const selectedItem = ref<any | null>(null);
 
-    async function loadRequests(useMock = false) {
-        loading.value = true;
-        error.value = null;
-        const lang = "fa";
+  async function loadRequests(useMock = false) {
+    loading.value = true;
+    error.value = null;
+    const lang = "fa";
 
-        try {
-            let rawData: any = null;
-            // debugger
-            if (false) {//!useMock
-                // rawData = await fetchRequestData(widgetName);
-            }
+    try {
+      let rawData: any = null;
+      // debugger
+      if (false) {
+        //!useMock
+        // rawData = await fetchRequestData(widgetName);
+      }
 
-            const source = rawData || requestData;
+      const source = rawData || requestData;
 
-            items.value = source//transformData(source, lang);
-        } catch (e: any) {
-            error.value = e.message || "❌ خطا در بارگذاری اطلاعات";
-        } finally {
-            loading.value = false;
-        }
+      addValueToAllFields(source);
+
+      items.value = source; //transformData(source, lang);
+    } catch (e: any) {
+      error.value = e.message || "❌ خطا در بارگذاری اطلاعات";
+    } finally {
+      loading.value = false;
     }
+  }
 
-    function setSelectedItem(item: any) {
-        selectedItem.value = item;
-    }
+  function setSelectedItem(item: any) {
+    selectedItem.value = item;
+  }
 
-    function clearSelectedItem() {
-        selectedItem.value = null;
-    }
+  function clearSelectedItem() {
+    selectedItem.value = null;
+  }
 
-    return {
-        loading,
-        error,
-        items,
-        selectedItem,
-        loadRequests,
-        setSelectedItem,
-        clearSelectedItem,
-    };
+  return {
+    loading,
+    error,
+    items,
+    selectedItem,
+    loadRequests,
+    setSelectedItem,
+    clearSelectedItem,
+  };
 });
