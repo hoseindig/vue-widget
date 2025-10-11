@@ -18,12 +18,11 @@
 
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">
-          {{ field.data }}
           <input
             type="text"
             v-bind="tooltipProps"
-            v-model="field.data.value"
-            @input="updateFieldValue(field.object_id, $event.target.value)"
+            :value="getFieldValue(field)"
+            @input="updateFieldValue(field, $event.target.value)"
             class="custom-height mt-1"
           />
         </template>
@@ -33,8 +32,8 @@
       <div v-else>
         <input
           type="text"
-          v-model="field.data.value"
-          @input="updateFieldValue(field.object_id, $event.target.value)"
+          :value="getFieldValue(field)"
+          @input="updateFieldValue(field, $event.target.value)"
           class="custom-height"
         />
       </div>
@@ -54,14 +53,58 @@ const emit = defineEmits<{
   (e: "update:modelValue", value: Record<string, any>): void;
 }>();
 
-const updateFieldValue = (fieldId: string, value: any) => {
+// مقدار فعلی field را برمی‌گرداند
+const getFieldValue = (field: Field) => {
+  // اگر field.data یک object است و value دارد
+  if (field.data && typeof field.data === "object" && "value" in field.data) {
+    return field.data.value;
+  }
+  // اگر field.data یک string است
+  if (typeof field.data === "string") {
+    return field.data;
+  }
+  // اگر در modelValue مقداری ذخیره شده
+  if (props.modelValue[field.object_id]) {
+    return props.modelValue[field.object_id];
+  }
+  return "";
+};
+
+// مقدار field را آپدیت می‌کند
+const updateFieldValue = (field: Field, value: any) => {
+  // اگر field.data یک object نیست، آن را به object تبدیل می‌کنیم
+  if (!field.data || typeof field.data !== "object") {
+    field.data = { value: "" };
+  }
+
+  // مقدار را در field.data.value قرار می‌دهیم
+  field.data.value = value;
+
+  // و به parent emit می‌کنیم
   emit("update:modelValue", {
     ...props.modelValue,
-    [fieldId]: value,
+    [field.object_id]: value,
   });
 };
 </script>
 
+<style scoped>
+.custom-height {
+  height: 30px;
+  width: 100%;
+  border: 1px solid #d4d4d4;
+  border-radius: 5px;
+  padding: 5px;
+}
+.custom-height .v-field__input {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.custom-label {
+  font-size: 14px;
+  font-weight: bold;
+}
+</style>
 <style scoped>
 .custom-height {
   height: 30px;
