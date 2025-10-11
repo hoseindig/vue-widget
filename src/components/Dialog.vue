@@ -1,14 +1,14 @@
 <template>
-  <v-dialog v-model="dialog" max-width="800">
-    <template v-slot:activator="{ props: activatorProps }">
+  <v-dialog v-model="dialog" max-width="500">
+    <!-- <template v-slot:activator="{ props: activatorProps }">
       <v-btn v-bind="activatorProps" color="primary"> Open Dialog </v-btn>
-    </template>
+    </template> -->
 
     <v-card>
       <v-card-title>Form Dialog</v-card-title>
       <div style="">
         <v-card-text>
-          <div style="border: 1px solid red">
+          <div style="">
             <CustomStep
               :form-schema="formDataAsFormData"
               :form-data="formDataAsFormData"
@@ -45,3 +45,10 @@ const dialog = ref(false);
 const formValues = ref({});
 const activeStepIndex = ref(0);
 </script>
+
+
+<style scoped>
+.v-card-text {
+  padding: 0;
+}
+</style>
