@@ -74,24 +74,51 @@
       <p class="content-text">
         محتوای مرحله {{ activeStep + 1 }} اینجا نمایش داده می‌شود
       </p>
+      <!-- {{ sections }} -->
+      {{ activeStep }}
+
+      <p>formData{{ formData }} #</p>
+      <p>formValues {{ formValues?.steps }} #</p>
+      <!-- <DynamicForm
+        :sections="formSchema"
+        v-model:form-values="formValuesModel"
+      /> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import type { FormData, Step } from "@/types/form";
+import DynamicForm from "./DynamicForm.vue";
+
+const emit = defineEmits<{
+  (e: "update:formValues", value: any): void; // emit  Dialog.vue
+  (e: "update:activeStepIndex", value: number): void;
+}>();
 
 // Props for configuration
 interface Props {
   circleSize?: number;
   lineThickness?: number;
   iconSize?: number;
+  formSchema: FormData | FormData[];
+  formData: FormData | FormData[];
+  formValues: any;
+  activeStepIndex: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   circleSize: 40,
   lineThickness: 2,
   iconSize: 20,
+  // Use a factory function for object/array defaults
+  formSchema: () => [], // Assuming formSchema is an array of FormData
+  // Use a factory function for form data
+  formValues: () => ({}),
+  formData: () => [],
+  // Set a sensible default index
+  activeStepIndex: 0,
 });
 
 const activeStep = ref(1);
@@ -103,6 +130,13 @@ const steps = [
   { id: 3, label: "Attachments", icon: "mdi-paperclip" },
   { id: 4, label: "Summary", icon: "mdi-chart-bar" },
 ];
+
+const sections = computed({
+  get: () => props.formSchema?.steps[activeStep.value], // Issue: `steps` might not exist and uses local ref
+  set: (value) => {
+    emit("update:formValues", value); // Issue: Setter doesn't match getter purpose
+  },
+});
 </script>
 
 <style scoped lang="scss">
@@ -197,9 +231,9 @@ const steps = [
   flex: 1;
   display: flex;
   align-items: center;
-  margin: 0 4px;
+  margin: 0 -2px;
   margin-bottom: 32px;
-  min-width: 40px;
+  min-width: 20px;
 }
 
 .line {
