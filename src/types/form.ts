@@ -1,70 +1,57 @@
-import type { MenuItem } from "./menu";
-
-interface LabelTooltip {
-  en: string;
-  fa: string;
-}
-
-interface Setting {
-  key: string;
-  value: string;
-}
+// src/types/form.ts
 
 export interface Field {
   object_id: string;
-  label: LabelTooltip;
-  tooltip: LabelTooltip;
-  id: string;
-  description: string;
-  type: string;
-  value?: any;
+  label: {
+    en: string;
+    fa: string;
+  };
+  tooltip?: {
+    en: string;
+    fa: string;
+  };
   input: {
     type: string;
   };
-  settings: Setting[];
+  settings?: Array<{
+    key: string;
+    value: string;
+  }>;
+  // اضافه کردن property data
+  data?:
+    | {
+        value: any;
+      }
+    | string;
 }
 
 export interface Section {
-  type: string;
-  tooltip: LabelTooltip;
-  id: string;
   object_id: string;
-  collapsable: boolean;
-  label: Record<string, string>;
-  description: string;
-  items?: MenuItem[];
-  fields: Field[];
-}
-
-// interface Step {
-//   object_id: string;
-//   type: "STEP";
-//   label: LabelTooltip;
-//   tooltip: LabelTooltip;
-//   settings: Setting[];
-//   sections: Section[];
-// }
-
-interface Setting {
-  key: string;
-  value: string;
-}
-
-interface Label {
-  en: string;
-  fa: string;
+  label: {
+    en: string;
+    fa: string;
+  };
+  collapsable?: boolean;
+  fields?: Field[];
 }
 
 export interface Step {
   object_id: string;
-  type: string;
-  label: Label;
-  tooltip: Label;
-  settings: Setting[];
-  sections: Section[];
+  label: {
+    en: string;
+    fa: string;
+  };
+  tooltip?: {
+    en: string;
+    fa: string;
+  };
+  settings?: Array<{
+    key: string;
+    value: string;
+  }>;
+  sections?: Section[];
 }
 
 export interface FormData {
-  steps?: Step[];
-  [key: string]: any;
+  steps: Step[];
 }

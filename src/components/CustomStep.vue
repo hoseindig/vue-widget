@@ -85,9 +85,9 @@
       </div> -->
 
       <!-- Dynamic Form -->
-      <p>fields {{ currentSections[0].fields[0] }}</p>
+      <!-- <p>fields {{ currentSections[0].fields[0] }}</p> -->
       <DynamicForm
-        v-if="currentSections"
+        v-if="currentSections && currentSections.length > 0"
         :sections="currentSections"
         v-model:form-values="formValuesModel"
       />
@@ -115,6 +115,7 @@
 </template>
 
 <script setup lang="ts">
+// در قسمت script
 import { computed } from "vue";
 import type { FormData, Step } from "@/types/form";
 import DynamicForm from "./DynamicForm.vue";
@@ -129,7 +130,7 @@ interface Props {
   lineThickness?: number;
   iconSize?: number;
   formSchema: FormData | FormData[];
-  formData: FormData | FormData[];
+  formData: FormData; // تغییر type به فقط FormData
   formValues: any;
   activeStepIndex: number;
 }
@@ -138,9 +139,9 @@ const props = withDefaults(defineProps<Props>(), {
   circleSize: 40,
   lineThickness: 2,
   iconSize: 20,
-  formSchema: () => [],
+  formSchema: () => ({ steps: [] }),
   formValues: () => ({}),
-  formData: () => [],
+  formData: () => ({ steps: [] }),
   activeStepIndex: 0,
 });
 
@@ -166,12 +167,10 @@ const steps = computed(() => {
     return [];
   }
 
-  return props.formData.steps.map((step, index) => {
+  return props.formData.steps.map((step: Step, index: number) => {
     // Extract icon from settings
-    const iconSetting = step.settings?.find((s: any) => s.key === "icon");
-    const iconTypeSetting = step.settings?.find(
-      (s: any) => s.key === "icon_type"
-    );
+    const iconSetting = step.settings?.find((s) => s.key === "icon");
+    const iconTypeSetting = step.settings?.find((s) => s.key === "icon_type");
 
     // Use mdi icon as fallback
     const defaultIcon = "mdi-file-document-outline";

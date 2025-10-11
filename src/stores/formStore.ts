@@ -33,17 +33,18 @@ const api = axios.create({
 // --------------------------
 // 🧠 Helper: add "value" to all fields
 // --------------------------
-function addValueToAllFields(obj: any) {
+function addValueToAllFields(obj: any): void {
   if (Array.isArray(obj)) {
     obj.forEach(addValueToAllFields);
   } else if (obj && typeof obj === "object") {
     if (Array.isArray(obj.fields)) {
-      obj.fields.forEach((field) => {
+      obj.fields.forEach((field: any) => {
         if (!field.data) field.data = {};
-        if (!("value" in field.data)) field.data.value = "";
+        if (typeof field.data === "object" && !("value" in field.data)) {
+          field.data.value = "";
+        }
       });
     }
-
     // ادامه‌ی جستجو در بقیه‌ی کلیدها
     Object.values(obj).forEach(addValueToAllFields);
   }

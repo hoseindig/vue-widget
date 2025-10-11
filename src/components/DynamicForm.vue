@@ -9,6 +9,7 @@
             </v-expansion-panel-title>
             <v-expansion-panel-text class="pa-0 ma-0">
               <SectionFields
+                v-if="section.fields && section.fields.length > 0"
                 :fields="section.fields || []"
                 v-model="getSectionModel(section.object_id).value"
               />
@@ -18,6 +19,7 @@
         <div v-else>
           <h3 class="text-lg font-semibold mb-4">{{ section.label.en }}</h3>
           <SectionFields
+            v-if="section.fields && section.fields.length > 0"
             :fields="section.fields || []"
             v-model="getSectionModel(section.object_id).value"
           />
@@ -28,47 +30,42 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from "vue"; // computed
-import type { PropType } from "vue";
+import { ref, computed } from "vue";
 import SectionFields from "./SectionFields.vue";
 import type { Section } from "@/types/form";
 
-// ... interfaces
-
 const props = defineProps<{
   sections: Section[];
-  // 1.   StepBase   v-model:form-values
   formValues: Record<string, Record<string, any>>;
 }>();
 
 const emit = defineEmits<{
-  // 2. Emit   StepBase
   (e: "update:formValues", value: Record<string, Record<string, any>>): void;
 }>();
 
 const isValid = ref(false);
 const formRef = ref();
 
-//   computed property
 function getSectionModel(sectionId: string) {
   return computed({
     get: () => {
-      // def {} val
       return props.formValues[sectionId] || {};
     },
     set: (sectionData: Record<string, any>) => {
-      //  update  StepBase data
       emit("update:formValues", {
-        ...props.formValues, //
-        [sectionId]: sectionData, // update
+        ...props.formValues,
+        [sectionId]: sectionData,
       });
     },
   });
 }
-</script>
 
-<style>
-.v-expansion-panel-text__wrapper {
-  padding: 0 !important;
-}
-</style>
+// Validate all fields on mount
+const validateFields = () => {
+  props.sections.forEach((section) => {
+    section.fields?.forEach((field) => {
+      // Validation logic here
+    });
+  });
+};
+</script>

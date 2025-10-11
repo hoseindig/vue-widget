@@ -1,5 +1,3 @@
-// D:\project\vue\vue-widget\src\components\SectionFields.vue
-
 <template>
   <v-row dense>
     <v-col
@@ -22,7 +20,7 @@
             type="text"
             v-bind="tooltipProps"
             :value="getFieldValue(field)"
-            @input="updateFieldValue(field, $event.target.value)"
+            @input="updateFieldValue(field, ($event.target as HTMLInputElement).value)"
             class="custom-height mt-1"
           />
         </template>
@@ -33,7 +31,7 @@
         <input
           type="text"
           :value="getFieldValue(field)"
-          @input="updateFieldValue(field, $event.target.value)"
+          @input="updateFieldValue(field, ($event.target as HTMLInputElement).value)"
           class="custom-height"
         />
       </div>
@@ -54,10 +52,10 @@ const emit = defineEmits<{
 }>();
 
 // مقدار فعلی field را برمی‌گرداند
-const getFieldValue = (field: Field) => {
+const getFieldValue = (field: Field): string => {
   // اگر field.data یک object است و value دارد
   if (field.data && typeof field.data === "object" && "value" in field.data) {
-    return field.data.value;
+    return field.data.value ?? "";
   }
   // اگر field.data یک string است
   if (typeof field.data === "string") {
@@ -71,7 +69,7 @@ const getFieldValue = (field: Field) => {
 };
 
 // مقدار field را آپدیت می‌کند
-const updateFieldValue = (field: Field, value: any) => {
+const updateFieldValue = (field: Field, value: string): void => {
   // اگر field.data یک object نیست، آن را به object تبدیل می‌کنیم
   if (!field.data || typeof field.data !== "object") {
     field.data = { value: "" };
@@ -100,24 +98,6 @@ const updateFieldValue = (field: Field, value: any) => {
   padding-top: 2px;
   padding-bottom: 2px;
 }
-.custom-label {
-  font-size: 14px;
-  font-weight: bold;
-}
-</style>
-<style scoped>
-.custom-height {
-  height: 30px;
-  width: 100%;
-  border: 1px solid #d4d4d4;
-  border-radius: 5px;
-  padding: 5px;
-}
-.custom-height .v-field__input {
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
-
 .custom-label {
   font-size: 14px;
   font-weight: bold;
