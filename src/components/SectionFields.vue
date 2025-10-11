@@ -18,7 +18,7 @@
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">
           <!-- :label="field.label.en" -->
-
+          {{ field.data }}
           <!-- <v-text-field
             v-bind="tooltipProps"
             v-model="fieldModel[field.object_id]"
@@ -42,7 +42,7 @@
           type="text"
           name=""
           id=""
-          v-model="fieldModel[field.object_id]"
+          v-model="fieldModel[field.object_id].value"
           class="custom-height"
         />
         <!-- <v-text-field
