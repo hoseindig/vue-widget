@@ -3,7 +3,7 @@
     <v-card class="rounded-xl">
       <!-- Header -->
       <v-card-title class="d-flex align-center justify-space-between py-3 px-4">
-        <span class="text-h6 font-weight-medium">فرم</span>
+        <span class="text-h6 font-weight-medium">Form</span>
         <v-btn
           icon="mdi-close"
           variant="text"
@@ -16,9 +16,17 @@
 
       <!-- Body -->
       <v-card-text class="pa-0">
-        <StepBase
+        <!-- {{ form }} -->
+        <!-- <StepBase
           :form-schema="props.formData"
           v-model:form-values="form"
+          v-model:activeStepIndex="currentStep"
+        /> -->
+        <!-- {{ props.formData }} -->
+        <Step2
+          :form-schema="props.formData"
+          v-model:form-values="form"
+          v-model:form-data="props.formData"
           v-model:activeStepIndex="currentStep"
         />
       </v-card-text>
@@ -28,6 +36,7 @@
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, computed, watch } from "vue";
+import Step2 from "./CustomStep.vue";
 import StepBase from "./StepBase.vue";
 
 const currentStep = ref(1);
