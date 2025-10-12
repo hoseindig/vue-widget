@@ -92,19 +92,7 @@
         :sections="currentSections"
         v-model:form-values="formValuesModel"
         :errors="errors"
-        @clear-error="
-            (sectionId: string, fieldId: string) => {
-              const sectionErrors = errors.value[sectionId] as unknown as Record<string, string> | undefined;
-
-              if (sectionErrors) {
-                delete sectionErrors[fieldId];
-
-                if (Object.keys(sectionErrors).length === 0) {
-                  delete errors.value[sectionId];
-                }
-              }
-            }
-        "
+        @clear-error="clearError"
       />
     </div>
 
@@ -324,6 +312,22 @@ const goToNextStep = () => {
     activeStepModel.value = activeStepModel.value + 1;
   }
 };
+
+const clearError = (sectionId: string, fieldId: string) => {
+  const sectionErrors = errors.value[sectionId];
+  if (!sectionErrors) return;
+
+   const typedSectionErrors = sectionErrors as Record<string, string>;
+
+  if (fieldId in typedSectionErrors) {
+    delete typedSectionErrors[fieldId];
+  }
+
+  if (Object.keys(typedSectionErrors).length === 0) {
+    delete errors.value[sectionId];
+  }
+};
+
 </script>
 
 <style scoped lang="scss">
