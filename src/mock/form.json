@@ -205,12 +205,7 @@
                 "en": "Target Release Date Tooltip",
                 "fa": "تاریخ منتشر کردن هدف"
               },
-              "settings": [
-                {
-                  "key": "required",
-                  "value": "true"
-                }
-              ],
+              "settings": [],
               "data": {
                 "type": "attribute",
                 "expression": "Target Release Date"
@@ -233,12 +228,7 @@
                 "en": "Start Release Date Tooltip",
                 "fa": "تاریخ منتشر کردن شروع"
               },
-              "settings": [
-                {
-                  "key": "required",
-                  "value": "true"
-                }
-              ],
+              "settings": [],
               "data": {
                 "type": "attribute",
                 "expression": "Start Release Date"

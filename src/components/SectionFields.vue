@@ -22,6 +22,7 @@
             :value="getFieldValue(field)"
             @input="onInput($event, field)"
             class="custom-height mt-1"
+            :placeholder="field.label.en"
           />
         </template>
         <span>{{ field.tooltip.en }}</span>

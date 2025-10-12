@@ -247,14 +247,13 @@ const currentStepLabel = computed(() => {
 
 // Navigation methods
 const handleStepClick = (stepId: number) => {
-  // activeStepModel.value = stepId;
   const isValidated = validatedSteps.value.includes(stepId);
   const isPrevious = stepId < activeStepModel.value;
+  const isCurrent = stepId === activeStepModel.value;
 
-  if (isValidated || isPrevious) {
+  if (isValidated || isPrevious || isCurrent) {
     activeStepModel.value = stepId;
   } else {
-    // در غیر این صورت، اجازه ندارد
     console.warn("این مرحله هنوز تکمیل نشده است");
   }
 };
