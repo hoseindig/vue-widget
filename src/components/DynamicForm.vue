@@ -21,7 +21,7 @@
                   </v-icon>
 
                   <!-- عنوان -->
-                  <span>{{ section.label.en }}</span>
+                  <b>{{ section.label.en }}</b>
                 </div>
               </template>
             </v-expansion-panel-title>

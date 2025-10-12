@@ -94,11 +94,10 @@
         :errors="errors"
         @clear-error="
           (sectionId, fieldId) => {
-            if (errors.value[sectionId]) {
-              delete errors.value[sectionId][fieldId];
-              if (Object.keys(errors.value[sectionId]).length === 0)
-                delete errors.value[sectionId];
-            }
+            if (!errors.value || !errors.value[sectionId]) return;
+            delete errors.value[sectionId][fieldId];
+            if (Object.keys(errors.value[sectionId]).length === 0)
+              delete errors.value[sectionId];
           }
         "
       />
@@ -147,6 +146,7 @@ interface Props {
 }
 
 const errors = ref<Record<string, Record<string, string>>>({});
+const validatedSteps = ref<number[]>([]);
 
 const props = withDefaults(defineProps<Props>(), {
   circleSize: 40,
@@ -247,7 +247,16 @@ const currentStepLabel = computed(() => {
 
 // Navigation methods
 const handleStepClick = (stepId: number) => {
-  activeStepModel.value = stepId;
+  // activeStepModel.value = stepId;
+  const isValidated = validatedSteps.value.includes(stepId);
+  const isPrevious = stepId < activeStepModel.value;
+
+  if (isValidated || isPrevious) {
+    activeStepModel.value = stepId;
+  } else {
+    // در غیر این صورت، اجازه ندارد
+    console.warn("این مرحله هنوز تکمیل نشده است");
+  }
 };
 
 const goToPreviousStep = () => {
@@ -299,6 +308,11 @@ const goToNextStep = () => {
     return;
   } else {
     errors.value = {};
+
+    if (!validatedSteps.value.includes(activeStepModel.value)) {
+      validatedSteps.value.push(activeStepModel.value);
+    }
+    console.log(validatedSteps.value);
   }
 
   // اگر هیچ اروری نبود، مرحله بعدی
@@ -494,5 +508,10 @@ const goToNextStep = () => {
       }
     }
   }
+}
+
+step-circle.inactive {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 </style>
