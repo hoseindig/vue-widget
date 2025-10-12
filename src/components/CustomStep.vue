@@ -51,7 +51,7 @@
     </div>
 
     <!-- Step Content Display -->
-    <div class="step-content">
+    <div class="step-content bg-white">
       <!-- Debug Info -->
       <!-- <h3 class="content-title">{{ currentStepLabel }}</h3>
       <p class="content-text">
@@ -112,14 +112,14 @@
         variant="outlined"
         color="grey"
       >
-        قبلی
+        back
       </v-btn>
       <v-btn
         @click="goToNextStep"
         :disabled="activeStepModel === (steps?.length || 1) - 1"
         color="primary"
       >
-        بعدی
+        next
       </v-btn>
     </div>
   </div>
@@ -425,7 +425,6 @@ const goToNextStep = () => {
 .step-content {
   margin-top: 24px;
   padding: 0px;
-  background: #f9fafb;
   border-radius: 8px;
 }
 

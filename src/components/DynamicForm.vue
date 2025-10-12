@@ -2,11 +2,28 @@
   <v-container>
     <v-form v-model="isValid" ref="formRef">
       <!-- {{ errors }} -->
-      <div v-for="section in sections" :key="section.object_id" class="mb-6">
+      <div
+        v-for="section in sections"
+        :key="section.object_id"
+        class="mb-6 bg-white"
+      >
         <v-expansion-panels :elevation="0" v-if="section.collapsable" multiple>
           <v-expansion-panel>
-            <v-expansion-panel-title class="pa-0 ma-0">
-              {{ section.label.en }}
+            <v-expansion-panel-title class="pa-2 ma-0" hide-actions>
+              <template v-slot:default="{ expanded }">
+                <div class="flex items-center w-full">
+                  <!-- آیکون سمت چپ -->
+                  <v-icon
+                    class="mr-2"
+                    v-if="section.label.en === 'Second Section'"
+                  >
+                    {{ expanded ? "mdi-menu-up" : "mdi-menu-down" }}
+                  </v-icon>
+
+                  <!-- عنوان -->
+                  <span>{{ section.label.en }}</span>
+                </div>
+              </template>
             </v-expansion-panel-title>
             <v-expansion-panel-text class="pa-0 ma-0">
               <!-- {{ section.object_id }} -->
@@ -86,5 +103,14 @@ const validateFields = () => {
 <style >
 .v-expansion-panel-text__wrapper {
   padding: 0 !important;
+}
+
+.__v-expansion-panel-title__icon {
+  order: -1; /* فلش را به سمت چپ می‌برد */
+  margin-left: 0;
+}
+
+.v-expansion-panel-title__icon {
+  display: none;
 }
 </style>
