@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-form v-model="isValid" ref="formRef">
+      <!-- {{ errors }} -->
       <div v-for="section in sections" :key="section.object_id" class="mb-6">
         <v-expansion-panels :elevation="0" v-if="section.collapsable" multiple>
           <v-expansion-panel>
@@ -8,10 +9,15 @@
               {{ section.label.en }}
             </v-expansion-panel-title>
             <v-expansion-panel-text class="pa-0 ma-0">
+              <!-- {{ section.object_id }} -->
               <SectionFields
                 v-if="section.fields && section.fields.length > 0"
                 :fields="section.fields || []"
                 v-model="getSectionModel(section.object_id).value"
+                :errors="props.errors?.[section.object_id] || {}"
+                @clear-error="
+                  (fieldId) => emit('clear-error', section.object_id, fieldId)
+                "
               />
             </v-expansion-panel-text>
           </v-expansion-panel>
@@ -22,6 +28,10 @@
             v-if="section.fields && section.fields.length > 0"
             :fields="section.fields || []"
             v-model="getSectionModel(section.object_id).value"
+            :errors="props.errors?.[section.object_id] || {}"
+            @clear-error="
+              (fieldId) => emit('clear-error', section.object_id, fieldId)
+            "
           />
         </div>
       </div>
@@ -37,10 +47,12 @@ import type { Section } from "@/types/form";
 const props = defineProps<{
   sections: Section[];
   formValues: Record<string, Record<string, any>>;
+  errors?: Record<string, Record<string, string>>;
 }>();
 
 const emit = defineEmits<{
   (e: "update:formValues", value: Record<string, Record<string, any>>): void;
+  (e: "clear-error", sectionId: string, fieldId: string): void;
 }>();
 
 const isValid = ref(false);
@@ -69,3 +81,10 @@ const validateFields = () => {
   });
 };
 </script>
+
+
+<style >
+.v-expansion-panel-text__wrapper {
+  padding: 0 !important;
+}
+</style>

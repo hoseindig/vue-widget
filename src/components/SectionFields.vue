@@ -20,7 +20,7 @@
             type="text"
             v-bind="tooltipProps"
             :value="getFieldValue(field)"
-            @input="updateFieldValue(field, ($event.target as HTMLInputElement).value)"
+            @input="onInput($event, field)"
             class="custom-height mt-1"
           />
         </template>
@@ -35,6 +35,12 @@
           class="custom-height"
         />
       </div>
+      <div
+        v-if="props.errors && props.errors[field.object_id]"
+        class="error-text"
+      >
+        {{ props.errors[field.object_id] }}
+      </div>
     </v-col>
   </v-row>
 </template>
@@ -45,10 +51,12 @@ import type { Field } from "@/types/form";
 const props = defineProps<{
   fields: Field[];
   modelValue: Record<string, any>;
+  errors?: Record<string, string>;
 }>();
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: Record<string, any>): void;
+  (e: "clear-error", fieldId: string): void;
 }>();
 
 // مقدار فعلی field را برمی‌گرداند
@@ -66,6 +74,15 @@ const getFieldValue = (field: Field): string => {
     return props.modelValue[field.object_id];
   }
   return "";
+};
+
+const onInput = (event: Event, field: Field) => {
+  const value = (event.target as HTMLInputElement).value;
+  updateFieldValue(field, value);
+  // اگر اروری برای این فیلد وجود داشت، درخواست پاک‌سازی بده
+  if (props.errors && props.errors[field.object_id]) {
+    emit("clear-error", field.object_id);
+  }
 };
 
 // مقدار field را آپدیت می‌کند
@@ -101,5 +118,11 @@ const updateFieldValue = (field: Field, value: string): void => {
 .custom-label {
   font-size: 14px;
   font-weight: bold;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 13px;
+  margin-top: 6px;
 }
 </style>

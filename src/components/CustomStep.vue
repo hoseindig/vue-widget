@@ -86,10 +86,21 @@
 
       <!-- Dynamic Form -->
       <!-- <p>fields {{ currentSections[0].fields[0] }}</p> -->
+
       <DynamicForm
         v-if="currentSections && currentSections.length > 0"
         :sections="currentSections"
         v-model:form-values="formValuesModel"
+        :errors="errors"
+        @clear-error="
+          (sectionId, fieldId) => {
+            if (errors.value[sectionId]) {
+              delete errors.value[sectionId][fieldId];
+              if (Object.keys(errors.value[sectionId]).length === 0)
+                delete errors.value[sectionId];
+            }
+          }
+        "
       />
     </div>
 
@@ -116,7 +127,7 @@
 
 <script setup lang="ts">
 // در قسمت script
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import type { FormData, Step } from "@/types/form";
 import DynamicForm from "./DynamicForm.vue";
 
@@ -134,6 +145,8 @@ interface Props {
   formValues: any;
   activeStepIndex: number;
 }
+
+const errors = ref<Record<string, Record<string, string>>>({});
 
 const props = withDefaults(defineProps<Props>(), {
   circleSize: 40,
@@ -243,8 +256,52 @@ const goToPreviousStep = () => {
   }
 };
 
+// const goToNextStep = () => {
+//   const maxStep = (steps.value?.length || 1) - 1;
+//   if (activeStepModel.value < maxStep) {
+//     activeStepModel.value = activeStepModel.value + 1;
+//   }
+// };
 const goToNextStep = () => {
   const maxStep = (steps.value?.length || 1) - 1;
+
+  const currentStepIndex = activeStepModel.value;
+  const current = props.formData?.steps?.[currentStepIndex];
+  const newErrors: Record<string, Record<string, string>> = {};
+
+  if (current && Array.isArray(current.sections)) {
+    current.sections.forEach((section: any) => {
+      const sectionId = section.object_id;
+      section.fields?.forEach((field: any) => {
+        const isRequired =
+          Array.isArray(field.settings) &&
+          field.settings.some(
+            (s: any) => s.key === "required" && s.value === "true"
+          );
+
+        // مقدار فعلی فیلد را از سه‌جا می‌توان خواند: field.data.value یا props.formValues[sectionId][field.object_id]
+        const fieldValue =
+          field.data && typeof field.data === "object" && "value" in field.data
+            ? field.data.value ?? ""
+            : (typeof field.data === "string" ? field.data : "") ||
+              (props.formValues?.[sectionId]?.[field.object_id] ?? "");
+
+        if (isRequired && (fieldValue === "" || fieldValue == null)) {
+          if (!newErrors[sectionId]) newErrors[sectionId] = {};
+          newErrors[sectionId][field.object_id] = "this fild is required";
+        }
+      });
+    });
+  }
+
+  if (Object.keys(newErrors).length > 0) {
+    errors.value = newErrors;
+    return;
+  } else {
+    errors.value = {};
+  }
+
+  // اگر هیچ اروری نبود، مرحله بعدی
   if (activeStepModel.value < maxStep) {
     activeStepModel.value = activeStepModel.value + 1;
   }
