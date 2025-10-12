@@ -1,6 +1,6 @@
 <template>
   <div class="stepper-container pb-4">
-    <div class="stepper-wrapper px-4">
+    <div class="stepper-wrapper px-4" v-if="steps.length > 1">
       <template v-for="(step, index) in steps" :key="step.object_id || step.id">
         <!-- Step Circle -->
         <div class="step-item">
