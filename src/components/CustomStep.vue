@@ -93,12 +93,17 @@
         v-model:form-values="formValuesModel"
         :errors="errors"
         @clear-error="
-          (sectionId, fieldId) => {
-            if (!errors.value || !errors.value[sectionId]) return;
-            delete errors.value[sectionId][fieldId];
-            if (Object.keys(errors.value[sectionId]).length === 0)
-              delete errors.value[sectionId];
-          }
+            (sectionId: string, fieldId: string) => {
+              const sectionErrors = errors.value[sectionId] as unknown as Record<string, string> | undefined;
+
+              if (sectionErrors) {
+                delete sectionErrors[fieldId];
+
+                if (Object.keys(sectionErrors).length === 0) {
+                  delete errors.value[sectionId];
+                }
+              }
+            }
         "
       />
     </div>
