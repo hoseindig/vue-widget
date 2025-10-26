@@ -6,7 +6,7 @@
     item-title="label"
     item-value="value"
     variant="outlined"
-    density="comfortable"
+    density="compact"
     hide-details
     clearable
     class="custom-combobox"
@@ -18,7 +18,7 @@ import { ref, watch, computed } from "vue";
 
 const props = defineProps<{
   modelValue: string | string[];
-  options: Record<string, string> | string[]; // پشتیبانی از object و array
+  options: Record<string, string> | string[];
   selection?: "SINGLE" | "MULTIPLE";
 }>();
 
@@ -28,18 +28,14 @@ const emit = defineEmits<{
 
 const internalValue = ref(props.modelValue);
 
-// اگر options به صورت object باشه، اون رو به آرایه قابل فهم برای Vuetify تبدیل می‌کنیم
 const normalizedOptions = computed(() => {
   if (Array.isArray(props.options)) return props.options;
-
-  // اگر object بود => تبدیل به [{ value, label }]
   return Object.entries(props.options || {}).map(([value, label]) => ({
     value,
     label,
   }));
 });
 
-// همگام‌سازی prop با مدل داخلی
 watch(
   () => props.modelValue,
   (val) => {
@@ -47,7 +43,6 @@ watch(
   }
 );
 
-// هر تغییری در مقدار داخلی را به parent اطلاع بده
 watch(internalValue, (val) => {
   emit("update:modelValue", val);
 });
@@ -56,5 +51,32 @@ watch(internalValue, (val) => {
 <style scoped>
 .custom-combobox {
   width: 100%;
+}
+
+/* ارتفاع و استایل اصلی */
+.custom-combobox :deep(.v-field__input) {
+  min-height: 30px !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  font-size: 14px !important;
+  color: #333 !important;
+  background-color: #fff !important;
+}
+
+/* رنگ border عادی */
+.custom-combobox :deep(.v-field--variant-outlined .v-field__outline) {
+  --v-field-border-width: 1px;
+  border-radius: 5px !important;
+  color: #d4d4d4 !important;
+}
+
+/* رنگ border در حالت فوکوس */
+.custom-combobox :deep(.v-field.v-field--focused .v-field__outline) {
+  color: #1976d2 !important;
+}
+
+/* placeholder رنگ کم‌رنگ‌تر */
+.custom-combobox :deep(input::placeholder) {
+  color: #999 !important;
 }
 </style>
