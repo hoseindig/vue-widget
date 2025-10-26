@@ -7,6 +7,7 @@
       md="12"
       style="text-align: left"
     >
+      <!-- {{ field.input }} -->
       <label for="" class="custom-label">{{ field.label.en }} </label>
       <span style="color: red">{{
         field?.settings?.find((s) => s.key === "required" && s.value === "true")
@@ -14,28 +15,42 @@
           : ""
       }}</span>
       <!-- {{ field }} -->
+      <b>type : {{ field.input }}</b>
+      <b>type : {{ field.input.type }}</b>
+      <i>type : {{ field.input?.selection }}</i>
+
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">
-          <input
-            type="text"
-            v-bind="tooltipProps"
-            :value="getFieldValue(field)"
-            @input="onInput($event, field)"
-            class="custom-height mt-1"
+          <FormSelectField
+            v-if="field.input.type === 'combobox'"
+            :options="field.input.range"
+            :model-value="getFieldValue(field)"
+            @update:model-value="(val) => updateFieldValue(field, val)"
+          />
+          <FormTextField
+            v-else
+            :model-value="getFieldValue(field)"
             :placeholder="field.label.en"
+            :tooltip="field.tooltip?.en"
+            @update:model-value="(val) => onInput({ target: { value: val } } as any, field)"
           />
         </template>
         <span>{{ field.tooltip.en }}</span>
       </v-tooltip>
 
       <div v-else>
-        <input
-          type="text"
-          :value="getFieldValue(field)"
-          @input="
-            updateFieldValue(field, ($event.target as HTMLInputElement).value)
-          "
-          class="custom-height"
+        <FormSelectField
+          v-if="field.input.type === 'combobox'"
+          :options="field.input.range"
+          :model-value="getFieldValue(field)"
+          @update:model-value="(val) => updateFieldValue(field, val)"
+        />
+        <FormTextField
+          v-else
+          :model-value="getFieldValue(field)"
+          :placeholder="field.label.en"
+          :tooltip="field.tooltip?.en"
+          @update:model-value="(val) => onInput({ target: { value: val } } as any, field)"
         />
       </div>
       <div
@@ -50,6 +65,8 @@
 
 <script setup lang="ts">
 import type { Field } from "@/types/form";
+import FormTextField from "./common/FormTextField.vue";
+import FormSelectField from "./common/FormSelectField.vue";
 
 const props = defineProps<{
   fields: Field[];
