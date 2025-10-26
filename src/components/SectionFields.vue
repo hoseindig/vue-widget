@@ -15,18 +15,20 @@
           : ""
       }}</span>
       <!-- {{ field }} -->
-      <b>type : {{ field.input }}</b>
-      <b>type : {{ field.input.type }}</b>
-      <i>type : {{ field.input?.selection }}</i>
+      <!-- <b>type : {{ field.input }}</b> -->
+      <b> type : {{ field.input.type }} </b>
+      <i> selection : {{ field.input?.selection }} </i>
 
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">
           <FormSelectField
             v-if="field.input.type === 'combobox'"
             :options="field.input.range"
+            :selection="field.input.selection"
             :model-value="getFieldValue(field)"
             @update:model-value="(val) => updateFieldValue(field, val)"
           />
+
           <FormTextField
             v-else
             :model-value="getFieldValue(field)"
@@ -42,6 +44,7 @@
         <FormSelectField
           v-if="field.input.type === 'combobox'"
           :options="field.input.range"
+          :selection="field.input.selection"
           :model-value="getFieldValue(field)"
           @update:model-value="(val) => updateFieldValue(field, val)"
         />

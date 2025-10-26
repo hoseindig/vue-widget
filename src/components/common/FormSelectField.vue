@@ -1,5 +1,13 @@
 <template>
-  <select class="custom-height mt-1" :value="modelValue" @change="onChange">
+  <select
+    class="custom-height mt-1"
+    :multiple="selection === 'MULTIPLE'"
+    :value="modelValue"
+    @change="onChange"
+  >
+    {{
+      options
+    }}
     <option v-for="(item, i) in options" :key="i" :value="item">
       {{ item }}
     </option>
@@ -8,17 +16,25 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  modelValue: string | number;
-  options: (string | number)[];
+  modelValue: string | string[]; // پشتیبانی از چند انتخابی
+  options: string[];
+  selection?: "SINGLE" | "MULTIPLE";
 }>();
 
 const emit = defineEmits<{
-  (e: "update:modelValue", value: string | number): void;
+  (e: "update:modelValue", value: string | string[]): void;
 }>();
 
 const onChange = (event: Event) => {
-  const value = (event.target as HTMLSelectElement).value;
-  emit("update:modelValue", value);
+  const target = event.target as HTMLSelectElement;
+
+  // در حالت MULTIPLE آرایه برمی‌گردونیم
+  if (props.selection === "MULTIPLE") {
+    const selected = Array.from(target.selectedOptions).map((opt) => opt.value);
+    emit("update:modelValue", selected);
+  } else {
+    emit("update:modelValue", target.value);
+  }
 };
 </script>
 
