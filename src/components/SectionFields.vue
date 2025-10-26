@@ -21,7 +21,7 @@
 
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">
-          <FormSelectField
+          <FormComboboxField
             v-if="field.input.type === 'combobox'"
             :options="field.input.range"
             :selection="field.input.selection"
@@ -41,7 +41,7 @@
       </v-tooltip>
 
       <div v-else>
-        <FormSelectField
+        <FormComboboxField
           v-if="field.input.type === 'combobox'"
           :options="field.input.range"
           :selection="field.input.selection"
@@ -70,6 +70,7 @@
 import type { Field } from "@/types/form";
 import FormTextField from "./common/FormTextField.vue";
 import FormSelectField from "./common/FormSelectField.vue";
+import FormComboboxField from "./common/FormComboboxField.vue";
 
 const props = defineProps<{
   fields: Field[];
