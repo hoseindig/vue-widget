@@ -72,6 +72,8 @@ const emit = defineEmits<{
   (e: "clear-error", sectionId: string, fieldId: string): void;
 }>();
 
+const validationStatus = ref<Record<string, boolean | null>>({});
+
 const isValid = ref(false);
 const formRef = ref();
 
@@ -99,8 +101,7 @@ const validateFields = () => {
 };
 </script>
 
-
-<style >
+<style>
 .v-expansion-panel-text__wrapper {
   padding: 0 !important;
 }

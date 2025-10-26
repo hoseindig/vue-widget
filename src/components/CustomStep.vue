@@ -122,6 +122,7 @@
 import { computed, ref } from "vue";
 import type { FormData, Step } from "@/types/form";
 import DynamicForm from "./DynamicForm.vue";
+import * as validators from "../utils/validators";
 
 const emit = defineEmits<{
   (e: "update:formValues", value: any): void;
@@ -140,6 +141,8 @@ interface Props {
 
 const errors = ref<Record<string, Record<string, string>>>({});
 const validatedSteps = ref<number[]>([]);
+
+const validationStatus = ref<Record<string, boolean | null>>({});
 
 const props = withDefaults(defineProps<Props>(), {
   circleSize: 40,
@@ -265,7 +268,6 @@ const goToPreviousStep = () => {
 // };
 const goToNextStep = () => {
   const maxStep = (steps.value?.length || 1) - 1;
-
   const currentStepIndex = activeStepModel.value;
   const current = props.formData?.steps?.[currentStepIndex];
   const newErrors: Record<string, Record<string, string>> = {};
@@ -280,34 +282,70 @@ const goToNextStep = () => {
             (s: any) => s.key === "required" && s.value === "true"
           );
 
-        // مقدار فعلی فیلد را از سه‌جا می‌توان خواند: field.data.value یا props.formValues[sectionId][field.object_id]
         const fieldValue =
           field.data && typeof field.data === "object" && "value" in field.data
             ? field.data.value ?? ""
             : (typeof field.data === "string" ? field.data : "") ||
               (props.formValues?.[sectionId]?.[field.object_id] ?? "");
 
+        // ✅ اگر فیلد خالیه و required هست
         if (isRequired && (fieldValue === "" || fieldValue == null)) {
           if (!newErrors[sectionId]) newErrors[sectionId] = {};
-          newErrors[sectionId][field.object_id] = "this fild is required";
+          newErrors[sectionId][field.object_id] = "This field is required";
+          return;
+        }
+
+        // ✅ بررسی وجود validation
+        const validationSetting = (field.settings as any[])?.find(
+          (s) => "validation" in s
+        );
+        if (validationSetting) {
+          const validationValue = validationSetting.validation;
+          const functions = validationValue
+            .split(",")
+            .map((f: string) => f.trim())
+            .filter(Boolean);
+
+          for (const fnName of functions) {
+            const fn = (validators as any)[fnName];
+            if (typeof fn !== "function") {
+              console.error(
+                `⚠️ Validation function "${fnName}" not found in utils/validators.ts`
+              );
+              if (!newErrors[sectionId]) newErrors[sectionId] = {};
+              newErrors[sectionId][
+                field.object_id
+              ] = `Validator "${fnName}" not found`;
+              return;
+            }
+
+            const result = fn(fieldValue);
+            if (!result) {
+              if (!newErrors[sectionId]) newErrors[sectionId] = {};
+              newErrors[sectionId][
+                field.object_id
+              ] = `Validation failed: ${fnName}`;
+              return;
+            }
+          }
         }
       });
     });
   }
 
+  // ✅ اگر ارور داریم، ثبت و توقف
   if (Object.keys(newErrors).length > 0) {
     errors.value = newErrors;
     return;
-  } else {
-    errors.value = {};
-
-    if (!validatedSteps.value.includes(activeStepModel.value)) {
-      validatedSteps.value.push(activeStepModel.value);
-    }
-    console.log(validatedSteps.value);
   }
 
-  // اگر هیچ اروری نبود، مرحله بعدی
+  // ✅ همه چیز درست → مرحله معتبر
+  errors.value = {};
+  if (!validatedSteps.value.includes(activeStepModel.value)) {
+    validatedSteps.value.push(activeStepModel.value);
+  }
+
+  // ✅ مرحله بعد
   if (activeStepModel.value < maxStep) {
     activeStepModel.value = activeStepModel.value + 1;
   }
@@ -317,7 +355,7 @@ const clearError = (sectionId: string, fieldId: string) => {
   const sectionErrors = errors.value[sectionId];
   if (!sectionErrors) return;
 
-   const typedSectionErrors = sectionErrors as Record<string, string>;
+  const typedSectionErrors = sectionErrors as Record<string, string>;
 
   if (fieldId in typedSectionErrors) {
     delete typedSectionErrors[fieldId];
@@ -327,7 +365,6 @@ const clearError = (sectionId: string, fieldId: string) => {
     delete errors.value[sectionId];
   }
 };
-
 </script>
 
 <style scoped lang="scss">
