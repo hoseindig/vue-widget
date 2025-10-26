@@ -14,7 +14,6 @@
           : ""
       }}</span>
       <!-- {{ field }} -->
-      {{ field.settings }}
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">
           <input
@@ -24,14 +23,6 @@
             @input="onInput($event, field)"
             class="custom-height mt-1"
             :placeholder="field.label.en"
-            :style="{
-              borderColor:
-                validationStatus[field.object_id] === true
-                  ? '#22c55e' /* سبز */
-                  : validationStatus[field.object_id] === false
-                  ? '#ef4444' /* قرمز */
-                  : '#d4d4d4' /* پیش‌فرض */,
-            }"
           />
         </template>
         <span>{{ field.tooltip.en }}</span>
@@ -45,14 +36,6 @@
             updateFieldValue(field, ($event.target as HTMLInputElement).value)
           "
           class="custom-height"
-          :style="{
-            borderColor:
-              validationStatus[field.object_id] === true
-                ? '#22c55e' /* سبز */
-                : validationStatus[field.object_id] === false
-                ? '#ef4444' /* قرمز */
-                : '#d4d4d4' /* پیش‌فرض */,
-          }"
         />
       </div>
       <div
@@ -67,8 +50,6 @@
 
 <script setup lang="ts">
 import type { Field } from "@/types/form";
-import * as validators from "../utils/validators";
-import { ref } from "vue";
 
 const props = defineProps<{
   fields: Field[];
@@ -80,8 +61,6 @@ const emit = defineEmits<{
   (e: "update:modelValue", value: Record<string, any>): void;
   (e: "clear-error", fieldId: string): void;
 }>();
-
-const validationStatus = ref<Record<string, boolean | null>>({});
 
 // مقدار فعلی field را برمی‌گرداند
 const getFieldValue = (field: Field): string => {
@@ -103,9 +82,6 @@ const getFieldValue = (field: Field): string => {
 const onInput = (event: Event, field: Field) => {
   const value = (event.target as HTMLInputElement).value;
   updateFieldValue(field, value);
-
-  validateField(field, value);
-
   // اگر اروری برای این فیلد وجود داشت، درخواست پاک‌سازی بده
   if (props.errors && props.errors[field.object_id]) {
     emit("clear-error", field.object_id);
@@ -127,39 +103,6 @@ const updateFieldValue = (field: Field, value: string): void => {
     ...props.modelValue,
     [field.object_id]: value,
   });
-};
-
-const validateField = (field: Field, value: string) => {
-  console.log("validateField");
-
-  const validationSetting = field.settings?.find((s: any) => s.validation);
-  if (!validationSetting) {
-    validationStatus.value[field.object_id] = null;
-    return;
-  }
-
-  const functions = validationSetting.validation
-    .split(",")
-    .map((f: string) => f.trim());
-
-  for (const fnName of functions) {
-    const fn = (validators as any)[fnName];
-    if (typeof fn !== "function") {
-      console.error(
-        `Validation function "${fnName}" not found in utils/validators.ts`
-      );
-      validationStatus.value[field.object_id] = false;
-      return;
-    }
-
-    const result = fn(value);
-    if (!result) {
-      validationStatus.value[field.object_id] = false;
-      return;
-    }
-  }
-
-  validationStatus.value[field.object_id] = true;
 };
 </script>
 
