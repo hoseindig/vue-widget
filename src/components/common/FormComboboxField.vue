@@ -53,7 +53,7 @@ watch(internalValue, (val) => {
   width: 100%;
 }
 
-/* ارتفاع و استایل اصلی */
+/* ارتفاع فیلد */
 .custom-combobox :deep(.v-field__input) {
   min-height: 30px !important;
   padding-top: 2px !important;
@@ -63,20 +63,25 @@ watch(internalValue, (val) => {
   background-color: #fff !important;
 }
 
-/* رنگ border عادی */
+/* ✅ رنگ border در حالت عادی */
 .custom-combobox :deep(.v-field--variant-outlined .v-field__outline) {
+  --v-field-border-color: #ff0000 !important;
   --v-field-border-width: 1px;
-  border-radius: 5px !important;
-  color: #d4d4d4 !important;
+  border-radius: 6px;
 }
 
-/* رنگ border در حالت فوکوس */
+/* ✅ رنگ border در حالت hover */
+.custom-combobox :deep(.v-field--variant-outlined:hover .v-field__outline) {
+  --v-field-border-color: #888;
+}
+
+/* ✅ رنگ border در حالت focus */
 .custom-combobox :deep(.v-field.v-field--focused .v-field__outline) {
-  color: #1976d2 !important;
+  --v-field-border-color: #1976d2;
 }
 
-/* placeholder رنگ کم‌رنگ‌تر */
+/* رنگ placeholder */
 .custom-combobox :deep(input::placeholder) {
-  color: قثی= !important;
+  color: #aaa !important;
 }
 </style>
