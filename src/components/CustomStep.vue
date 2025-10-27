@@ -320,11 +320,12 @@ const goToNextStep = () => {
             }
 
             const result = fn(fieldValue);
-            if (!result) {
+            if (result !== true) {
               if (!newErrors[sectionId]) newErrors[sectionId] = {};
-              newErrors[sectionId][
-                field.object_id
-              ] = `Validation failed: ${fnName}`;
+              newErrors[sectionId][field.object_id] =
+                typeof result === "string"
+                  ? result
+                  : `Validation failed: ${fnName}`;
               return;
             }
           }

@@ -121,7 +121,10 @@
               "action": "NONE",
               "input": {
                 "type": "text_area"
-              }
+              },
+              "settings": [
+                { "validation": "checkIsNumber,checkIsPositiveNumber" }
+              ]
             },
             {
               "object_id": "PhaseField",
@@ -138,8 +141,7 @@
                 {
                   "key": "Default",
                   "value": "dev"
-                },
-                { "validation": "checkIsNumber,checkIsPositiveNumber" }
+                }
               ],
               "data": {
                 "type": "attribute",

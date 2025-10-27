@@ -77,6 +77,6 @@ watch(internalValue, (val) => {
 
 /* placeholder رنگ کم‌رنگ‌تر */
 .custom-combobox :deep(input::placeholder) {
-  color: #999 !important;
+  color: قثی= !important;
 }
 </style>

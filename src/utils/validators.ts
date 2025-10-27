@@ -1,13 +1,14 @@
-// utils/validators.ts
-export const checkIsNumber = (value: string): boolean => {
-  return !isNaN(Number(value));
+export const checkIsNumber = (value: string): true | string => {
+  return !isNaN(Number(value)) ? true : "Value must be a valid number";
 };
 
-export const checkIsPositiveNumber = (value: string): boolean => {
-  return Number(value) > 0;
+export const checkIsPositiveNumber = (value: string): true | string => {
+  if (Number(value) > 0) return true;
+  return "Number must be positive";
 };
 
-// مثال: اگه خواستی تابع جدید اضافه کنی فقط اینجا بنویس
-export const checkIsEmail = (value: string): boolean => {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+export const checkIsEmail = (value: string): true | string => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+    ? true
+    : "Invalid email address";
 };

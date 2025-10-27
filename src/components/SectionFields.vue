@@ -131,7 +131,7 @@ const updateFieldValue = (field: Field, value: string): void => {
 .custom-height {
   height: 30px;
   width: 100%;
-  border: 1px solid #d4d4d4;
+  /*border: 1px solid #d4d4d4;*/
   border-radius: 5px;
   padding: 5px;
 }
