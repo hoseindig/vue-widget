@@ -8,16 +8,16 @@
       style="text-align: left"
     >
       <!-- {{ field.input }} -->
-      <label for="" class="custom-label">{{ field.label.en }} </label>
+      <label for="" class="custom-label">{{ field.label.en }} :</label>
       <span style="color: red">{{
         field?.settings?.find((s) => s.key === "required" && s.value === "true")
           ? " *"
           : ""
       }}</span>
-      <!-- {{ field }} -->
-      <!-- <b>type : {{ field.input }}</b> -->
+      <!-- {{ field.input.range }} -->
+      <!-- <b>input : {{ field.input }}</b> -->
       <b> type : {{ field.input.type }} </b>
-      <i> selection : {{ field.input?.selection }} </i>
+      <!-- <i> selection : {{ field.input?.selection }} </i> -->
 
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">
@@ -28,7 +28,13 @@
             :model-value="getFieldValue(field)"
             @update:model-value="(val) => updateFieldValue(field, val)"
           />
-
+          <FormCheckboxField
+            v-else-if="field.input.type === 'check_box'"
+            :options="field.input.range"
+            :selection="field.input.selection"
+            :model-value="getFieldValue(field)"
+            @update:model-value="(val) => updateFieldValue(field, val)"
+          />
           <FormTextField
             v-else
             :model-value="getFieldValue(field)"
@@ -43,6 +49,13 @@
       <div v-else>
         <FormComboboxField
           v-if="field.input.type === 'combobox'"
+          :options="field.input.range"
+          :selection="field.input.selection"
+          :model-value="getFieldValue(field)"
+          @update:model-value="(val) => updateFieldValue(field, val)"
+        />
+        <FormCheckboxField
+          v-else-if="field.input.type === 'check_box'"
           :options="field.input.range"
           :selection="field.input.selection"
           :model-value="getFieldValue(field)"
@@ -71,6 +84,7 @@ import type { Field } from "@/types/form";
 import FormTextField from "./common/FormTextField.vue";
 import FormSelectField from "./common/FormSelectField.vue";
 import FormComboboxField from "./common/FormComboboxField.vue";
+import FormCheckboxField from "./common/FormCheckboxField.vue";
 
 const props = defineProps<{
   fields: Field[];
