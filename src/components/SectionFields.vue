@@ -15,14 +15,27 @@
           : ""
       }}</span>
       <!-- {{ field.input.range }} -->
-      <!-- <b>input : {{ field.input }}</b> -->
       <b> type : {{ field.input.type }} </b>
+      <b> selection : {{ field.input.selection }}</b>
       <!-- <i> selection : {{ field.input?.selection }} </i> -->
 
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">
           <FormComboboxField
-            v-if="field.input.type === 'combobox'"
+            v-if="
+              field.input.type === 'combobox' &&
+              field.input.selection === 'SINGLE'
+            "
+            :options="field.input.range"
+            :selection="field.input.selection"
+            :model-value="getFieldValue(field)"
+            @update:model-value="(val) => updateFieldValue(field, val)"
+          />
+          <FormComboboxMultiField
+            v-else-if="
+              field.input.type === 'combobox' &&
+              field.input.selection === 'MULTIPLE'
+            "
             :options="field.input.range"
             :selection="field.input.selection"
             :model-value="getFieldValue(field)"
@@ -85,6 +98,7 @@ import FormTextField from "./common/FormTextField.vue";
 import FormSelectField from "./common/FormSelectField.vue";
 import FormComboboxField from "./common/FormComboboxField.vue";
 import FormCheckboxField from "./common/FormCheckboxField.vue";
+import FormComboboxMultiField from "./common/FormComboboxMultiField.vue";
 
 const props = defineProps<{
   fields: Field[];
