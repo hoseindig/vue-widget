@@ -414,8 +414,8 @@ const clearError = (sectionId: string, fieldId: string) => {
   flex-shrink: 0;
 
   &.inactive {
-    border-color: #d1d5db;
-    background: white;
+    border-color: #d1d4d4;
+    background-color: #f2f2f2;
 
     :deep(.v-icon) {
       color: #9ca3af;
@@ -459,7 +459,7 @@ const clearError = (sectionId: string, fieldId: string) => {
   }
 
   &.label-completed {
-    color: #3b82f6;
+    color: #3d3d3d;
   }
 
   &.label-active {
