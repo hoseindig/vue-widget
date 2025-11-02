@@ -42,11 +42,10 @@ const onInput = (event: Event) => {
 
 <style scoped>
 .custom-height {
-  height: 68px;
+  height: 68px !important;
   width: 100%;
   border: 1px solid #d4d4d4;
   border-radius: 5px;
-  padding: 5px;
   padding: 3px 6px;
 }
 </style>

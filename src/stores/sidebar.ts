@@ -172,7 +172,7 @@ export const useSidebarStore = defineStore("sidebar", () => {
 
     try {
       let rawData: any = null;
-      if (true) {
+      if (false) {
         //!useMock
         rawData = await fetchSidebarMenu(widgetName);
       }
