@@ -392,6 +392,28 @@ const clearError = (sectionId: string, fieldId: string) => {
   position: relative;
   display: flex;
   align-items: center;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 0 0 40px;
+    height: 2px;
+    background: #e5e7eb;
+    margin-bottom: 32px;
+    transition: background 0.3s ease;
+  }
+
+  &::before {
+    margin-right: 0px;
+  }
+
+  &::after {
+    margin-left: 0px;
+  }
+
+  &.last-step-active::after {
+    background: #368ec4;
+  }
 }
 
 .step-item {
