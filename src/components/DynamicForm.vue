@@ -5,9 +5,15 @@
       <div
         v-for="section in sections"
         :key="section.object_id"
-        class="bg-white"
+        class="mb-6 bg-white"
       >
-        <v-expansion-panels :elevation="0" v-if="section.collapsable" multiple>
+        <!-- اضافه کردن کلاس expansion-panel-custom برای اعمال border-top -->
+        <v-expansion-panels
+          :elevation="0"
+          v-if="section.collapsable"
+          multiple
+          class="expansion-panel-custom"
+        >
           <v-expansion-panel>
             <v-expansion-panel-title class="pa-0 ma-0" hide-actions>
               <template v-slot:default="{ expanded }">
@@ -102,6 +108,11 @@ const validateFields = () => {
 </script>
 
 <style scoped>
+/* افزودن خط افقی در بالای کل مجموعه v-expansion-panels */
+.expansion-panel-custom {
+  border-top: 1px solid #e2e4e3 !important;
+}
+
 /* افزایش ارتفاع عنوان پنل به 38px */
 :deep(.v-expansion-panel-title) {
   min-height: 38px !important;
@@ -114,7 +125,7 @@ const validateFields = () => {
   padding: 0 !important;
 }
 
-/* این استایل‌ها به v-expansion-panel-title منتقل شدند */
+/* استایل‌دهی آیکون Vuetify (اگر hide-actions استفاده نشده بود) */
 :deep(.__v-expansion-panel-title__icon) {
   order: -1; /* فلش را به سمت چپ می‌برد */
   margin-left: 0;
