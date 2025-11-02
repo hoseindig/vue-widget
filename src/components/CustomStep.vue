@@ -486,6 +486,8 @@ const clearError = (sectionId: string, fieldId: string) => {
   margin-top: 24px;
   padding: 0px;
   border-radius: 8px;
+  max-height: 500px;
+  overflow: auto;
 }
 
 .content-title {

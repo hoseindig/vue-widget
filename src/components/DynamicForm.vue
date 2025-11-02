@@ -9,7 +9,7 @@
       >
         <v-expansion-panels :elevation="0" v-if="section.collapsable" multiple>
           <v-expansion-panel>
-            <v-expansion-panel-title class="pa-2 ma-0" hide-actions>
+            <v-expansion-panel-title class="pa-0 ma-0" hide-actions>
               <template v-slot:default="{ expanded }">
                 <div class="flex items-center w-full">
                   <!-- آیکون سمت چپ -->
