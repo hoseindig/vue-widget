@@ -120,7 +120,7 @@ const validationStatus = ref<Record<string, boolean | null>>({});
 const props = withDefaults(defineProps<Props>(), {
   circleSize: 40,
   lineThickness: 2,
-  iconSize: 20,
+  iconSize: 16,
   formSchema: () => ({ steps: [] }),
   formValues: () => ({}),
   formData: () => ({ steps: [] }),
