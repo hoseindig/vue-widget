@@ -11,7 +11,7 @@
     class="custom-combobox"
   >
     <template v-slot:append-inner>
-      <v-icon size="24" class="dropdown-icon">mdi-menu-down</v-icon>
+      <v-icon size="20" class="dropdown-icon">mdi-menu-down</v-icon>
     </template>
   </v-combobox>
 </template>
@@ -56,23 +56,16 @@ watch(internalValue, (val) => {
   width: 100%;
 }
 
-/* ارتفاع فیلد */
-.custom-combobox :deep(.v-field__input) {
-  min-height: 10px !important;
-  padding-top: 2px !important;
-  padding-bottom: 2px !important;
-  font-size: 14px !important;
-  color: #333 !important;
-  background-color: #fff !important;
-  padding-right: 16px !important; /* فضای داخلی سمت راست برای دکمه */
-}
-
-/* استایل Border کلی و گوشه‌ها برای خود v-field */
+/* 1. کنترل ارتفاع کل فیلد و حذف پدینگ‌های Vuetify */
 .custom-combobox :deep(.v-field) {
-  border: 1px solid #b4b6ba !important; /* Border کلی با رنگ جدید */
-  border-radius: 6px !important; /* شعاع گوشه‌ها */
-  overflow: hidden !important; /* برای اینکه دکمه در داخل گوشه‌ها قرار بگیرد */
-  padding-right: 0 !important; /* حذف padding داخلی Vuetify */
+  /* ارتفاع کل v-field را برای کنترل نهایی اندازه فیلد، محدود می‌کنیم */
+  height: 24px !important; /* ارتفاع نهایی شامل border، باید حدود 24px باشد */
+  min-height: 24px !important;
+
+  border: 1px solid #b4b6ba !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+  padding: 0 !important; /* حذف پدینگ‌های سطح Vuetify */
 }
 
 /* مخفی کردن Outline پیش‌فرض Vuetify */
@@ -80,48 +73,83 @@ watch(internalValue, (val) => {
   display: none !important;
 }
 
+/* 2. کنترل ارتفاع باکس ورودی متن */
+.custom-combobox :deep(.v-field__input) {
+  /* تنظیم ارتفاع نهایی باکس ورودی */
+  min-height: 20px !important;
+  height: 20px !important;
+  line-height: 20px !important; /* برای ترازبندی عمودی متن */
+
+  /* پدینگ داخلی برای ورودی متن */
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  padding-left: 5px !important; /* پدینگ سمت چپ برای متن */
+  padding-right: 2px !important; /* پدینگ سمت راست توسط v-field__field و دکمه مدیریت می‌شود */
+
+  font-size: 12px !important;
+  color: #333 !important;
+  background-color: #fff !important;
+}
+
+/* 3. کنترل فضای اطراف input برای ترازبندی */
+.custom-combobox :deep(.v-field__field) {
+  height: 22px !important;
+  min-height: 20px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  /* این flexbox برای ترازبندی عمودی محتوای input (متن و چیپ‌ها) حیاتی است */
+  display: flex;
+  align-items: center;
+}
+
+/* استایل کانتینر آیکن (v-field__append-inner) برای تبدیل شدن به باکس دکمه */
+.custom-combobox :deep(.v-field__append-inner) {
+  background-color: #f5f5f5 !important;
+  border-left: 1px solid #b4b6ba !important;
+
+  /* اعمال پدینگ جدید: 3px بالا/پایین، 6px چپ/راست */
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  padding-left: 8.5px !important;
+  padding-right: 8.5px !important;
+
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-left: 0 !important;
+  width: auto !important; /* اجازه می‌دهیم اندازه آن با محتوا و پدینگ تعیین شود */
+}
+
+/* شعاع گوشه برای دکمه (بالا راست و پایین راست) */
+.custom-combobox :deep(.v-field__append-inner) {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/* استایل فلش پایین (mdi-menu-down) */
+.custom-combobox :deep(.dropdown-icon) {
+  color: #333 !important;
+  opacity: 1 !important;
+}
+
+/* مخفی کردن آیکن پیش‌فرض Vuetify (مانند آیکون فلش پیش‌فرض) */
+.custom-combobox :deep(.v-field__append-inner .v-icon:not(.dropdown-icon)) {
+  display: none;
+}
+
 /* رنگ border در حالت hover */
 .custom-combobox :deep(.v-field:hover) {
-  border-color: #888 !important; /* تغییر رنگ Border در حالت hover */
+  border-color: #888 !important;
 }
 
 /* رنگ border در حالت focus */
 .custom-combobox :deep(.v-field.v-field--focused) {
-  border-color: #1976d2 !important; /* تغییر رنگ Border در حالت focus */
+  border-color: #1976d2 !important;
 }
 
 /* رنگ placeholder */
 .custom-combobox :deep(input::placeholder) {
   color: #aaa !important;
-}
-
-/* استایل کانتینر آیکن (v-field__append-inner) برای تبدیل شدن به باکس دکمه */
-.custom-combobox :deep(.v-field__append-inner) {
-  background-color: #f5f5f5 !important; /* پس‌زمینه خاکستری روشن */
-  border-left: 1px solid #b4b6ba !important; /* خط جداکننده عمودی با رنگ جدید */
-  padding-left: 8px !important;
-  padding-right: 8px !important;
-  height: 100% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  margin-left: 0 !important; /* حذف margin سمت چپ پیش‌فرض */
-}
-
-/* شعاع گوشه برای دکمه (بالا راست و پایین راست) */
-.custom-combobox :deep(.v-field__append-inner) {
-  border-top-right-radius: 5px; /* کمی کمتر از 6px کلی */
-  border-bottom-right-radius: 5px; /* کمی کمتر از 6px کلی */
-}
-
-/* استایل فلش پایین (mdi-menu-down) */
-.custom-combobox :deep(.dropdown-icon) {
-  color: #333 !important; /* رنگ تیره برای آیکن */
-  opacity: 1 !important;
-}
-
-/* مخفی کردن آیکن پیش‌فرض Vuetify */
-.custom-combobox :deep(.v-field__append-inner .v-icon:not(.dropdown-icon)) {
-  display: none;
 }
 </style>
