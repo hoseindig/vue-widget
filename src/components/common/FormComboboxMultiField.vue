@@ -1,4 +1,5 @@
 <template>
+  <!-- استفاده از fieldClasses برای اعمال استایل شرطی -->
   <v-combobox
     v-model="internalValue"
     :items="normalizedOptions"
@@ -11,6 +12,7 @@
     density="compact"
     hide-details
     class="custom-combobox"
+    :class="fieldClasses"
   >
     <template v-slot:append-inner>
       <v-icon size="30" class="dropdown-icon">mdi-menu-down</v-icon>
@@ -25,6 +27,7 @@ const props = defineProps<{
   modelValue: string | string[];
   options: Record<string, string> | string[];
   selection?: "SINGLE" | "MULTIPLE";
+  hasError?: boolean; // پروپ خطا
 }>();
 
 const emit = defineEmits<{
@@ -32,6 +35,11 @@ const emit = defineEmits<{
 }>();
 
 const internalValue = ref(props.modelValue);
+
+// کلاس‌های CSS شرطی
+const fieldClasses = computed(() => ({
+  "error-border": props.hasError,
+}));
 
 const normalizedOptions = computed(() => {
   if (Array.isArray(props.options)) return props.options;
@@ -54,12 +62,37 @@ watch(internalValue, (val) => {
 </script>
 
 <style scoped>
-/* این بلاک استایل به طور کامل از کامپوننت دوم (هدف) 
-  کپی شده است تا ظاهر مورد نظر را ایجاد کند.
-*/
 .custom-combobox {
   width: 100%;
 }
+
+/* ------------------------------------------- */
+/* 4. استایل خطا (Error Styling) */
+/* ------------------------------------------- */
+
+/* استایل Border قرمز در صورت وجود کلاس error-border */
+.custom-combobox.error-border :deep(.v-field) {
+  border: 1px solid #ff0000 !important;
+}
+
+/* رنگ Border قرمز در حالت Focus هنگام خطا */
+.custom-combobox.error-border :deep(.v-field.v-field--focused) {
+  border-color: #ff0000 !important;
+}
+
+/* رنگ Border قرمز در حالت Hover هنگام خطا */
+.custom-combobox.error-border :deep(.v-field:hover) {
+  border-color: #ff0000 !important;
+}
+
+/* خط سمت چپ دکمه در هنگام خطا */
+.custom-combobox.error-border :deep(.v-field__append-inner) {
+  border-left: 1px solid #ff0000 !important;
+}
+
+/* ------------------------------------------- */
+/* استایل‌های عمومی (باقی استایل‌ها) */
+/* ------------------------------------------- */
 
 /* 1. کنترل ارتفاع کل فیلد و حذف پدینگ‌های Vuetify */
 .custom-combobox :deep(.v-field) {
@@ -67,6 +100,7 @@ watch(internalValue, (val) => {
   height: 24px !important; /* ارتفاع نهایی شامل border، باید حدود 24px باشد */
   min-height: 24px !important;
 
+  /* Border پیش‌فرض اگر خطا وجود نداشته باشد */
   border: 1px solid #b4b6ba !important;
   border-radius: 4px !important;
   overflow: hidden !important;
@@ -107,23 +141,35 @@ watch(internalValue, (val) => {
   align-items: center;
 }
 
-/* استایل کانتینر آیکن (v-field__append-inner) برای تبدیل شدن به باکس دکمه */
+/* استایل کانتینر آیکن (v-field__append-inner) برای سازگاری با آیکون 30px در ارتفاع 24px */
 .custom-combobox :deep(.v-field__append-inner) {
   background-color: #f5f5f5 !important;
+
+  /* Border-left پیش‌فرض اگر خطا وجود نداشته باشد */
   border-left: 1px solid #b4b6ba !important;
 
-  /* اعمال پدینگ جدید: 3px بالا/پایین، 6px چپ/راست */
+  /* حذف کامل پدینگ عمودی برای جا دادن آیکون 30px در ارتفاع 24px */
   padding-top: 0px !important;
   padding-bottom: 0px !important;
-  padding-left: 3.5px !important;
-  padding-right: 3.5px !important;
 
-  height: 24px !important;
+  /* تنظیم پدینگ افقی برای کنترل عرض */
+  padding-left: 1px !important;
+  padding-right: 1px !important;
+
+  height: 24px !important; /* ارتفاع نهایی دکمه */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   margin-left: 0 !important;
-  width: auto !important; /* اجازه می‌دهیم اندازه آن با محتوا و پدینگ تعیین شود */
+}
+
+/* کنترل ابعاد داخلی آیکون */
+.custom-combobox :deep(.dropdown-icon) {
+  color: #333 !important;
+  opacity: 1 !important;
+  /* تنظیم margin منفی برای جابجایی عمودی آیکون بزرگتر */
+  margin-top: -3px !important;
+  margin-bottom: -3px !important;
 }
 
 /* شعاع گوشه برای دکمه (بالا راست و پایین راست) */
@@ -143,12 +189,12 @@ watch(internalValue, (val) => {
   display: none;
 }
 
-/* رنگ border در حالت hover */
+/* رنگ border در حالت hover (اگر خطا نباشد) */
 .custom-combobox :deep(.v-field:hover) {
   border-color: #888 !important;
 }
 
-/* رنگ border در حالت focus */
+/* رنگ border در حالت focus (اگر خطا نباشد) */
 .custom-combobox :deep(.v-field.v-field--focused) {
   border-color: #1976d2 !important;
 }
