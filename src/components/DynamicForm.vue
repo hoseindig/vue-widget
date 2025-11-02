@@ -5,7 +5,7 @@
       <div
         v-for="section in sections"
         :key="section.object_id"
-        class="mb-6 bg-white"
+        class="bg-white"
       >
         <v-expansion-panels :elevation="0" v-if="section.collapsable" multiple>
           <v-expansion-panel>
@@ -101,17 +101,26 @@ const validateFields = () => {
 };
 </script>
 
-<style>
-.v-expansion-panel-text__wrapper {
+<style scoped>
+/* افزایش ارتفاع عنوان پنل به 38px */
+:deep(.v-expansion-panel-title) {
+  min-height: 38px !important;
+  height: 38px !important;
+  padding: 0 1px !important; /* اعمال پدینگ افقی برای خوانایی بیشتر */
+}
+
+/* حذف پدینگ داخلی Vuetify برای محتوای پنل */
+:deep(.v-expansion-panel-text__wrapper) {
   padding: 0 !important;
 }
 
-.__v-expansion-panel-title__icon {
+/* این استایل‌ها به v-expansion-panel-title منتقل شدند */
+:deep(.__v-expansion-panel-title__icon) {
   order: -1; /* فلش را به سمت چپ می‌برد */
   margin-left: 0;
 }
 
-.v-expansion-panel-title__icon {
+:deep(.v-expansion-panel-title__icon) {
   display: none;
 }
 </style>
