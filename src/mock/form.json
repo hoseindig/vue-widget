@@ -101,7 +101,13 @@
               "action": "NONE",
               "input": {
                 "type": "text_box"
-              }
+              },
+              "settings": [
+                {
+                  "key": "required",
+                  "value": "true"
+                }
+              ]
             },
             {
               "object_id": "DescriptionField",
@@ -141,8 +147,13 @@
                 {
                   "key": "Default",
                   "value": "dev"
+                },
+                {
+                  "key": "required",
+                  "value": "true"
                 }
               ],
+
               "data": {
                 "type": "attribute",
                 "expression": "Phase"
@@ -180,7 +191,13 @@
                 "type": "search",
                 "query": "type:PartFamily AND owner:admin_platform",
                 "selection": "MULTIPLE"
-              }
+              },
+              "settings": [
+                {
+                  "key": "required",
+                  "value": "true"
+                }
+              ]
             }
           ]
         },

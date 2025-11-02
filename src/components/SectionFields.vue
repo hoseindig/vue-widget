@@ -37,6 +37,7 @@
               field.input.type === 'combobox' &&
               field.input.selection === 'SINGLE'
             "
+            :has-error="!!errors[field.object_id]"
             :options="field.input.range"
             :selection="field.input.selection"
             :model-value="getFieldValue(field)"
@@ -48,6 +49,7 @@
               field.input.type === 'combobox' &&
               field.input.selection === 'MULTIPLE'
             "
+            :has-error="!!errors[field.object_id]"
             :options="field.input.range"
             :selection="field.input.selection"
             :model-value="getFieldValue(field)"
@@ -55,6 +57,7 @@
           />
           <!-- Checkbox -->
           <FormCheckboxField
+            :has-error="!!errors[field.object_id]"
             v-else-if="field.input.type === 'check_box'"
             :options="field.input.range"
             :selection="field.input.selection"
@@ -76,6 +79,7 @@
 
       <div v-else>
         <FormComboboxField
+          :has-error="!!errors[field.object_id]"
           v-if="field.input.type === 'combobox'"
           :options="field.input.range"
           :selection="field.input.selection"
@@ -84,6 +88,7 @@
         />
         <FormCheckboxField
           v-else-if="field.input.type === 'check_box'"
+          :has-error="!!errors[field.object_id]"
           :options="field.input.range"
           :selection="field.input.selection"
           :model-value="getFieldValue(field)"
