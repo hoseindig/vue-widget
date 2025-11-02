@@ -5,6 +5,7 @@
         v-bind="tooltipProps"
         type="text"
         class="custom-height mt-1"
+        :class="{ 'input-error': hasError }"
         :value="modelValue"
         :placeholder="placeholder"
         @input="onInput"
@@ -17,6 +18,7 @@
     v-else
     type="text"
     class="custom-height mt-1"
+    :class="{ 'input-error': hasError }"
     :value="modelValue"
     :placeholder="placeholder"
     @input="onInput"
@@ -28,6 +30,7 @@ const props = defineProps<{
   modelValue: string;
   placeholder?: string;
   tooltip?: string;
+  hasError?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -41,6 +44,11 @@ const onInput = (event: Event) => {
 </script>
 
 <style scoped>
+.input-error {
+  border-color: red !important;
+  /* box-shadow: 0 0 0 1px rgba(255, 0, 0, 0.5); اختیاری: برای وضوح بیشتر */
+}
+
 .custom-height {
   height: 24px;
   width: 100%;

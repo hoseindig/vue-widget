@@ -24,6 +24,7 @@
         <template #activator="{ props: tooltipProps }">
           <!-- TextArea -->
           <FormTextAreaField
+            :has-error="!!errors[field.object_id]"
             v-if="field.input.type === 'text_area'"
             :options="field.input.range"
             :selection="field.input.selection"
@@ -63,6 +64,7 @@
           <!-- TextField -->
           <FormTextField
             v-else
+            :has-error="!!errors[field.object_id]"
             :model-value="getFieldValue(field)"
             :placeholder="field.label.en"
             :tooltip="field.tooltip?.en"
@@ -89,6 +91,7 @@
         />
         <FormTextField
           v-else
+          :has-error="!!errors[field.object_id]"
           :model-value="getFieldValue(field)"
           :placeholder="field.label.en"
           :tooltip="field.tooltip?.en"
