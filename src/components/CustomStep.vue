@@ -423,8 +423,8 @@ const clearError = (sectionId: string, fieldId: string) => {
   }
 
   &.completed {
-    border-color: #3888c1;
-    background: #3888c1;
+    border-color: #368ec4;
+    background: #368ec4;
 
     :deep(.v-icon) {
       color: white;
@@ -432,8 +432,8 @@ const clearError = (sectionId: string, fieldId: string) => {
   }
 
   &.active {
-    border-color: #3888c1;
-    background: #3888c1;
+    border-color: #368ec4;
+    background: #368ec4;
     box-shadow: 0 4px 8px -2px rgba(59, 130, 246, 0.3);
     transform: scale(1.05);
 
