@@ -1,7 +1,7 @@
 <template>
   <v-tooltip v-if="tooltip" location="top">
     <template #activator="{ props: tooltipProps }">
-      <input
+      <textarea
         v-bind="tooltipProps"
         type="text"
         class="custom-height mt-1"
@@ -13,7 +13,7 @@
     <span>{{ tooltip }}</span>
   </v-tooltip>
 
-  <input
+  <textarea
     v-else
     type="text"
     class="custom-height mt-1"
@@ -42,7 +42,7 @@ const onInput = (event: Event) => {
 
 <style scoped>
 .custom-height {
-  height: 24px;
+  height: 68px;
   width: 100%;
   border: 1px solid #d4d4d4;
   border-radius: 5px;

@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 /* اضافه کردن به فایل src/style.css یا در main.ts */
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif Arial, sans-serif;
@@ -58,12 +59,12 @@ html[dir=ltr] * {
 }
 
 /* تنظیمات دکمه‌ها و فاصله‌ها */
-html[dir=rtl] .v-btn + .v-btn {
+html[dir=rtl] .v-btn+.v-btn {
   margin-right: 8px;
   margin-left: 0;
 }
 
-html[dir=ltr] .v-btn + .v-btn {
+html[dir=ltr] .v-btn+.v-btn {
   margin-left: 8px;
   margin-right: 0;
 }
@@ -71,4 +72,25 @@ html[dir=ltr] .v-btn + .v-btn {
 .default-icon-sidebar {
   width: 18px;
   height: 25px;
-}/*# sourceMappingURL=main.css.map */
+}
+
+/*# sourceMappingURL=main.css.map */
+
+
+@font-face {
+  font-family: "myFont";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../public/fonts/3dslight.eot");
+  src: url("../public/fonts/3dslight.eot?#iefix") format("embedded-opentype"),
+    /* IE6-8 */
+    url("../public/fonts/3dslight.woff2") format("woff2"),
+    /* FF39+,Chrome36+, Opera24+*/
+    url("../public/fonts/3dslight.woff") format("woff"),
+    /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+    url("../public/fonts/3dslight.ttf") format("truetype");
+}
+
+* {
+  font-family: "myFont" !important;
+}

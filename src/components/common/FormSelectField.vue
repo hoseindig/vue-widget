@@ -40,7 +40,7 @@ const onChange = (event: Event) => {
 
 <style scoped>
 .custom-height {
-  height: 30px;
+  height: 24px;
   width: 100%;
   border: 1px solid #d4d4d4;
   border-radius: 5px;

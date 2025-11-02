@@ -8,21 +8,28 @@
       style="text-align: left"
     >
       <!-- {{ field.input }} -->
-      <label for="" class="custom-label">{{ field.label.en }} :</label>
+      <label for="" class="custom-label">{{ field.label.en }} </label>
       <span style="color: red">{{
         field?.settings?.find((s) => s.key === "required" && s.value === "true")
-          ? " *"
+          ? "*"
           : ""
       }}</span>
       <!-- {{ field.input.range }} -->
-      <b> type : {{ field.input.type }} </b>
-      <b> selection : {{ field.input.selection }}</b>
+      <span> type : {{ field.input.type }} </span>
+      <!-- <span> selection : {{ field.input.selection }}</span> -->
       <!-- <i> selection : {{ field.input?.selection }} </i> -->
 
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">
+          <FormTextAreaField
+            v-if="field.input.type === 'text_area'"
+            :options="field.input.range"
+            :selection="field.input.selection"
+            :model-value="getFieldValue(field)"
+            @update:model-value="(val) => updateFieldValue(field, val)"
+          />
           <FormComboboxField
-            v-if="
+            v-else-if="
               field.input.type === 'combobox' &&
               field.input.selection === 'SINGLE'
             "
@@ -99,6 +106,7 @@ import FormSelectField from "./common/FormSelectField.vue";
 import FormComboboxField from "./common/FormComboboxField.vue";
 import FormCheckboxField from "./common/FormCheckboxField.vue";
 import FormComboboxMultiField from "./common/FormComboboxMultiField.vue";
+import FormTextAreaField from "./common/FormTextAreaField.vue";
 
 const props = defineProps<{
   fields: Field[];
@@ -157,7 +165,7 @@ const updateFieldValue = (field: Field, value: string): void => {
 
 <style scoped>
 .custom-height {
-  height: 30px;
+  height: 24px;
   width: 100%;
   border: 1px solid #d4d4d4;
   border-radius: 5px;
@@ -168,8 +176,13 @@ const updateFieldValue = (field: Field, value: string): void => {
   padding-bottom: 2px;
 }
 .custom-label {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
+  color: #3d3d3d;
+  font-weight: bold;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-rendering: optimizeSpeed;
 }
 
 .error-text {

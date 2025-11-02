@@ -40,7 +40,7 @@
           </v-expansion-panel>
         </v-expansion-panels>
         <div v-else>
-          <h3 class="text-lg font-semibold mb-4">{{ section.label.en }}</h3>
+          <!-- <h3 class="text-lg font-semibold mb-4">{{ section.label.en }}</h3> -->
           <SectionFields
             v-if="section.fields && section.fields.length > 0"
             :fields="section.fields || []"

@@ -55,7 +55,7 @@ watch(internalValue, (val) => {
 
 /* ارتفاع فیلد */
 .custom-combobox :deep(.v-field__input) {
-  min-height: 30px !important;
+  min-height: 24px !important;
   padding-top: 2px !important;
   padding-bottom: 2px !important;
   font-size: 14px !important;
