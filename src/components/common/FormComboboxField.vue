@@ -11,7 +11,7 @@
     class="custom-combobox"
   >
     <template v-slot:append-inner>
-      <v-icon size="20" class="dropdown-icon">mdi-menu-down</v-icon>
+      <v-icon size="30" class="dropdown-icon">mdi-menu-down</v-icon>
     </template>
   </v-combobox>
 </template>
@@ -108,12 +108,12 @@ watch(internalValue, (val) => {
   border-left: 1px solid #b4b6ba !important;
 
   /* اعمال پدینگ جدید: 3px بالا/پایین، 6px چپ/راست */
-  padding-top: 2px !important;
-  padding-bottom: 2px !important;
-  padding-left: 8.5px !important;
-  padding-right: 8.5px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  padding-left: 3.5px !important;
+  padding-right: 3.5px !important;
 
-  height: 100% !important;
+  height: 24px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;

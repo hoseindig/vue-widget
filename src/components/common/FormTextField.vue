@@ -51,4 +51,8 @@ const onInput = (event: Event) => {
   height: 24px;
   font-size: 12px;
 }
+input::placeholder {
+  font-weight: 600;
+  color: #b4b6ba;
+}
 </style>

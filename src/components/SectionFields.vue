@@ -5,7 +5,8 @@
       :key="field.object_id"
       cols="12"
       md="12"
-      style="text-align: left"
+      style="text-align: left; margin-bottom: 10px"
+      class="pa-0"
     >
       <!-- {{ field.input }} -->
       <label for="" class="custom-label">{{ field.label.en }} </label>
@@ -17,10 +18,11 @@
       <!-- {{ field.input.range }} -->
       <span> type : {{ field.input.type }} </span>
       <!-- <span> selection : {{ field.input.selection }}</span> -->
-      <!-- <i> selection : {{ field.input?.selection }} </i> -->
+      <i> selection : {{ field.input?.selection }} </i>
 
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">
+          <!-- TextArea -->
           <FormTextAreaField
             v-if="field.input.type === 'text_area'"
             :options="field.input.range"
@@ -28,6 +30,7 @@
             :model-value="getFieldValue(field)"
             @update:model-value="(val) => updateFieldValue(field, val)"
           />
+          <!-- Combobox SINGLE -->
           <FormComboboxField
             v-else-if="
               field.input.type === 'combobox' &&
@@ -38,6 +41,7 @@
             :model-value="getFieldValue(field)"
             @update:model-value="(val) => updateFieldValue(field, val)"
           />
+          <!-- Combobox Multi -->
           <FormComboboxMultiField
             v-else-if="
               field.input.type === 'combobox' &&
@@ -48,6 +52,7 @@
             :model-value="getFieldValue(field)"
             @update:model-value="(val) => updateFieldValue(field, val)"
           />
+          <!-- Checkbox -->
           <FormCheckboxField
             v-else-if="field.input.type === 'check_box'"
             :options="field.input.range"
@@ -55,6 +60,7 @@
             :model-value="getFieldValue(field)"
             @update:model-value="(val) => updateFieldValue(field, val)"
           />
+          <!-- TextField -->
           <FormTextField
             v-else
             :model-value="getFieldValue(field)"
