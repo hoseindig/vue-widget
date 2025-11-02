@@ -192,8 +192,9 @@ const updateFieldValue = (field: Field, value: string): void => {
 }
 
 .error-text {
-  color: #ef4444;
-  font-size: 13px;
+  color: #ea4f37;
+  font-size: 12px;
   margin-top: 6px;
+  font-weight: 500;
 }
 </style>
