@@ -4,10 +4,10 @@
       <v-btn v-bind="activatorProps" color="primary"> Open Dialog </v-btn>
     </template> -->
 
-    <v-card>
+    <v-card class="pa-0">
       <v-card-title>Form Dialog</v-card-title>
       <div style="">
-        <v-card-text>
+        <v-card-text class="pa-0 ma-0">
           <div style="">
             <CustomStep
               :form-schema="formDataAsFormData"
@@ -45,7 +45,6 @@ const dialog = ref(false);
 const formValues = ref({});
 const activeStepIndex = ref(0);
 </script>
-
 
 <style scoped>
 .v-card-text {

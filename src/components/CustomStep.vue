@@ -1,5 +1,5 @@
 <template>
-  <div class="stepper-container pb-4">
+  <div class="stepper-container">
     <div class="stepper-wrapper px-4" v-if="steps.length > 1">
       <template v-for="(step, index) in steps" :key="step.object_id || step.id">
         <!-- Step Circle -->
@@ -102,16 +102,26 @@
         @click="goToPreviousStep"
         :disabled="activeStepModel === 0"
         variant="outlined"
-        color="grey"
+        style="
+          background-color: #42a2da;
+          color: white;
+          font-size: 12px;
+          text-transform: none;
+        "
       >
-        back
+        Back
       </v-btn>
       <v-btn
         @click="goToNextStep"
         :disabled="activeStepModel === (steps?.length || 1) - 1"
-        color="primary"
+        style="
+          background-color: #42a2da;
+          color: white;
+          font-size: 12px;
+          text-transform: none;
+        "
       >
-        next
+        Next
       </v-btn>
     </div>
   </div>
@@ -375,6 +385,7 @@ const clearError = (sectionId: string, fieldId: string) => {
   margin: 0 auto;
   padding: 0px;
   background: white;
+  margin: 0;
 }
 
 .stepper-wrapper {
@@ -476,10 +487,12 @@ const clearError = (sectionId: string, fieldId: string) => {
 }
 
 .controls {
-  margin-top: 48px;
+  margin-top: 0px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 16px;
+  background: #f1f1f1;
+  padding: 13px;
 }
 
 .step-content {
