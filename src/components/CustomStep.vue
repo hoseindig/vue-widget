@@ -1,8 +1,10 @@
 <template>
   <div class="stepper-container">
-    <div class="stepper-wrapper px-4" v-if="steps.length > 1">
+    <div
+      :class="['stepper-wrapper px-4', stepperWrapperClass]"
+      v-if="steps.length > 1"
+    >
       <template v-for="(step, index) in steps" :key="step.object_id || step.id">
-        <!-- Step Circle -->
         <div class="step-item">
           <button
             @click="handleStepClick(step.id)"
@@ -23,7 +25,6 @@
             <v-icon :icon="step.icon" :size="props.iconSize" />
           </button>
 
-          <!-- Label -->
           <div class="step-label">
             <p
               :class="[
@@ -40,7 +41,6 @@
           </div>
         </div>
 
-        <!-- Connecting Line -->
         <div v-if="index < steps.length - 1" class="connector-line">
           <div
             :class="['line', { 'line-completed': step.id < activeStepModel }]"
@@ -50,43 +50,7 @@
       </template>
     </div>
 
-    <!-- Step Content Display -->
     <div class="step-content bg-white">
-      <!-- Debug Info -->
-      <!-- <h3 class="content-title">{{ currentStepLabel }}</h3>
-      <p class="content-text">
-        محتوای مرحله {{ activeStepModel + 1 }} اینجا نمایش داده می‌شود
-      </p> -->
-
-      <!-- <div class="debug-info">
-        <p>
-          <strong>مرحله فعال:</strong> {{ activeStepModel + 1 }} از
-          {{ steps?.length || 0 }}
-        </p>
-        <p><strong>Object ID:</strong> {{ currentStep?.object_id }}</p>
-        <p>
-          <strong>تعداد Sections:</strong> {{ currentSections?.length || 0 }}
-        </p>
-
-        <template v-if="currentSections && currentSections.length > 0">
-          <div
-            v-for="(section, idx) in currentSections"
-            :key="section.object_id"
-            class="section-preview"
-          >
-            <h4>{{ section.label?.fa || section.label?.en }}</h4>
-            <p class="section-meta">
-              <span>فیلدها: {{ section.fields?.length || 0 }}</span>
-              <span v-if="section.collapsable">• قابل جمع شدن</span>
-            </p>
-          </div>
-        </template>
-        <p v-else class="error-text">هیچ بخشی برای این مرحله یافت نشد</p>
-      </div> -->
-
-      <!-- Dynamic Form -->
-      <!-- <p>fields {{ currentSections[0].fields[0] }}</p> -->
-
       <DynamicForm
         v-if="currentSections && currentSections.length > 0"
         :sections="currentSections"
@@ -96,7 +60,6 @@
       />
     </div>
 
-    <!-- Demo Controls -->
     <div class="controls">
       <v-btn
         @click="goToPreviousStep"
@@ -144,7 +107,7 @@ interface Props {
   lineThickness?: number;
   iconSize?: number;
   formSchema: FormData | FormData[];
-  formData: FormData; // تغییر type به فقط FormData
+  formData: FormData;
   formValues: any;
   activeStepIndex: number;
 }
@@ -178,6 +141,20 @@ const formValuesModel = computed({
   set: (value: any) => {
     emit("update:formValues", value);
   },
+});
+
+// Computed property for wrapper class (برای آبی کردن خطوط ابتدا و انتها)
+const stepperWrapperClass = computed(() => {
+  const lastStepIndex = (steps.value?.length || 1) - 1;
+  const currentStepIndex = activeStepModel.value;
+  console.log(currentStepIndex, lastStepIndex);
+
+  if (currentStepIndex === lastStepIndex) {
+    return "last-step-active";
+  } else if (currentStepIndex >= 0) {
+    return "first-step-active";
+  }
+  return "";
 });
 
 // Generate steps dynamically from formData
@@ -244,7 +221,7 @@ const currentStep = computed(() => {
   return props.formData.steps[activeStepModel.value] || null;
 });
 
-// Get current step label
+// Get current step label (currently unused but kept for reference)
 const currentStepLabel = computed(() => {
   return (
     currentStep.value?.label?.fa || currentStep.value?.label?.en || "بدون عنوان"
@@ -253,11 +230,8 @@ const currentStepLabel = computed(() => {
 
 // Navigation methods
 const handleStepClick = (stepId: number) => {
-  const isValidated = validatedSteps.value.includes(stepId);
-  const isPrevious = stepId < activeStepModel.value;
-  const isCurrent = stepId === activeStepModel.value;
-
-  if (isValidated || isPrevious || isCurrent) {
+  // این منطق اجازه می‌دهد که کاربر فقط به مراحل قبلی یا مرحله فعال فعلی برگردد.
+  if (stepId <= activeStepModel.value) {
     activeStepModel.value = stepId;
   } else {
     console.warn("این مرحله هنوز تکمیل نشده است");
@@ -270,12 +244,6 @@ const goToPreviousStep = () => {
   }
 };
 
-// const goToNextStep = () => {
-//   const maxStep = (steps.value?.length || 1) - 1;
-//   if (activeStepModel.value < maxStep) {
-//     activeStepModel.value = activeStepModel.value + 1;
-//   }
-// };
 const goToNextStep = () => {
   const maxStep = (steps.value?.length || 1) - 1;
   const currentStepIndex = activeStepModel.value;
@@ -350,7 +318,7 @@ const goToNextStep = () => {
     return;
   }
 
-  // ✅ همه چیز درست → مرحله معتبر
+  // ✅ همه چیز درست ← مرحله معتبر
   errors.value = {};
   if (!validatedSteps.value.includes(activeStepModel.value)) {
     validatedSteps.value.push(activeStepModel.value);
@@ -393,7 +361,18 @@ const clearError = (sectionId: string, fieldId: string) => {
   display: flex;
   align-items: center;
 
-  &::before,
+  // خط قبل از مرحله اول
+  &::before {
+    content: "";
+    flex: 0 0 40px;
+    height: 2px;
+    background: #e5e7eb;
+    margin-bottom: 32px;
+    transition: background 0.3s ease;
+    margin-right: 0px;
+  }
+
+  // خط بعد از مرحله آخر
   &::after {
     content: "";
     flex: 0 0 40px;
@@ -401,16 +380,15 @@ const clearError = (sectionId: string, fieldId: string) => {
     background: #e5e7eb;
     margin-bottom: 32px;
     transition: background 0.3s ease;
-  }
-
-  &::before {
-    margin-right: 0px;
-  }
-
-  &::after {
     margin-left: 0px;
   }
 
+  // ✅ قانون جدید: اگر مرحله اول فعال است، خط قبل از آن آبی شود (درخواست شما)
+  &.first-step-active::before {
+    background: #368ec4;
+  }
+
+  // ✅ قانون جدید: اگر مرحله آخر فعال است، خط بعد از آن آبی شود
   &.last-step-active::after {
     background: #368ec4;
   }
