@@ -1,7 +1,7 @@
 <template>
   <div class="stepper-container">
     <div
-      :class="['stepper-wrapper px-4 pb-7', stepperWrapperClass]"
+      :class="['stepper-wrapper px-4 pb-15', stepperWrapperClass]"
       v-if="steps.length > 1"
     >
       <template v-for="(step, index) in steps" :key="step.object_id || step.id">
@@ -452,7 +452,7 @@ const clearError = (sectionId: string, fieldId: string) => {
 }
 
 .step-label {
-  margin-top: 8px;
+  margin-top: 0px;
   text-align: center;
   width: 90px;
 
