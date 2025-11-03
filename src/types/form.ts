@@ -1,4 +1,9 @@
 // src/types/form.ts
+export interface Input {
+  type: string;
+  range?: Record<string, string> | string[];
+  selection?: "SINGLE" | "MULTIPLE";
+}
 
 export interface Field {
   object_id: string;
@@ -7,12 +12,10 @@ export interface Field {
     fa: string;
   };
   tooltip?: {
-    en: string;
-    fa: string;
-  };
-  input: {
-    type: string;
-  };
+    en?: string;
+    fa?: string;
+  } | null;
+  input: Input;
   settings?: Array<{
     key: string;
     value: string;
@@ -20,7 +23,7 @@ export interface Field {
   // اضافه کردن property data
   data?:
     | {
-        value: any;
+        value: any | any[];
       }
     | string;
 }
@@ -42,9 +45,9 @@ export interface Step {
     fa: string;
   };
   tooltip?: {
-    en: string;
-    fa: string;
-  };
+    en?: string;
+    fa?: string;
+  } | null;
   settings?: Array<{
     key: string;
     value: string;
