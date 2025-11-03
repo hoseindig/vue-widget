@@ -229,13 +229,29 @@ const currentStepLabel = computed(() => {
 });
 
 // Navigation methods
+// Add this check to include steps validated but not yet the "activeStepModel"
+// This assumes 'activeStepModel.value' is the index of the step currently shown.
 const handleStepClick = (stepId: number) => {
-  // این منطق اجازه می‌دهد که کاربر فقط به مراحل قبلی یا مرحله فعال فعلی برگردد.
+  // Allow navigation to any step up to the current active step
   if (stepId <= activeStepModel.value) {
     activeStepModel.value = stepId;
-  } else {
-    console.warn("این مرحله هنوز تکمیل نشده است");
+    return;
+  } // Allow navigation to the immediate next step *if* the current one is validated // This ensures the user can't skip multiple steps by clicking.
+
+  if (
+    stepId === activeStepModel.value + 1 &&
+    validatedSteps.value.includes(activeStepModel.value)
+  ) {
+    activeStepModel.value = stepId;
+    return;
   }
+  // Allow navigation to any step that has *already* been fully validated (e.g. if the user hit 'Next' multiple times and is coming back).
+  if (validatedSteps.value.includes(stepId)) {
+    activeStepModel.value = stepId;
+    return;
+  }
+
+  console.warn("این مرحله هنوز تکمیل یا اعتبارسنجی نشده است");
 };
 
 const goToPreviousStep = () => {

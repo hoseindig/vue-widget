@@ -147,10 +147,6 @@
                 {
                   "key": "Default",
                   "value": "dev"
-                },
-                {
-                  "key": "required",
-                  "value": "true"
                 }
               ],
 
@@ -192,12 +188,7 @@
                 "query": "type:PartFamily AND owner:admin_platform",
                 "selection": "MULTIPLE"
               },
-              "settings": [
-                {
-                  "key": "required",
-                  "value": "true"
-                }
-              ]
+              "settings": []
             }
           ]
         },
