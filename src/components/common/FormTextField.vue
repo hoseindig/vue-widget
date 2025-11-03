@@ -46,7 +46,6 @@ const onInput = (event: Event) => {
 <style scoped>
 .input-error {
   border-color: red !important;
-  /* box-shadow: 0 0 0 1px rgba(255, 0, 0, 0.5); اختیاری: برای وضوح بیشتر */
 }
 
 .custom-height {

@@ -63,55 +63,37 @@ watch(internalValue, (val) => {
   width: 100%;
 }
 
-/* ------------------------------------------- */
-/* 4. استایل خطا (Error Styling) */
-/* ------------------------------------------- */
-
-/* استایل Border قرمز در صورت وجود کلاس error-border */
 .custom-combobox.error-border :deep(.v-field) {
   border: 1px solid #ff0000 !important;
 }
 
-/* رنگ Border قرمز در حالت Focus هنگام خطا */
 .custom-combobox.error-border :deep(.v-field.v-field--focused) {
   border-color: #ff0000 !important;
 }
 
-/* رنگ Border قرمز در حالت Hover هنگام خطا */
 .custom-combobox.error-border :deep(.v-field:hover) {
   border-color: #ff0000 !important;
 }
 
-/* خط سمت چپ دکمه در هنگام خطا */
 .custom-combobox.error-border :deep(.v-field__append-inner) {
   border-left: 1px solid #ff0000 !important;
 }
 
-/* ------------------------------------------- */
-/* استایل‌های عمومی (باقی استایل‌ها) */
-/* ------------------------------------------- */
-
-/* 1. کنترل ارتفاع کل فیلد و حذف پدینگ‌های Vuetify */
 .custom-combobox :deep(.v-field) {
-  /* ارتفاع کل v-field را برای کنترل نهایی اندازه فیلد، محدود می‌کنیم */
   height: 24px !important; /* ارتفاع نهایی شامل border، باید حدود 24px باشد */
   min-height: 24px !important;
 
-  /* Border پیش‌فرض اگر خطا وجود نداشته باشد */
   border: 1px solid #b4b6ba !important;
   border-radius: 4px !important;
   overflow: hidden !important;
   padding: 0 !important; /* حذف پدینگ‌های سطح Vuetify */
 }
 
-/* مخفی کردن Outline پیش‌فرض Vuetify */
 .custom-combobox :deep(.v-field__outline) {
   display: none !important;
 }
 
-/* 2. کنترل ارتفاع باکس ورودی متن */
 .custom-combobox :deep(.v-field__input) {
-  /* تنظیم ارتفاع نهایی باکس ورودی */
   min-height: 20px !important;
   height: 20px !important;
   line-height: 20px !important; /* برای ترازبندی عمودی متن */

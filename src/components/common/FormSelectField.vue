@@ -28,7 +28,6 @@ const emit = defineEmits<{
 const onChange = (event: Event) => {
   const target = event.target as HTMLSelectElement;
 
-  // در حالت MULTIPLE آرایه برمی‌گردونیم
   if (props.selection === "MULTIPLE") {
     const selected = Array.from(target.selectedOptions).map((opt) => opt.value);
     emit("update:modelValue", selected);
