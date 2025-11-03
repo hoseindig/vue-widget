@@ -1,4 +1,5 @@
 <template>
+  <!-- {{ tooltip }} -->
   <v-tooltip v-if="tooltip" location="top">
     <template #activator="{ props: tooltipProps }">
       <textarea

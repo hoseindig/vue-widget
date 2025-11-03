@@ -24,6 +24,8 @@
         <template #activator="{ props: tooltipProps }">
           <!-- TextArea -->
           <FormTextAreaField
+            :tooltip="field.tooltip?.en"
+            :placeholder="field.label.en"
             :has-error="!!errors[field.object_id]"
             v-if="field.input.type === 'text_area'"
             :options="field.input.range"
@@ -33,6 +35,8 @@
           />
           <!-- Combobox SINGLE -->
           <FormComboboxField
+            :tooltip="field.tooltip?.en"
+            :placeholder="field.label.en"
             v-else-if="
               field.input.type === 'combobox' &&
               field.input.selection === 'SINGLE'
@@ -45,6 +49,8 @@
           />
           <!-- Combobox Multi -->
           <FormComboboxMultiField
+            :tooltip="field.tooltip?.en"
+            :placeholder="field.label.en"
             v-else-if="
               field.input.type === 'combobox' &&
               field.input.selection === 'MULTIPLE'
@@ -57,6 +63,8 @@
           />
           <!-- Checkbox -->
           <FormCheckboxField
+            :tooltip="field.tooltip?.en"
+            :placeholder="field.label.en"
             :has-error="!!errors[field.object_id]"
             v-else-if="field.input.type === 'check_box'"
             :options="field.input.range"
