@@ -41,7 +41,7 @@ function addValueToAllFields(obj: any): void {
       obj.fields.forEach((field: any) => {
         if (!field.data) field.data = {};
         if (typeof field.data === "object" && !("value" in field.data)) {
-          field.data.value = "";
+          field.data.value = null;
         }
       });
     }
@@ -70,8 +70,9 @@ export const useFormStore = defineStore("request", () => {
         //!useMock
         // rawData = await fetchRequestData(widgetName);
       }
-
+      // debugger
       const source = rawData || requestData;
+      console.log(JSON.parse(JSON.stringify(source)));
 
       addValueToAllFields(source);
 
