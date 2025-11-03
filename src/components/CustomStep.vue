@@ -1,7 +1,7 @@
 <template>
   <div class="stepper-container">
     <div
-      :class="['stepper-wrapper px-4', stepperWrapperClass]"
+      :class="['stepper-wrapper px-4 pb-7', stepperWrapperClass]"
       v-if="steps.length > 1"
     >
       <template v-for="(step, index) in steps" :key="step.object_id || step.id">
@@ -400,6 +400,14 @@ const clearError = (sectionId: string, fieldId: string) => {
   align-items: center;
   position: relative;
   z-index: 10;
+  width: 40px;
+}
+
+.stepper-wrapper::before,
+.stepper-wrapper::after {
+  /* ... */
+  margin-bottom: 0px; /* ✅ از 32px به 0px تغییر دهید */
+  /* ... */
 }
 
 .step-circle {
@@ -408,7 +416,7 @@ const clearError = (sectionId: string, fieldId: string) => {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  border: 2px solid;
+  border: 1px solid;
   cursor: pointer;
   background: white;
   flex-shrink: 0;
@@ -446,13 +454,24 @@ const clearError = (sectionId: string, fieldId: string) => {
 .step-label {
   margin-top: 8px;
   text-align: center;
+  width: 90px;
+
+  /* تنظیمات پوزیشن مطلق */
+  position: absolute; /* ✅ اضافه شود */
+  top: 100%; /* ✅ لیبل را دقیقاً زیر دایره قرار دهید (100% از ارتفاع دایره) */
+  left: 50%; /* ✅ برای وسط قرار گرفتن لیبل */
+  transform: translateX(
+    -50%
+  ); /* ✅ برای وسط قرار گرفتن لیبل نسبت به مرکز دایره */
+  padding-top: 8px; /* ✅ برای ایجاد فاصله بین دایره و متن */
 }
 
 .label-text {
   font-size: 13px;
   font-weight: 500;
-  white-space: nowrap;
+  /*white-space: nowrap;*/
   transition: color 0.3s ease;
+  white-space: normal;
 
   &.label-inactive {
     color: #9ca3af;
@@ -472,7 +491,7 @@ const clearError = (sectionId: string, fieldId: string) => {
   display: flex;
   align-items: center;
   margin: 0 -2px;
-  margin-bottom: 32px;
+  margin-bottom: 0;
   min-width: 20px;
 }
 

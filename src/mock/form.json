@@ -6,7 +6,7 @@
       "object_id": "FirstStep",
       "type": "STEP",
       "label": {
-        "en": "Step 1",
+        "en": "Request Category",
         "fa": "قدم اول"
       },
       "tooltip": {
@@ -375,7 +375,7 @@
       "object_id": "SecondStep",
       "type": "STEP",
       "label": {
-        "en": "Step 2",
+        "en": "Component Category",
         "fa": "قدم دوم"
       },
       "tooltip": {
@@ -681,7 +681,7 @@
       "object_id": "FirstStep",
       "type": "STEP",
       "label": {
-        "en": "Step 3",
+        "en": "Request Details",
         "fa": "قدم 3"
       },
       "tooltip": {
