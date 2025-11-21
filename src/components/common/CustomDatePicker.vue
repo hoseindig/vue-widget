@@ -15,7 +15,7 @@
       <DatePicker
         v-model="date"
         :locale="locale === 'Gregorian' ? 'en' : 'fa'"
-        :format="format"
+        :format="locale === 'Gregorian' ? 'YYY-MM-D' : 'jYYYY/jMM/jDD'"
         @change="onInput"
       />
     </template>
@@ -48,8 +48,8 @@ const props = defineProps<{
   placeholder?: string;
   tooltip?: string;
   hasError?: boolean;
-  format?: boolean;
-  locale?: boolean;
+  format?: string;
+  locale?: string;
 }>();
 
 const date = ref("");
