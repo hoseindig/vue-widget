@@ -82,7 +82,12 @@
     </template>
 
     <!-- StepDialog -->
-    <Dialog v-model="dialog" :form-data="formStore.items" v-if="dialog" />
+    <Dialog
+      :model-value="dialog"
+      @update:model-value="dialog = $event"
+      :form-data="formStore.items"
+      v-if="dialog"
+    />
     <v-btn color="primary" @click="dialog = true"> باز کردن مودال </v-btn>
     <!-- Error State -->
     <v-alert

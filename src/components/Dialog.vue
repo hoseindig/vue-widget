@@ -3,7 +3,6 @@
     <!-- <template v-slot:activator="{ props: activatorProps }">
       <v-btn v-bind="activatorProps" color="primary"> Open Dialog </v-btn>
     </template> -->
-
     <v-card class="pa-0">
       <v-card-title
         class="pa-4 flex items-center justify-between w-full text-[16px]"
@@ -60,7 +59,7 @@ const formDataAsFormData = computed((): FormData => {
 });
 
 // برای تست، دیالوگ را به صورت پیش‌فرض باز نگه می‌داریم تا دکمه دیده شود.
-const dialog = ref(true);
+const dialog = defineModel<boolean>();
 const formValues = ref({});
 const activeStepIndex = ref(0);
 </script>
