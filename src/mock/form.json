@@ -224,8 +224,8 @@
               "action": "NONE",
               "input": {
                 "type": "date",
-                "format": "mm/dd/yyyy",
-                "calendar": "CHRISTIAN"
+                "format": "YYYY-MM-DD",
+                "calendar": "Gregorian"
               }
             },
             {
@@ -247,8 +247,8 @@
               "action": "NONE",
               "input": {
                 "type": "date",
-                "format": "mm/dd/yyyy",
-                "calendar": "PERSIAN"
+                "format": "jYYYY/jMM/jDD",
+                "calendar": "Shamsi"
               }
             },
             {
@@ -912,8 +912,8 @@
               "action": "NONE",
               "input": {
                 "type": "date",
-                "format": "mm/dd/yyyy",
-                "calendar": "PERSIAN"
+                "format": "YYYY-MM-DD",
+                "calendar": "Shamsi "
               }
             },
             {

@@ -14,11 +14,33 @@
           ? "*"
           : ""
       }}</span>
-      <!-- <span> type : {{ field.input.type }} </span> -->
+      <span> type : {{ field.input.type }} </span>
+      <span v-if="field.input.type === 'date'">
+        $$ input : {{ field.input }}$$
+      </span>
       <!-- <i> selection : {{ field.input?.selection }} </i> -->
 
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">
+          <!-- :format="field.input?.format" -->
+          <!-- <DatePicker
+            v-if="field.input.type === 'date'"
+            v-model="date"
+            :locale="field.input?.calendar === 'Gregorian' ? 'en' : 'fa'"
+            :format="field.input?.format"
+          /> -->
+          <!-- format="mm/dd/yyyy" -->
+          <CustomDatePicker
+            :locale="field.input?.calendar"
+            :format="field.input?.format"
+            :tooltip="(field.tooltip as any)?.en"
+            :placeholder="field.label.en"
+            :has-error="!!props.errors?.[field.object_id]"
+            v-if="field.input.type === 'date'"
+            :model-value="getFieldValue(field) as string"
+            @update:model-value="(val) => updateFieldValue(field, val)"
+          />
+
           <FormTextAreaField
             :tooltip="(field.tooltip as any)?.en"
             :placeholder="field.label.en"
@@ -94,6 +116,7 @@
           :model-value="getFieldValue(field) as string[]"
           @update:model-value="(val) => updateFieldValue(field, val)"
         />
+
         <FormTextField
           v-else
           :has-error="!!props.errors?.[field.object_id]"
@@ -114,12 +137,17 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+// import DatePicker from "vue3-persian-datetime-picker";
 import type { Field } from "@/types/form";
 import FormTextField from "./common/FormTextField.vue";
 import FormComboboxField from "./common/FormComboboxField.vue";
 import FormCheckboxField from "./common/FormCheckboxField.vue";
 import FormComboboxMultiField from "./common/FormComboboxMultiField.vue";
 import FormTextAreaField from "./common/FormTextAreaField.vue";
+import CustomDatePicker from "./common/CustomDatePicker.vue";
+
+const date = ref("");
 
 const props = defineProps<{
   fields: Field[];
@@ -172,6 +200,8 @@ const onInput = (event: Event, field: Field) => {
 
 // نوع value را به string | string[] تغییر می‌دهیم
 const updateFieldValue = (field: Field, value: string | string[]): void => {
+  console.log(field, value);
+
   // اگر field.data یک object نیست، آن را به object تبدیل می‌کنیم
   if (!field.data || typeof field.data !== "object") {
     field.data = { value: "" };
