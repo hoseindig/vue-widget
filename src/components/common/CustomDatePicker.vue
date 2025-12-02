@@ -1,6 +1,6 @@
 <template>
   <v-tooltip v-if="tooltip" location="top">
-    @@{{ date }}@@
+    <!-- @@{{ format }}@@ -->
     <template #activator="{ props: tooltipProps }">
       <!-- <input
         v-bind="tooltipProps"
@@ -11,11 +11,12 @@
         :placeholder="placeholder"
         @input="onInput"
       /> -->
-
+      <p>DatePicker : {{ format }} - {{ date }}</p>
+      <!-- :format="locale === 'Gregorian' ? 'YYY-MM-DD' : 'jYYYY/jMM/jDD'" -->
       <DatePicker
         v-model="date"
         :locale="locale === 'Gregorian' ? 'en' : 'fa'"
-        :format="locale === 'Gregorian' ? 'YYY-MM-D' : 'jYYYY/jMM/jDD'"
+        :format="format"
         @change="onInput"
       />
     </template>
