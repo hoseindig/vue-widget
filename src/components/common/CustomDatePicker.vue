@@ -11,7 +11,7 @@
         :placeholder="placeholder"
         @input="onInput"
       /> -->
-      <p>DatePicker : {{ format }} - {{ date }}</p>
+      <!-- <p>DatePicker : {{ format }} - {{ date }}</p> -->
       <!-- :format="locale === 'Gregorian' ? 'YYY-MM-DD' : 'jYYYY/jMM/jDD'" -->
       <DatePicker
         v-model="date"
