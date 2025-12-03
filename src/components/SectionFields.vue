@@ -14,10 +14,10 @@
           ? "*"
           : ""
       }}</span>
-      <span> type : {{ field.input.type }} </span>
+      <!-- <span> type : {{ field.input.type }} </span>
       <span v-if="field.input.type === 'date'">
         $$ input : {{ field.input }}$$
-      </span>
+      </span> -->
       <!-- <i> selection : {{ field.input?.selection }} </i> -->
 
       <v-tooltip v-if="field.tooltip" location="top">
@@ -45,7 +45,7 @@
             :tooltip="(field.tooltip as any)?.en"
             :placeholder="field.label.en"
             :has-error="!!props.errors?.[field.object_id]"
-            v-if="field.input.type === 'text_area'"
+            v-else-if="field.input.type === 'text_area'"
             :options="field.input.range"
             :selection="field.input.selection"
             :model-value="getFieldValue(field) as string"
