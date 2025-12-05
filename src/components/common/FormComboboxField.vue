@@ -1,5 +1,5 @@
 <template>
-  <v-combobox
+  <v-select
     v-model="internalValue"
     :items="normalizedOptions"
     :multiple="selection === 'MULTIPLE'"
@@ -10,11 +10,13 @@
     hide-details
     class="custom-combobox"
     :class="fieldClasses"
+    :chips="selection === 'MULTIPLE'"
+    :closable-chips="selection === 'MULTIPLE'"
   >
     <template v-slot:append-inner>
       <v-icon size="30" class="dropdown-icon">mdi-menu-down</v-icon>
     </template>
-  </v-combobox>
+  </v-select>
 </template>
 
 <script setup lang="ts">

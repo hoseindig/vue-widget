@@ -1,69 +1,89 @@
  /* اضافه کردن به فایل src/style.css یا در main.ts */
-/* *{
+ /* *{
     background-color: red;
 } */
-/* تنظیمات کلی برای RTL/LTR */
-html[dir="rtl"] {
-  direction: rtl;
-}
+ /* تنظیمات کلی برای RTL/LTR */
+ html[dir="rtl"] {
+   direction: rtl;
+ }
 
-html[dir="ltr"] {
-  direction: ltr;
-}
+ html[dir="ltr"] {
+   direction: ltr;
+ }
 
-/* تنظیمات خاص Vuetify برای RTL */
-html[dir="rtl"] .v-application {
-  direction: rtl !important;
-}
+ /* تنظیمات خاص Vuetify برای RTL */
+ html[dir="rtl"] .v-application {
+   direction: rtl !important;
+ }
 
-html[dir="ltr"] .v-application {
-  direction: ltr !important;
-}
+ html[dir="ltr"] .v-application {
+   direction: ltr !important;
+ }
 
-/* تنظیمات فیلدهای ورودی */
-html[dir="rtl"] .v-field__input {
-  text-align: right;
-}
+ /* تنظیمات فیلدهای ورودی */
+ html[dir="rtl"] .v-field__input {
+   text-align: right;
+ }
 
-html[dir="ltr"] .v-field__input {
-  text-align: left;
-}
+ html[dir="ltr"] .v-field__input {
+   text-align: left;
+ }
 
-/* تنظیمات آیکون‌ها */
-html[dir="rtl"] .v-field__prepend-inner {
-  order: 1;
-}
+ /* تنظیمات آیکون‌ها */
+ html[dir="rtl"] .v-field__prepend-inner {
+   order: 1;
+ }
 
-html[dir="rtl"] .v-field__append-inner {
-  order: -1;
-}
+ html[dir="rtl"] .v-field__append-inner {
+   order: -1;
+ }
 
-html[dir="ltr"] .v-field__prepend-inner {
-  order: -1;
-}
+ html[dir="ltr"] .v-field__prepend-inner {
+   order: -1;
+ }
 
-html[dir="ltr"] .v-field__append-inner {
-  order: 1;
-}
+ html[dir="ltr"] .v-field__append-inner {
+   order: 1;
+ }
 
-/* تنظیمات کلی متن */
-html[dir="rtl"] * {
-  text-align: right;
-}
+ /* تنظیمات کلی متن */
+ html[dir="rtl"] * {
+   text-align: right;
+ }
 
-html[dir="ltr"] * {
-  text-align: left;
-}
+ html[dir="ltr"] * {
+   text-align: left;
+ }
 
-/* تنظیمات دکمه‌ها و فاصله‌ها */
-html[dir="rtl"] .v-btn + .v-btn {
-  margin-right: 8px;
-  margin-left: 0;
-}
+ /* تنظیمات دکمه‌ها و فاصله‌ها */
+ html[dir="rtl"] .v-btn+.v-btn {
+   margin-right: 8px;
+   margin-left: 0;
+ }
 
-html[dir="ltr"] .v-btn + .v-btn {
-  margin-left: 8px;
-  margin-right: 0;
-}
+ html[dir="ltr"] .v-btn+.v-btn {
+   margin-left: 8px;
+   margin-right: 0;
+ }
 
-/* حتماً این استایل‌ها را به فایل اصلی CSS خود اضافه کنید */
+ /* حتماً این استایل‌ها را به فایل اصلی CSS خود اضافه کنید */
+
+
+ @font-face {
+   font-family: "myFont";
+   font-style: normal;
+   font-weight: normal;
+   src: url("../public/fonts/3dslight.eot");
+   src: url("../public/fonts/3dslight.eot?#iefix") format("embedded-opentype"),
+     /* IE6-8 */
+     url("../public/fonts/3dslight.woff2") format("woff2"),
+     /* FF39+,Chrome36+, Opera24+*/
+     url("../public/fonts/3dslight.woff") format("woff"),
+     /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+     url("../public/fonts/3dslight.ttf") format("truetype");
+ }
+
+ * {
+   font-family: "myFont" !important;
+   background-color: red;
+ }
