@@ -1,44 +1,28 @@
 <template>
   <v-tooltip v-if="tooltip" location="top">
-    <!-- @@{{ format }}@@ -->
     <template #activator="{ props: tooltipProps }">
-      <!-- <input
-        v-bind="tooltipProps"
-        type="text"
-        class="custom-height mt-1"
-        :class="{ 'input-error': hasError }"
-        :value="modelValue"
-        :placeholder="placeholder"
-        @input="onInput"
-      /> -->
-      <!-- <p>DatePicker : {{ format }} - {{ date }}</p> -->
-      <!-- :format="locale === 'Gregorian' ? 'YYY-MM-DD' : 'jYYYY/jMM/jDD'" -->
+      <!-- <p>
+        DatePicker : format : {{ format }} - date : {{ date }} - locale
+        {{ locale }}
+      </p> -->
       <DatePicker
         v-model="date"
         :locale="locale === 'Gregorian' ? 'en' : 'fa'"
-        :format="format"
+        :displayFormat="locale === 'Gregorian' ? 'YYYY/MM/DD' : 'jYYYY/jMM/jDD'"
+        :format="'YYYY/MM/DD'"
         @change="onInput"
       />
     </template>
     <span>{{ tooltip }}</span>
   </v-tooltip>
-
   <DatePicker
     v-else
     v-model="date"
     :locale="locale === 'Gregorian' ? 'en' : 'fa'"
-    :format="format"
+    :format="locale === 'Gregorian' ? 'YYYY/MM/DD' : 'jYYYY/jMM/jDD'"
+    :displayFormat="'YYYY/MM/DD'"
     @change="onInput"
   />
-  <!-- <input
-    v-else
-    type="text"
-    class="custom-height mt-1"
-    :class="{ 'input-error': hasError }"
-    :value="modelValue"
-    :placeholder="placeholder"
-    @input="onInput"
-  /> -->
 </template>
 
 <script setup lang="ts">
