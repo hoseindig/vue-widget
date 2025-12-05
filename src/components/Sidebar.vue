@@ -84,7 +84,7 @@
     <!-- StepDialog -->
     <Dialog
       :model-value="dialog"
-      @update:model-value="dialog = $event"
+      @update:model-value="dialog = !!$event"
       :form-data="formStore.items"
       v-if="dialog"
     />

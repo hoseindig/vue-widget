@@ -3,7 +3,7 @@ export interface Input {
   type: string;
   range?: Record<string, string> | string[];
   selection?: "SINGLE" | "MULTIPLE";
-  forma?: string;
+  format?: string;
   calendar?: string;
 }
 

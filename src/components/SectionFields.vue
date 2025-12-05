@@ -22,13 +22,6 @@
 
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">
-          <!-- :format="field.input?.format" -->
-          <!-- <DatePicker
-            v-if="field.input.type === 'date'"
-            v-model="date"
-            :locale="field.input?.calendar === 'Gregorian' ? 'en' : 'fa'"
-            :format="field.input?.format"
-          /> -->
           <!-- format="mm/dd/yyyy" -->
           <CustomDatePicker
             :locale="field.input?.calendar"

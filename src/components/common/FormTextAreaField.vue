@@ -50,7 +50,6 @@ const onInput = (event: Event) => {
 }
 
 .custom-height {
-  height: 68px !important;
   width: 100%;
   border: 1px solid #d4d4d4;
   border-radius: 5px;
