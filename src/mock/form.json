@@ -129,14 +129,16 @@
                 "type": "text_area"
               },
               "settings": [
-                { "validation": "checkIsNumber,checkIsPositiveNumber" }
+                {
+                  "validation": "checkIsNumber,checkIsPositiveNumber"
+                }
               ]
             },
             {
               "object_id": "PhaseField",
               "type": "FIELD",
               "label": {
-                "en": "Phase",
+                "en": "Phase ",
                 "fa": "فاز"
               },
               "tooltip": {
@@ -147,9 +149,62 @@
                 {
                   "key": "Default",
                   "value": "dev"
+                },
+                {
+                  "OnChangeHandler": {
+                    "fieldsToSetDefaultValue": [
+                      {
+                        "condition": {
+                          "value": "6"
+                        },
+                        "targets": [
+                          {
+                            "field": "City",
+                            "value": "Tehran"
+                          },
+                          {
+                            "field": "Country",
+                            "value": "Iran"
+                          }
+                        ]
+                      }
+                    ],
+                    "fieldsToRequired": [
+                      {
+                        "condition": {
+                          "value": "6"
+                        },
+                        "fields": [
+                          "fildid",
+                          "fildid"
+                        ]
+                      }
+                    ],
+                    "fieldsToDisable": [
+                      {
+                        "condition": {
+                          "value": "6"
+                        },
+                        "fields": [
+                          "fildid",
+                          "fildid"
+                        ]
+                      }
+                    ],
+                    "fieldsToHidden": [
+                      {
+                        "condition": {
+                          "value": "6"
+                        },
+                        "fields": [
+                          "fildid",
+                          "fildid"
+                        ]
+                      }
+                    ]
+                  }
                 }
               ],
-
               "data": {
                 "type": "attribute",
                 "expression": "Phase"
