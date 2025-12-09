@@ -19,6 +19,10 @@
         $$ input : {{ field.input }}$$
       </span> -->
       <!-- <i> selection : {{ field.input?.selection }} </i> -->
+      <i>
+        selection :
+        {{ field.settings?.find((x) => x.key === "OnChangeHandler") }}
+      </i>
 
       <v-tooltip v-if="field.tooltip" location="top">
         <template #activator="{ props: tooltipProps }">

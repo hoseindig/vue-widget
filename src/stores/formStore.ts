@@ -33,13 +33,16 @@ const api = axios.create({
 // --------------------------
 // 🧠 Helper: add "value" to all fields
 // --------------------------
-function addValueToAllFields(obj: any): void {
+function addValueToAllFields1(obj: any): void {
   if (Array.isArray(obj)) {
     obj.forEach(addValueToAllFields);
   } else if (obj && typeof obj === "object") {
     if (Array.isArray(obj.fields)) {
       obj.fields.forEach((field: any) => {
-        if (!field.data) field.data = {};
+        if (!field.data) {
+          debugger
+          field.data = {};
+        }
         if (typeof field.data === "object" && !("value" in field.data)) {
           field.data.value = null;
         }
@@ -49,6 +52,55 @@ function addValueToAllFields(obj: any): void {
     Object.values(obj).forEach(addValueToAllFields);
   }
 }
+
+function addValueToAllFields(obj: any): void {
+
+  if (Array.isArray(obj)) {
+    obj.forEach(addValueToAllFields);
+    return;
+  }
+
+  if (!obj || typeof obj !== "object") {
+    return;
+  }
+
+  // فقط زمانی که type === FIELD باشد
+  if (obj.type === "FIELD") {
+
+    // اگر data وجود نداشت، بساز
+    if (!obj.data) obj.data = {};
+
+    // اگر data.value وجود نداشت، مقدار null فقط زمانی بده که type=none نباشد
+    if (!("value" in obj.data) && obj.data.type !== "none") {
+      obj.data.value = null;
+    }
+
+    // اگر input وجود دارد ولی config ندارد → خودش بسازد
+    if (obj.input) {
+      if (!obj.input.config) obj.input.config = {};
+
+      // اگر فیلد قابلیت defaultValue دارد
+      const allowedTypes = [
+        "text_box",
+        "text_area",
+        "list_box",
+        "radio_list",
+        "check_box",
+        "combo_box"
+      ];
+
+      if (allowedTypes.includes(obj.input.type)) {
+        if (!("defaultValue" in obj.input.config)) {
+          obj.input.config.defaultValue = null;
+        }
+      }
+    }
+  }
+
+  // ادامه جستجو در بقیه کلیدها
+  Object.values(obj).forEach(addValueToAllFields);
+}
+
 // --------------------------
 // 🏪 Store Definition
 // --------------------------
@@ -70,15 +122,17 @@ export const useFormStore = defineStore("request", () => {
         //!useMock
         // rawData = await fetchRequestData(widgetName);
       }
-      // debugger
+      debugger
       const source = rawData || requestData;
-      console.log(JSON.parse(JSON.stringify(source)));
+      // console.log(JSON.parse(JSON.stringify(source)));
 
       addValueToAllFields(source);
 
       items.value = source; //transformData(source, lang);
     } catch (e: any) {
       error.value = e.message || "❌ خطا در بارگذاری اطلاعات";
+      console.error(e);
+
     } finally {
       loading.value = false;
     }
