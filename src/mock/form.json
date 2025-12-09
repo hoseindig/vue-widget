@@ -135,6 +135,29 @@
               ]
             },
             {
+              "object_id": "RelatedClassifiedItem2",
+              "type": "FIELD",
+              "label": {
+                "en": "Start Release Date Label",
+                "fa": "تاریخ منتشر کردن شروع"
+              },
+              "tooltip": {
+                "en": "Start Release Date Tooltip",
+                "fa": "تاریخ منتشر کردن شروع"
+              },
+              "settings": [],
+              "data": {
+                "type": "attribute",
+                "expression": "Start Release Date"
+              },
+              "action": "NONE",
+              "input": {
+                "type": "date",
+                "format": "jYYYY/jMM/jDD",
+                "calendar": "Shamsi"
+              }
+            },
+            {
               "object_id": "PhaseField",
               "type": "FIELD",
               "label": {
@@ -158,17 +181,34 @@
                         "method": "orComparator",
                         "parameters": [
                           "IKCO",
-                          "SAPCO"
+                          "SAPCO",
+                          "dev"
                         ]
                       },
                       "targets": [
                         {
-                          "field": "City",
-                          "value": "Tehran"
+                          "field": "AuthorizedRoleField2",
+                          "value": "XBC_ProcessCreator"
                         },
                         {
-                          "field": "Country",
-                          "value": "Iran"
+                          "field": "ModelerField2",
+                          "value": "Bizaji"
+                        },
+                        {
+                          "field": "PartFamilyField",
+                          "value": "123123123"
+                        },
+                        {
+                          "field": "TypeField",
+                          "value": "555555"
+                        },
+                        {
+                          "field": "DescriptionField",
+                          "value": "4534534534"
+                        },
+                        {
+                          "field": "RelatedClassifiedItem2",
+                          "value": "2025-12-30"
                         }
                       ]
                     },
@@ -209,6 +249,63 @@
                   "prod": "Production"
                 },
                 "selection": "SINGLE"
+              }
+            },
+            {
+              "object_id": "AuthorizedRoleField2",
+              "type": "FIELD",
+              "label": {
+                "en": "Authorized Role2",
+                "fa": "نقش های مجاز"
+              },
+              "tooltip": {
+                "en": "Authorized Role",
+                "fa": "نقش های مجاز"
+              },
+              "data": {
+                "type": "attribute",
+                "expression": "AuthorizedRole"
+              },
+              "action": "NONE",
+              "input": {
+                "type": "combobox",
+                "range": {
+                  "VPLMAdmin": "VPLMAdmin",
+                  "XBC_Admin": "XBC_Admin",
+                  "XBC_ProcessCreator": "Process Creator"
+                },
+                "selection": "MULTIPLE"
+              }
+            },
+            {
+              "object_id": "ModelerField2",
+              "type": "FIELD",
+              "label": {
+                "en": "Modeler2",
+                "fa": "مدلر"
+              },
+              "tooltip": {
+                "en": "Modeler",
+                "fa": "مدلر"
+              },
+              "settings": [
+                {
+                  "key": "OnChange Handler",
+                  "value": "refreshModelsField"
+                }
+              ],
+              "data": {
+                "type": "attribute",
+                "expression": "Modeler"
+              },
+              "action": "NONE",
+              "input": {
+                "type": "combobox",
+                "range": {
+                  "Camunda": "Camunda",
+                  "Bizaji": "Bizaji"
+                },
+                "selection": "MULTIPLE"
               }
             },
             {
@@ -341,8 +438,8 @@
               "input": {
                 "type": "combobox",
                 "range": {
-                  "VPLMAdmin": "Admin",
-                  "XBC_Admin": "Admin",
+                  "VPLMAdmin": "VPLMAdmin",
+                  "XBC_Admin": "XBC_Admin",
                   "XBC_ProcessCreator": "Process Creator"
                 },
                 "selection": "MULTIPLE"

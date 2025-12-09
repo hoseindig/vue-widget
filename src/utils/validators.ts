@@ -12,3 +12,8 @@ export const checkIsEmail = (value: string): true | string => {
     ? true
     : "Invalid email address";
 };
+
+
+export const orComparator = (value: string): true | string => {
+
+}

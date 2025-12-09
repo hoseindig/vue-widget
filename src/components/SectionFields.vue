@@ -19,9 +19,11 @@
         $$ input : {{ field.input }}$$
       </span> -->
       <!-- <i> selection : {{ field.input?.selection }} </i> -->
+
       <i>
-        selection :
-        {{ field.settings?.find((x) => x.key === "OnChangeHandler") }}
+        <p>field value {{ getFieldValue(field) }}</p>
+        <b>OnChangeHandler :</b>
+        {{ field.settings?.find((x) => x.key === "OnChangeHandler")?.value }}
       </i>
 
       <v-tooltip v-if="field.tooltip" location="top">
@@ -135,6 +137,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { formHandlers } from "../utils/formHandlers";
 // import DatePicker from "vue3-persian-datetime-picker";
 import type { Field } from "@/types/form";
 import FormTextField from "./common/FormTextField.vue";
@@ -185,10 +188,101 @@ const getFieldValue = (field: Field): string | string[] => {
     ? []
     : "";
 };
+// ////////////////////////////////
+function applySetDefaultValue(
+  targets: { field: string; value: any }[],
+  fields: Field[]
+) {
+  targets.forEach((t) => {
+    const targetField = fields.find((f) => f.object_id === t.field);
+    if (!targetField) return;
+
+    if (!targetField.data) targetField.data = { value: "" };
+    targetField.data.value = t.value;
+  });
+}
+
+function applyRequired(targets: { field: string }[], fields: Field[]) {
+  debugger;
+  targets.forEach((t) => {
+    const targetField = fields.find((f) => f.object_id === t.field);
+    if (!targetField) return;
+
+    if (!targetField.settings) targetField.settings = [];
+
+    const existing = targetField.settings.find((s) => s.key === "required");
+    if (existing) {
+      existing.value = "true";
+    } else {
+      targetField.settings.push({ key: "required", value: "true" });
+    }
+  });
+}
+
+function runDynamicHandler(changedField: Field, value: any, fields: Field[]) {
+  const handlerConfig = changedField.settings?.find(
+    (x) => x.key === "OnChangeHandler"
+  )?.value;
+
+  if (!handlerConfig) return;
+
+  // اگر ساختار handlerConfig درست نبود
+  if (typeof handlerConfig !== "object") return;
+
+  // تمام سکشن‌ها را یکجا حلقه بزنیم
+  const sections = [
+    "fieldsToSetDefaultValue",
+    "fieldsToRequired",
+    "customMethod",
+  ];
+
+  sections.forEach((section) => {
+    const block = handlerConfig[section];
+    if (!block) return;
+
+    const methodName = block.condition?.method;
+    const parameters = block.condition?.parameters ?? [];
+
+    // چک کنیم که این متد در فایل ما وجود دارد
+    const handlerMethod = formHandlers[methodName];
+    if (!handlerMethod) {
+      console.warn(`Handler method not found: ${methodName}`);
+      return;
+    }
+
+    // اجرای متد
+    const conditionResult = handlerMethod(
+      value.value ? value.value : value,
+      parameters
+    );
+
+    if (!conditionResult) return;
+
+    // اجرای action روی target ها
+    switch (section) {
+      case "fieldsToSetDefaultValue":
+        applySetDefaultValue(block.targets, fields);
+        break;
+
+      case "fieldsToRequired":
+        applyRequired(block.targets, fields);
+        break;
+
+      case "customMethod":
+        // هر کاری بخوای
+        console.log("running custom method on:", block.fields);
+        break;
+    }
+  });
+}
+// ////////////////////////////////
 
 const onInput = (event: Event, field: Field) => {
   const value = (event.target as HTMLInputElement).value;
   updateFieldValue(field, value);
+  debugger;
+  // اجرای Handler
+  runDynamicHandler(field, value, props.fields);
   // استفاده از props.errors برای چک کردن مقدار
   if (props.errors && props.errors[field.object_id]) {
     emit("clear-error", field.object_id);
@@ -197,7 +291,10 @@ const onInput = (event: Event, field: Field) => {
 
 // نوع value را به string | string[] تغییر می‌دهیم
 const updateFieldValue = (field: Field, value: string | string[]): void => {
+  debugger;
   console.log(field, value);
+  // اجرای Handler
+  runDynamicHandler(field, value, props.fields);
 
   // اگر field.data یک object نیست، آن را به object تبدیل می‌کنیم
   if (!field.data || typeof field.data !== "object") {
