@@ -240,7 +240,7 @@
                         "method": "simpaleComparator",
                         "parameters": [
                           "IKCO",
-                          "dev"
+                          "Required"
                         ]
                       },
                       "targets": [
@@ -257,7 +257,7 @@
                         "method": "simpaleComparator",
                         "parameters": [
                           "IKCO",
-                          "dev"
+                          "UnRequired"
                         ]
                       },
                       "targets": [
@@ -271,7 +271,7 @@
                         "method": "simpaleComparator",
                         "parameters": [
                           "IKCO",
-                          "dev"
+                          "Empty"
                         ]
                       },
                       "targets": [
@@ -285,7 +285,7 @@
                         "method": "simpaleComparator",
                         "parameters": [
                           "IKCO",
-                          "hide"
+                          "Disable"
                         ]
                       },
                       "targets": [
@@ -299,7 +299,7 @@
                         "method": "simpaleComparator",
                         "parameters": [
                           "IKCO",
-                          "unhide"
+                          "Enable"
                         ]
                       },
                       "targets": [
@@ -313,7 +313,7 @@
                         "method": "simpaleComparator",
                         "parameters": [
                           "IKCO",
-                          "dev"
+                          "hide"
                         ]
                       },
                       "targets": [
@@ -327,7 +327,7 @@
                         "method": "simpaleComparator",
                         "parameters": [
                           "IKCO",
-                          "prod"
+                          "unhide"
                         ]
                       },
                       "targets": [
@@ -359,7 +359,12 @@
                   "dev": "Development",
                   "prod": "Production",
                   "hide": "hide",
-                  "unhide": "unhide"
+                  "unhide": "unhide",
+                  "Required": "Required",
+                  "UnRequired": "UnRequired",
+                  "Disable": "Disable",
+                  "Enable": "Enable",
+                  "Empty": "Empty"
                 },
                 "selection": "SINGLE"
               }
