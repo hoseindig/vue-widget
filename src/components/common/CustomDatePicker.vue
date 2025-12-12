@@ -1,4 +1,5 @@
 <template>
+  {{ props.modelValue }}
   <v-tooltip v-if="tooltip" location="top">
     <template #activator="{ props: tooltipProps }">
       <!-- <p>
@@ -26,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import DatePicker from "vue3-persian-datetime-picker";
 const props = defineProps<{
   modelValue: string;
@@ -45,10 +46,20 @@ const emit = defineEmits<{
 
 const onInput = (value: string) => {
   const val = JSON.parse(JSON.stringify(value));
-  console.log(val);
+  // console.log(val);
 
   emit("update:modelValue", val);
 };
+
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    if (newVal) {
+      // console.log("newVal", newVal);
+      date.value = newVal;
+    }
+  }
+);
 </script>
 
 <style scoped>

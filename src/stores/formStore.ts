@@ -122,7 +122,6 @@ export const useFormStore = defineStore("request", () => {
         //!useMock
         // rawData = await fetchRequestData(widgetName);
       }
-      debugger
       const source = rawData || requestData;
       // console.log(JSON.parse(JSON.stringify(source)));
 

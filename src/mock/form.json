@@ -158,6 +158,30 @@
               }
             },
             {
+              "object_id": "IncludeSubTypeField2",
+              "type": "FIELD",
+              "label": {
+                "en": "Include Sub Type2",
+                "fa": "شامل شدن زیرتایپ ها"
+              },
+              "tooltip": {
+                "en": "Include Sub Type2",
+                "fa": "شامل شدن زیرتایپ ها"
+              },
+              "data": {
+                "type": "attribute",
+                "expression": "IncludeSubType"
+              },
+              "action": "NONE",
+              "input": {
+                "type": "check_box",
+                "range": {
+                  "IncludeSubType": "Include Sub Type"
+                },
+                "selection": "SINGLE"
+              }
+            },
+            {
               "object_id": "PhaseField",
               "type": "FIELD",
               "label": {
@@ -209,6 +233,10 @@
                         {
                           "field": "RelatedClassifiedItem2",
                           "value": "2025-12-30"
+                        },
+                        {
+                          "field": "IncludeSubTypeField2",
+                          "value": "IncludeSubType"
                         }
                       ]
                     },

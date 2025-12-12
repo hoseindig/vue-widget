@@ -269,7 +269,6 @@ function runDynamicHandler(changedField: Field, value: any, fields: Field[]) {
         break;
 
       case "customMethod":
-        // هر کاری بخوای
         console.log("running custom method on:", block.fields);
         break;
     }
@@ -291,7 +290,6 @@ const onInput = (event: Event, field: Field) => {
 
 // نوع value را به string | string[] تغییر می‌دهیم
 const updateFieldValue = (field: Field, value: string | string[]): void => {
-  debugger;
   console.log(field, value);
   // اجرای Handler
   runDynamicHandler(field, value, props.fields);
