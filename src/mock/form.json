@@ -294,6 +294,34 @@
                         }
                       ]
                     },
+                    "fieldsToHidden": {
+                      "condition": {
+                        "method": "simpaleComparator",
+                        "parameters": [
+                          "IKCO",
+                          "dev"
+                        ]
+                      },
+                      "targets": [
+                        {
+                          "field": "TypeField"
+                        }
+                      ]
+                    },
+                    "fieldsToUnHidden": {
+                      "condition": {
+                        "method": "simpaleComparator",
+                        "parameters": [
+                          "IKCO",
+                          "prod"
+                        ]
+                      },
+                      "targets": [
+                        {
+                          "field": "TypeField"
+                        }
+                      ]
+                    },
                     "customMethod": {
                       "condition": {
                         "method": "customMethod",

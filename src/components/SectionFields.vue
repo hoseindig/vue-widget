@@ -1,7 +1,7 @@
 <template>
   <v-row dense>
     <v-col
-      v-for="field in fields"
+      v-for="field in visibleFields"
       :key="field.object_id"
       cols="12"
       md="12"
@@ -137,7 +137,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { formHandlers } from "../utils/formHandlers";
 // import DatePicker from "vue3-persian-datetime-picker";
 import type { Field } from "@/types/form";
@@ -161,6 +161,11 @@ const emit = defineEmits<{
   (e: "clear-error", fieldId: string): void;
 }>();
 
+const visibleFields = computed(() =>
+  props.fields.filter(
+    (f) => !f.settings?.some((s) => s.key === "hidden" && s.value === "true")
+  )
+);
 // مقدار فعلی field را برمی‌گرداند
 // نوع خروجی را به string | string[] تغییر می‌دهیم تا با MultiCombobox و Checkbox سازگار شود
 const getFieldValue = (field: Field): string | string[] => {
@@ -204,7 +209,6 @@ function applySetDefaultValue(
 }
 
 function applyRequired(targets: { field: string }[], fields: Field[]) {
-  debugger;
   targets.forEach((t) => {
     const targetField = fields.find((f) => f.object_id === t.field);
     if (!targetField) return;
@@ -262,6 +266,8 @@ function runDynamicHandler(changedField: Field, value: any, fields: Field[]) {
     "fieldsToRequired",
     "fieldsToUnRequired",
     "fieldsToDisable",
+    "fieldsToHidden",
+    "fieldsToUnHidden",
     "fieldsToEnable",
     "customMethod",
   ];
@@ -306,12 +312,48 @@ function runDynamicHandler(changedField: Field, value: any, fields: Field[]) {
         removeRequired(block.targets, fields);
         break;
 
+      case "fieldsToHidden":
+        applyHidden(block.targets, fields);
+        break;
+
+      case "fieldsToUnHidden":
+        removeHidden(block.targets, fields);
+        break;
+
       case "customMethod":
         console.log("running custom method on:", block.fields);
         break;
     }
   });
 }
+
+function applyHidden(targets: { field: string }[], fields: Field[]) {
+  targets.forEach((t) => {
+    const targetField = fields.find((f) => f.object_id === t.field);
+    if (!targetField) return;
+
+    if (!targetField.settings) targetField.settings = [];
+
+    const existing = targetField.settings.find((s) => s.key === "hidden");
+    if (existing) {
+      existing.value = "true";
+    } else {
+      targetField.settings.push({ key: "hidden", value: "true" });
+    }
+  });
+}
+
+function removeHidden(targets: { field: string }[], fields: Field[]) {
+  targets.forEach((t) => {
+    const targetField = fields.find((f) => f.object_id === t.field);
+    if (!targetField || !targetField.settings) return;
+
+    targetField.settings = targetField.settings.filter(
+      (s) => s.key !== "hidden"
+    );
+  });
+}
+
 // ////////////////////////////////
 
 const onInput = (event: Event, field: Field) => {
