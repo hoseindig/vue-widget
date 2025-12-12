@@ -139,8 +139,6 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { formHandlers } from "../utils/formHandlers";
-// import DatePicker from "vue3-persian-datetime-picker";
 import type { Field } from "@/types/form";
 import FormTextField from "./common/FormTextField.vue";
 import FormComboboxField from "./common/FormComboboxField.vue";
@@ -148,6 +146,7 @@ import FormCheckboxField from "./common/FormCheckboxField.vue";
 import FormComboboxMultiField from "./common/FormComboboxMultiField.vue";
 import FormTextAreaField from "./common/FormTextAreaField.vue";
 import CustomDatePicker from "./common/CustomDatePicker.vue";
+import { runDynamicHandler } from "../utils/fieldHandlers";
 
 const date = ref("");
 
@@ -170,10 +169,8 @@ const visibleFields = computed(() =>
 
 const isDisabled = (field: Field) =>
   field.settings?.some((s) => s.key === "disabled" && s.value === "true");
-// مقدار فعلی field را برمی‌گرداند
-// نوع خروجی را به string | string[] تغییر می‌دهیم تا با MultiCombobox و Checkbox سازگار شود
+
 const getFieldValue = (field: Field): string | string[] => {
-  // اگر field.data یک object است و value دارد
   if (field.data && typeof field.data === "object" && "value" in field.data) {
     return (
       field.data.value ??
@@ -182,250 +179,40 @@ const getFieldValue = (field: Field): string | string[] => {
         : "")
     );
   }
-  // اگر field.data یک string یا string[] است
   if (typeof field.data === "string" || Array.isArray(field.data)) {
     return field.data;
   }
-  // اگر در modelValue مقداری ذخیره شده
   if (props.modelValue[field.object_id]) {
-    // بازگشت مقدار از modelValue. باید فرض کنیم نوع درست است.
     return props.modelValue[field.object_id];
   }
 
-  // مقدار پیش‌فرض بر اساس نوع فیلد
   return field.input.selection === "MULTIPLE" ||
     field.input.type === "check_box"
     ? []
     : "";
 };
-// ////////////////////////////////
-function applySetDefaultValue(
-  targets: { field: string; value: any }[],
-  fields: Field[]
-) {
-  targets.forEach((t) => {
-    const targetField = fields.find((f) => f.object_id === t.field);
-    if (!targetField) return;
-
-    if (!targetField.data) targetField.data = { value: "" };
-    targetField.data.value = t.value;
-  });
-}
-
-function applyRequired(targets: { field: string }[], fields: Field[]) {
-  targets.forEach((t) => {
-    const targetField = fields.find((f) => f.object_id === t.field);
-    if (!targetField) return;
-
-    if (!targetField.settings) targetField.settings = [];
-
-    const existing = targetField.settings.find((s) => s.key === "required");
-    if (existing) {
-      existing.value = "true";
-    } else {
-      targetField.settings.push({ key: "required", value: "true" });
-    }
-  });
-}
-
-function removeRequired(targets: { field: string }[], fields: Field[]) {
-  targets.forEach((t) => {
-    const targetField = fields.find((f) => f.object_id === t.field);
-    if (!targetField || !targetField.settings) return;
-
-    // حذف تمام تنظیمات با key = "required"
-    targetField.settings = targetField.settings.filter(
-      (s) => s.key !== "required"
-    );
-  });
-}
-
-function applySetEmptyValue(targets: { field: string }[], fields: Field[]) {
-  targets.forEach((t) => {
-    const targetField = fields.find((f) => f.object_id === t.field);
-    if (!targetField) return;
-
-    if (!targetField.data) {
-      targetField.data = { value: "" };
-    } else {
-      targetField.data.value = "";
-    }
-  });
-}
-
-function runDynamicHandler(changedField: Field, value: any, fields: Field[]) {
-  const handlerConfig = changedField.settings?.find(
-    (x) => x.key === "OnChangeHandler"
-  )?.value;
-
-  if (!handlerConfig) return;
-
-  // اگر ساختار handlerConfig درست نبود
-  if (typeof handlerConfig !== "object") return;
-
-  // تمام سکشن‌ها را یکجا حلقه بزنیم
-  const sections = [
-    "fieldsToSetDefaultValue",
-    "fieldsToSetEmptyValue",
-    "fieldsToRequired",
-    "fieldsToUnRequired",
-    "fieldsToDisable",
-    "fieldsToHidden",
-    "fieldsToUnHidden",
-    "fieldsToEnable",
-    "fieldsToEnable",
-    "fieldsToDisable",
-    "customMethod",
-  ];
-
-  sections.forEach((section) => {
-    const block = handlerConfig[section];
-    if (!block) return;
-
-    const methodName = block.condition?.method;
-    const parameters = block.condition?.parameters ?? [];
-
-    // چک کنیم که این متد در فایل ما وجود دارد
-    const handlerMethod = formHandlers[methodName];
-    if (!handlerMethod) {
-      console.warn(`Handler method not found: ${methodName}`);
-      return;
-    }
-
-    // اجرای متد
-    const conditionResult = handlerMethod(
-      value.value ? value.value : value,
-      parameters
-    );
-
-    if (!conditionResult) return;
-
-    // اجرای action روی target ها
-    switch (section) {
-      case "fieldsToSetDefaultValue":
-        applySetDefaultValue(block.targets, fields);
-        break;
-
-      case "fieldsToSetEmptyValue":
-        applySetEmptyValue(block.targets, fields);
-        break;
-
-      case "fieldsToRequired":
-        applyRequired(block.targets, fields);
-        break;
-
-      case "fieldsToUnRequired":
-        removeRequired(block.targets, fields);
-        break;
-
-      case "fieldsToHidden":
-        applyHidden(block.targets, fields);
-        break;
-
-      case "fieldsToUnHidden":
-        removeHidden(block.targets, fields);
-        break;
-
-      case "fieldsToDisable":
-        applyDisable(block.targets, fields);
-        break;
-
-      case "fieldsToEnable":
-        removeDisable(block.targets, fields);
-        break;
-
-      case "customMethod":
-        console.log("running custom method on:", block.fields);
-        break;
-    }
-  });
-}
-
-function applyHidden(targets: { field: string }[], fields: Field[]) {
-  targets.forEach((t) => {
-    const targetField = fields.find((f) => f.object_id === t.field);
-    if (!targetField) return;
-
-    if (!targetField.settings) targetField.settings = [];
-
-    const existing = targetField.settings.find((s) => s.key === "hidden");
-    if (existing) {
-      existing.value = "true";
-    } else {
-      targetField.settings.push({ key: "hidden", value: "true" });
-    }
-  });
-}
-
-function removeHidden(targets: { field: string }[], fields: Field[]) {
-  targets.forEach((t) => {
-    const targetField = fields.find((f) => f.object_id === t.field);
-    if (!targetField || !targetField.settings) return;
-
-    targetField.settings = targetField.settings.filter(
-      (s) => s.key !== "hidden"
-    );
-  });
-}
-
-function applyDisable(targets: { field: string }[], fields: Field[]) {
-  targets.forEach((t) => {
-    const targetField = fields.find((f) => f.object_id === t.field);
-    if (!targetField) return;
-
-    if (!targetField.settings) targetField.settings = [];
-
-    const existing = targetField.settings.find((s) => s.key === "disabled");
-    if (existing) {
-      existing.value = "true";
-    } else {
-      targetField.settings.push({ key: "disabled", value: "true" });
-    }
-  });
-}
-
-function removeDisable(targets: { field: string }[], fields: Field[]) {
-  targets.forEach((t) => {
-    const targetField = fields.find((f) => f.object_id === t.field);
-    if (!targetField || !targetField.settings) return;
-
-    targetField.settings = targetField.settings.filter(
-      (s) => s.key !== "disabled"
-    );
-  });
-}
-
-// ////////////////////////////////
 
 const onInput = (event: Event, field: Field) => {
   const value = (event.target as HTMLInputElement).value;
   updateFieldValue(field, value);
-  // اجرای Handler
   runDynamicHandler(field, value, props.fields);
-  // استفاده از props.errors برای چک کردن مقدار
   if (props.errors && props.errors[field.object_id]) {
     emit("clear-error", field.object_id);
   }
 };
 
-// نوع value را به string | string[] تغییر می‌دهیم
 const updateFieldValue = (field: Field, value: string | string[]): void => {
   console.log(field, value);
-  // اجرای Handler
   runDynamicHandler(field, value, props.fields);
 
-  // اگر field.data یک object نیست، آن را به object تبدیل می‌کنیم
   if (!field.data || typeof field.data !== "object") {
     field.data = { value: "" };
   }
 
-  // مقدار را در field.data.value قرار می‌دهیم
-  // اطمینان از اینکه field.data یک آبجکت دارای value است
   if (typeof field.data === "object" && "value" in field.data) {
     field.data.value = value;
   }
 
-  // و به parent emit می‌کنیم
   emit("update:modelValue", {
     ...props.modelValue,
     [field.object_id]: value,
@@ -462,10 +249,9 @@ const updateFieldValue = (field: Field, value: string | string[]): void => {
   font-weight: 500;
 }
 
-/* style */
 .is-disabled {
-  pointer-events: none; /* جلوگیری از کلیک/هاور توسط ماوس */
-  opacity: 0.6; /* ظاهر غیرفعال */
-  cursor: not-allowed; /* نشانگر موس */
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 </style>
