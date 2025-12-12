@@ -1,5 +1,4 @@
 <template>
-  {{ props.modelValue }}
   <v-tooltip v-if="tooltip" location="top">
     <template #activator="{ props: tooltipProps }">
       <!-- <p>

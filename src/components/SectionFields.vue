@@ -22,7 +22,7 @@
 
       <i>
         <!-- <p>field value {{ getFieldValue(field) }}</p> -->
-        <p>field.settings {{ field.settings }}</p>
+        <!-- <p>field.settings {{ field.settings }}</p> -->
         <!-- <b>OnChangeHandler :</b>
         {{ field.settings?.find((x) => x.key === "OnChangeHandler")?.value }} -->
       </i>
