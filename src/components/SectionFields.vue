@@ -21,9 +21,10 @@
       <!-- <i> selection : {{ field.input?.selection }} </i> -->
 
       <i>
-        <p>field value {{ getFieldValue(field) }}</p>
-        <b>OnChangeHandler :</b>
-        {{ field.settings?.find((x) => x.key === "OnChangeHandler")?.value }}
+        <!-- <p>field value {{ getFieldValue(field) }}</p> -->
+        <p>field.settings {{ field.settings }}</p>
+        <!-- <b>OnChangeHandler :</b>
+        {{ field.settings?.find((x) => x.key === "OnChangeHandler")?.value }} -->
       </i>
 
       <v-tooltip v-if="field.tooltip" location="top">
@@ -219,6 +220,31 @@ function applyRequired(targets: { field: string }[], fields: Field[]) {
   });
 }
 
+function removeRequired(targets: { field: string }[], fields: Field[]) {
+  targets.forEach((t) => {
+    const targetField = fields.find((f) => f.object_id === t.field);
+    if (!targetField || !targetField.settings) return;
+
+    // حذف تمام تنظیمات با key = "required"
+    targetField.settings = targetField.settings.filter(
+      (s) => s.key !== "required"
+    );
+  });
+}
+
+function applySetEmptyValue(targets: { field: string }[], fields: Field[]) {
+  targets.forEach((t) => {
+    const targetField = fields.find((f) => f.object_id === t.field);
+    if (!targetField) return;
+
+    if (!targetField.data) {
+      targetField.data = { value: "" };
+    } else {
+      targetField.data.value = "";
+    }
+  });
+}
+
 function runDynamicHandler(changedField: Field, value: any, fields: Field[]) {
   const handlerConfig = changedField.settings?.find(
     (x) => x.key === "OnChangeHandler"
@@ -232,7 +258,11 @@ function runDynamicHandler(changedField: Field, value: any, fields: Field[]) {
   // تمام سکشن‌ها را یکجا حلقه بزنیم
   const sections = [
     "fieldsToSetDefaultValue",
+    "fieldsToSetEmptyValue",
     "fieldsToRequired",
+    "fieldsToUnRequired",
+    "fieldsToDisable",
+    "fieldsToEnable",
     "customMethod",
   ];
 
@@ -264,8 +294,16 @@ function runDynamicHandler(changedField: Field, value: any, fields: Field[]) {
         applySetDefaultValue(block.targets, fields);
         break;
 
+      case "fieldsToSetEmptyValue":
+        applySetEmptyValue(block.targets, fields);
+        break;
+
       case "fieldsToRequired":
         applyRequired(block.targets, fields);
+        break;
+
+      case "fieldsToUnRequired":
+        removeRequired(block.targets, fields);
         break;
 
       case "customMethod":
@@ -279,7 +317,6 @@ function runDynamicHandler(changedField: Field, value: any, fields: Field[]) {
 const onInput = (event: Event, field: Field) => {
   const value = (event.target as HTMLInputElement).value;
   updateFieldValue(field, value);
-  debugger;
   // اجرای Handler
   runDynamicHandler(field, value, props.fields);
   // استفاده از props.errors برای چک کردن مقدار

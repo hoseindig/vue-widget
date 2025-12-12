@@ -102,12 +102,7 @@
               "input": {
                 "type": "text_box"
               },
-              "settings": [
-                {
-                  "key": "required",
-                  "value": "true"
-                }
-              ]
+              "settings": []
             },
             {
               "object_id": "DescriptionField",
@@ -244,12 +239,58 @@
                       "condition": {
                         "method": "simpaleComparator",
                         "parameters": [
-                          "IKCO"
+                          "IKCO",
+                          "dev"
                         ]
                       },
                       "targets": [
                         {
-                          "field": "Country"
+                          "field": "IncludeSubTypeField2"
+                        },
+                        {
+                          "field": "TitleField"
+                        }
+                      ]
+                    },
+                    "fieldsToUnRequired": {
+                      "condition": {
+                        "method": "simpaleComparator",
+                        "parameters": [
+                          "IKCO",
+                          "dev"
+                        ]
+                      },
+                      "targets": [
+                        {
+                          "field": "TypeField"
+                        }
+                      ]
+                    },
+                    "fieldsToSetEmptyValue": {
+                      "condition": {
+                        "method": "simpaleComparator",
+                        "parameters": [
+                          "IKCO",
+                          "dev"
+                        ]
+                      },
+                      "targets": [
+                        {
+                          "field": "TypeField"
+                        }
+                      ]
+                    },
+                    "fieldsToDisable": {
+                      "condition": {
+                        "method": "simpaleComparator",
+                        "parameters": [
+                          "IKCO",
+                          "dev"
+                        ]
+                      },
+                      "targets": [
+                        {
+                          "field": "PartFamilyField"
                         }
                       ]
                     },
