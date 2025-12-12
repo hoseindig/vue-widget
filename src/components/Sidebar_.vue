@@ -81,14 +81,6 @@
       </div>
     </template>
 
-    <!-- StepDialog -->
-    <Dialog
-      :model-value="dialog"
-      @update:model-value="dialog = !!$event"
-      :form-data="formStore.items"
-      v-if="dialog"
-    />
-    <v-btn color="primary" @click="dialog = true"> باز کردن مودال </v-btn>
     <!-- Error State -->
     <v-alert
       v-if="sidebar.error"
@@ -104,25 +96,16 @@
 import { ref, onMounted, computed } from "vue";
 import { useSidebarStore } from "../stores/sidebar";
 import { useSettingsStore } from "../stores/settings";
-import Dialog from "../components/Dialog.vue";
-
+import LanguageSwitch from "./LanguageSwitch.vue";
 import SidebarParentItem from "./SidebarParentItem.vue";
 import type { MenuItem } from "@/types/menu";
-import { useFormStore } from "../stores/formStore";
 
 // Reactive state for drawer visibility
 const drawer = ref(true);
-const dialog = ref(false);
-const selectedData = ref({
-  title: "Test Request",
-  category: "Software",
-  dueDate: "2025-10-10",
-});
+
 // Store instances
 const sidebar = useSidebarStore();
 const settings = useSettingsStore();
-const formStore = useFormStore();
-// console.log(formStore.items);
 
 const isRtl = computed(() => {
   return settings.direction === "rtl";
@@ -154,7 +137,6 @@ const getItemClass = (item: MenuItem) => {
 // Load sidebar sections on component mount
 onMounted(() => {
   sidebar.loadSections(false);
-  formStore.loadRequests();
 });
 </script>
 

@@ -92,7 +92,4 @@ const onChange = (event: Event, key: string) => {
   font-size: 14px;
   cursor: pointer;
 }
-.custom-checkbox:checked {
-  accent-color: #378ec4;
-}
 </style>

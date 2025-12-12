@@ -77,20 +77,4 @@ html[dir=ltr] .v-btn+.v-btn {
 /*# sourceMappingURL=main.css.map */
 
 
-@font-face {
-  font-family: "myFont";
-  font-style: normal;
-  font-weight: normal;
-  src: url("../public/fonts/3dslight.eot");
-  src: url("../public/fonts/3dslight.eot?#iefix") format("embedded-opentype"),
-    /* IE6-8 */
-    url("../public/fonts/3dslight.woff2") format("woff2"),
-    /* FF39+,Chrome36+, Opera24+*/
-    url("../public/fonts/3dslight.woff") format("woff"),
-    /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
-    url("../public/fonts/3dslight.ttf") format("truetype");
-}
-
-* {
-  font-family: "myFont" !important;
-}
+ 

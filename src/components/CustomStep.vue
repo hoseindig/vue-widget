@@ -6,8 +6,8 @@
     >
       <template v-for="(step, index) in steps" :key="step.object_id || step.id">
         <div class="step-item">
+          <!-- @click="handleStepClick(step.id)" -->
           <button
-            @click="handleStepClick(step.id)"
             :class="[
               'step-circle',
               {
@@ -147,7 +147,7 @@ const formValuesModel = computed({
 const stepperWrapperClass = computed(() => {
   const lastStepIndex = (steps.value?.length || 1) - 1;
   const currentStepIndex = activeStepModel.value;
-  console.log(currentStepIndex, lastStepIndex);
+  // console.log(currentStepIndex, lastStepIndex);
 
   if (currentStepIndex === lastStepIndex) {
     return "last-step-active";
@@ -433,7 +433,7 @@ const clearError = (sectionId: string, fieldId: string) => {
   justify-content: center;
   transition: all 0.3s ease;
   border: 1px solid;
-  cursor: pointer;
+  // cursor: pointer;
   background: white;
   flex-shrink: 0;
 

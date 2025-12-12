@@ -81,3 +81,14 @@ input::placeholder {
   color: #b4b6ba;
 }
 </style>
+<style>
+.vpd-icon-btn,
+.form-control {
+  height: 24px !important;
+}
+.form-control {
+  border-bottom-right-radius: 5px !important;
+  border-top-right-radius: 5px !important;
+  border: 1px solid #b4b6ba !important;
+}
+</style>

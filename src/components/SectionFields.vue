@@ -23,7 +23,7 @@
 
       <i>
         <!-- <p>field value {{ getFieldValue(field) }}</p> -->
-        <p>field.settings {{ field.settings }}</p>
+        <!-- <p>field.settings {{ field.settings }}</p> -->
         <!-- <b>OnChangeHandler :</b>
         {{ field.settings?.find((x) => x.key === "OnChangeHandler")?.value }} -->
       </i>
@@ -202,7 +202,6 @@ const onInput = (event: Event, field: Field) => {
 };
 
 const updateFieldValue = (field: Field, value: string | string[]): void => {
-  console.log(field, value);
   runDynamicHandler(field, value, props.fields);
 
   if (!field.data || typeof field.data !== "object") {

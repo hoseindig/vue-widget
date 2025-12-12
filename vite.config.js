@@ -11,7 +11,7 @@ export default defineConfig({
     lib: {
       entry: "src/main.js",
       name: "MyWidget",
-      fileName: "widget",
+      fileName: "bundle",
       formats: ["iife"],
     },
     minify: false,
