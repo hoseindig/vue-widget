@@ -285,12 +285,26 @@
                         "method": "simpaleComparator",
                         "parameters": [
                           "IKCO",
-                          "dev"
+                          "hide"
                         ]
                       },
                       "targets": [
                         {
-                          "field": "PartFamilyField"
+                          "field": "DescriptionField"
+                        }
+                      ]
+                    },
+                    "fieldsToEnable": {
+                      "condition": {
+                        "method": "simpaleComparator",
+                        "parameters": [
+                          "IKCO",
+                          "unhide"
+                        ]
+                      },
+                      "targets": [
+                        {
+                          "field": "DescriptionField"
                         }
                       ]
                     },
@@ -343,7 +357,9 @@
                 "type": "combobox",
                 "range": {
                   "dev": "Development",
-                  "prod": "Production"
+                  "prod": "Production",
+                  "hide": "hide",
+                  "unhide": "unhide"
                 },
                 "selection": "SINGLE"
               }

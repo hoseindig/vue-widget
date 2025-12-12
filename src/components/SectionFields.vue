@@ -6,6 +6,7 @@
       cols="12"
       md="12"
       style="text-align: left; margin-bottom: 10px"
+      :class="{ 'is-disabled': isDisabled(field) }"
       class="pa-0"
     >
       <label for="" class="custom-label">{{ field.label.en }} </label>
@@ -22,7 +23,7 @@
 
       <i>
         <!-- <p>field value {{ getFieldValue(field) }}</p> -->
-        <!-- <p>field.settings {{ field.settings }}</p> -->
+        <p>field.settings {{ field.settings }}</p>
         <!-- <b>OnChangeHandler :</b>
         {{ field.settings?.find((x) => x.key === "OnChangeHandler")?.value }} -->
       </i>
@@ -166,6 +167,9 @@ const visibleFields = computed(() =>
     (f) => !f.settings?.some((s) => s.key === "hidden" && s.value === "true")
   )
 );
+
+const isDisabled = (field: Field) =>
+  field.settings?.some((s) => s.key === "disabled" && s.value === "true");
 // مقدار فعلی field را برمی‌گرداند
 // نوع خروجی را به string | string[] تغییر می‌دهیم تا با MultiCombobox و Checkbox سازگار شود
 const getFieldValue = (field: Field): string | string[] => {
@@ -269,6 +273,8 @@ function runDynamicHandler(changedField: Field, value: any, fields: Field[]) {
     "fieldsToHidden",
     "fieldsToUnHidden",
     "fieldsToEnable",
+    "fieldsToEnable",
+    "fieldsToDisable",
     "customMethod",
   ];
 
@@ -320,6 +326,14 @@ function runDynamicHandler(changedField: Field, value: any, fields: Field[]) {
         removeHidden(block.targets, fields);
         break;
 
+      case "fieldsToDisable":
+        applyDisable(block.targets, fields);
+        break;
+
+      case "fieldsToEnable":
+        removeDisable(block.targets, fields);
+        break;
+
       case "customMethod":
         console.log("running custom method on:", block.fields);
         break;
@@ -350,6 +364,33 @@ function removeHidden(targets: { field: string }[], fields: Field[]) {
 
     targetField.settings = targetField.settings.filter(
       (s) => s.key !== "hidden"
+    );
+  });
+}
+
+function applyDisable(targets: { field: string }[], fields: Field[]) {
+  targets.forEach((t) => {
+    const targetField = fields.find((f) => f.object_id === t.field);
+    if (!targetField) return;
+
+    if (!targetField.settings) targetField.settings = [];
+
+    const existing = targetField.settings.find((s) => s.key === "disabled");
+    if (existing) {
+      existing.value = "true";
+    } else {
+      targetField.settings.push({ key: "disabled", value: "true" });
+    }
+  });
+}
+
+function removeDisable(targets: { field: string }[], fields: Field[]) {
+  targets.forEach((t) => {
+    const targetField = fields.find((f) => f.object_id === t.field);
+    if (!targetField || !targetField.settings) return;
+
+    targetField.settings = targetField.settings.filter(
+      (s) => s.key !== "disabled"
     );
   });
 }
@@ -419,5 +460,12 @@ const updateFieldValue = (field: Field, value: string | string[]): void => {
   font-size: 12px;
   margin-top: 6px;
   font-weight: 500;
+}
+
+/* style */
+.is-disabled {
+  pointer-events: none; /* جلوگیری از کلیک/هاور توسط ماوس */
+  opacity: 0.6; /* ظاهر غیرفعال */
+  cursor: not-allowed; /* نشانگر موس */
 }
 </style>
